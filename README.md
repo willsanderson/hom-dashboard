@@ -1,4 +1,4 @@
-# Homio Next
+# :house: Homio Next
 
 A modern mobile-friendly fork of the original [Homio](https://github.com/iamtherufus/Homio) dashboard by iamtherufus for Home Assistant, featuring light and dark mode, redesigned cards, new custom badges, and media integration.
 
@@ -15,17 +15,18 @@ Homio-Next keeps the same basic structure (YAML dashboard, helpers, theme), but 
 
 ---
 
-## What’s different in Homio-Next
+## :question: What’s different in Homio-Next
 
-Homio-Next adds the following:
+Homio-Next adds new features and changes including:
 
 - **New light/dark tuning**  
   - Refined card backgrounds, shadows, and typography  
   - Dark mode adjusted for better contrast and “liquid glass” style cards
 
-- **Updated layouts**  
+- **Updated layouts and cards**  
   - Refined screen layout includes (`homio_screen_layout.yaml`, `homio_entity_layout.yaml`)  
   - Adjusted spacing, grid behavior, and row heights for desktop/tablet/mobile
+  - New button cards including unified thermostat card for heating/cooling, curtain card, fan card, media card
 
 - **Navigation & mobile behavior**  
   - Custom mobile navbar (`homio_navbar_mobile.yaml`) tuned for smaller screens  
@@ -39,16 +40,14 @@ Under the hood it’s still YAML files you can read, copy, and modify. This repo
 
 ---
 
-## Requirements
+## :heavy_exclamation_mark: Requirements
 
 You’ll need:
 
-- Home Assistant
 - Lovelace in **storage** mode (so you can keep using the UI editor for other dashboards)
 - Custom cards (install via HACS or manual, and ensure they’re added as Lovelace resources):
   - [button-card](https://github.com/custom-cards/button-card)
-  - [layout-card](https://github.com/thomasloven/lovelace-layout-card)  
-    > Homio originally uses a slightly modified version; check the original repo if you want to stick to that approach.
+  - [layout-card](https://github.com/thomasloven/lovelace-layout-card) (Homio originally uses a slightly modified version; check the original repo if you want to stick to that approach.)
   - [lovelace-navbar-card](https://github.com/joseluis9595/lovelace-navbar-card) (for mobile view navigation)
   - [my-slider-v2](https://github.com/AnthonMS/my-cards/blob/main/docs/cards/slider-v2.md) (for light sliders)
   - Any additional cards you use in your setup (e.g. `browser_mod`, `auto-entities`, etc.)
@@ -58,7 +57,7 @@ https://github.com/iamtherufus/Homio#-getting-started
 
 ---
 
-## Folder layout
+## :file_folder: Folder layout
 
 Everything in this repo is meant to live under `/config` in your Home Assistant installation.
 
@@ -87,7 +86,7 @@ Example layout:
 
 ```
 
-## Installation
+## :rocket: Installation
 
 ### 1. Do the base Homio-style setup
 
@@ -115,7 +114,6 @@ From this repo, copy the following into your Home Assistant `/config` directory:
 - `themes/homio-next/` → `/config/themes/homio-next/`
 - `packages/homio_helpers.yaml` → `/config/packages/`
 - `www/homio-next/` → `/config/www/homio-next/`  
-  (if you’re using the icons/images)
 
 Restart Home Assistant or reload themes/resources as needed.
 
@@ -123,7 +121,7 @@ Restart Home Assistant or reload themes/resources as needed.
 
 ### 3. Register the dashboard
 
-In `configuration.yaml` (or wherever you define dashboards), add the following:
+In `configuration.yaml` add the following:
 
 ```yaml
 lovelace:
@@ -148,7 +146,7 @@ Restart Home Assistant, then refresh your browser and open **Homio Next** from t
 
 ---
 
-## Customization
+## :pencil: Customization
 
 This repo is intended as a starting point:
 
@@ -160,7 +158,7 @@ Because it’s all YAML, you can copy/paste specific cards or layouts into your 
 
 ---
 
-## Credits
+## :trophy: Credits
 
 - Original Homio concept and base implementation: [iamtherufus/Homio](https://github.com/iamtherufus/Homio)
 - Homio-Next customization and ongoing tweaks: [@willsanderson](https://github.com/willsanderson)
