@@ -53,7 +53,7 @@ Under the hood it’s still YAML files you can read, copy, and modify. This repo
 
 
 ## Mobile View
-![home-light-mobile](https://github.com/user-attachments/assets/2d991665-1640-44fa-b3da-c39b0aacaa29) &nbsp; &nbsp; ![home-dark-mobile](https://github.com/user-attachments/assets/93d5333c-1241-4bbf-83ca-734c1cf21a92)
+![home-light-mobile](https://github.com/user-attachments/assets/313d58d0-4518-421e-a1f2-a9a520d23ab8)  &nbsp; &nbsp; &nbsp;![livingroom-dark-mobile](https://github.com/user-attachments/assets/fbe5c0ce-7c6d-4c0f-b51a-5566c5973217)
 
 ---
 
