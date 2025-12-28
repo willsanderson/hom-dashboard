@@ -84,7 +84,7 @@ Example layout:
 /config
 └── dashboards/
     └── hemma/
-        └── hemma.yaml            # Main Hemma dashboard
+        └── hemma.yaml             # Main Hemma dashboard
 └── dashboards/templates/includes/
     ├── hemma_screen_layout.yaml
     ├── hemma_entity_layout.yaml
@@ -93,13 +93,13 @@ Example layout:
     └── hemma_navigation_list.yaml
 └── themes/
     └── hemma-next/
-        └── hemma-next.yaml       # Hemma theme
+        └── hemma-next.yaml        # Hemma theme
 └── packages/
-    └── hemma_helpers.yaml        # Helpers required by the dashboard
+    └── hemma_helpers.yaml         # Helpers required by the dashboard
 └── www/
     └── hemma/
-        ├── icons/                # UI icons
-        └── rooms/                # Room/Background images
+        ├── icons/                 # UI icons
+        └── rooms/                 # Room/Background images
 
 ```
 
@@ -167,7 +167,7 @@ Restart Home Assistant, then refresh your browser and open **Hemma** from the si
 
 This repo is intended as a starting point:
 
-- Swap out room/background images in `www/hemma/images/`.
+- Swap out room/background images in `www/hemma/rooms/`.
 - Tweak theme colors, shadows, and typography in `themes/hemma/hemma.yaml`.
 - Adjust layouts (`hemma_entity_layout.yaml`, etc.) to match your devices and preferences.
 
