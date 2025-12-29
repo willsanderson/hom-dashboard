@@ -164,6 +164,49 @@ Restart Home Assistant, then refresh your browser and open **Hemma** from the si
 
 ---
 
+### :tv: (Optional) Media badges in the home dashboard
+
+- The primary home dashboard can show optional media badges under the room title and appear when media is active.
+- To enable the media badges, locate the `name: Home` view in the `hemma.yaml` dashboard file and add the media variables under `variables:` (example below):
+
+```yaml
+- type: custom:button-card
+  template: hemma_room
+  name: Home
+  variables:
+    image: home-demo
+    image_position: center center
+
+    # Optional environment badges
+    show_temp: true
+    temp_sensor: sensor.home_temperature
+    show_quality: false
+    quality_sensor: sensor.home_air_quality
+    show_humid: false
+    humid_sensor: sensor.home_humidity
+    show_presence: true
+    presence_entity_1: sensor.person_1
+    presence_entity_2: sensor.person_2
+
+    # Enable the media badge row
+    show_media_badge: true
+
+    # Up to four media players
+    show_media_player_1: true
+    media_player_1: media_player.spotify
+
+    show_media_player_2: true
+    media_player_2: media_player.living_room_apple_tv
+
+    show_media_player_3: true
+    media_player_3: media_player.kitchen
+
+    show_media_player_4: true
+    media_player_4: media_player.bedroom_apple_tv
+```
+
+---
+
 ### :pencil: Customization
 
 This repo is intended as a starting point:
@@ -173,6 +216,12 @@ This repo is intended as a starting point:
 - Adjust layouts (`hemma_entity_layout.yaml`, etc.) to match your devices and preferences.
 
 Because it’s all YAML, you can copy/paste specific cards or layouts into your own dashboards if you don’t want the full setup.
+
+#### Button Card Icons
+
+To add additional button card icons, you can download them from the link below and place the icons in the `www/hemma/icons/` folder:
+
+https://fonts.google.com/icons?icon.query=light (Weight: 100)
 
 ---
 
