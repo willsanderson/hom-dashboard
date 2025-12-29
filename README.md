@@ -217,6 +217,12 @@ This repo is intended as a starting point:
 
 Because it’s all YAML, you can copy/paste specific cards or layouts into your own dashboards if you don’t want the full setup.
 
+#### Button Card Icons
+
+To add additional button card icons, you can download them from the link below and place the icons in the `www/hemma/icons/` folder:
+
+https://fonts.google.com/icons?icon.query=light (Weight: 100)
+
 ---
 
 ### :trophy: Credits
