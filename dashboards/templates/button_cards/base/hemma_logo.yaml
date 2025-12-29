@@ -4,7 +4,7 @@ hemma_logo:
   tap_action:
     action: navigate
     navigation_path: /dashboard-hemma/hemma
-  name: Hemma.
+  name: Home
   styles:
     name:
       - color: var(--primary-text-color)
