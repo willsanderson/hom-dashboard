@@ -7,7 +7,7 @@ hemma_thermostat:
 
   variables:
     thermostat_toggle_helper: input_boolean.hemma_cooling_control
-    temp_sensor: sensor.home_temperature
+    temp_sensor:
 
   state_display: |
     [[[
@@ -38,12 +38,16 @@ hemma_thermostat:
   custom_fields:
     temp_puck: |
       [[[
+        let raw;
         const eid = variables.temp_sensor;
-        const t = states[eid]?.state;
-        if (!t || t === 'unknown' || t === 'unavailable') return '';
-        const rounded = Math.round(Number(t));
-        if (Number.isNaN(rounded)) return '';
-        return `${rounded}`;
+        if (eid && states[eid] && !["unknown","unavailable"].includes(states[eid].state)) {
+          raw = states[eid].state;
+        } else {
+          raw = entity?.attributes?.current_temperature;
+        }
+        const n = Math.round(Number(raw));
+        if (raw == null || Number.isNaN(n)) return '';
+        return `${n}`;
       ]]]
 
     cooling_modes:
