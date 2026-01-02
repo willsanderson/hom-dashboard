@@ -1,6 +1,6 @@
 # Room
 hemma_room:
-  class: "hemma-hero"
+  class: "hemma-room"
   template:
     - hemma_default
     - hemma_shared
@@ -9,26 +9,48 @@ hemma_room:
     - '[[[ return variables.motion_sensor ]]]'
     - '[[[ return variables.temp_sensor ]]]'
     - '[[[ return variables.quality_sensor ]]]'
-    - '[[[ return variables.humid_sensor ]]]'
+    - '[[[ return variables.humidity_sensor ]]]'
     - '[[[ return variables.presence_entity_1 ]]]'
     - '[[[ return variables.presence_entity_2 ]]]'
+    - '[[[ return variables.media_player_1 ]]]'
+    - '[[[ return variables.media_player_2 ]]]'
+    - '[[[ return variables.media_player_3 ]]]'
+    - '[[[ return variables.media_player_4 ]]]'
     - input_boolean.hemma_mobile_navigation
 
   variables:
     image:
     image_position:
+
     show_quality: false
-    show_humid: false
+    quality_sensor:
+
+    show_humidity: false
+    humidity_sensor:
+
     show_temp: false
+    temp_sensor:
+
     show_motion: false
+    motion_sensor:
+
     show_presence: false
     presence_entity_1:
     presence_entity_2:
+
     show_media_badge: false
+
     show_media_player_1: false
+    media_player_1:
+
     show_media_player_2: false
+    media_player_2:
+
     show_media_player_3: false
+    media_player_3:
+
     show_media_player_4: false
+    media_player_4:
 
   tap_action: { action: none }
   hold_action: { action: none }
@@ -91,7 +113,7 @@ hemma_room:
         - display: >
             [[[
               return variables.show_motion && variables.motion_sensor ? 'block' : 'none';
-            ]]]
+            ]]]  
         - position: fixed
         - right: 0
         - left: 0
@@ -278,16 +300,16 @@ hemma_room:
 
           - type: custom:button-card
             template: hemma_badge_humidity
-            entity: '[[[ return variables.humid_sensor ]]]'
+            entity: '[[[ return variables.humidity_sensor ]]]'
             styles:
               card:
                 - display: >
                     [[[
-                      const id = variables.humid_sensor;
+                      const id = variables.humidity_sensor;
                       const st = id && states[id]?.state
                         ? String(states[id].state).toLowerCase()
                         : "unknown";
-                      return (variables.show_humid && id && states[id] && !["unknown","unavailable"].includes(st))
+                      return (variables.show_humidity && id && states[id] && !["unknown","unavailable"].includes(st))
                         ? "inline-grid"
                         : "none";
                     ]]]
@@ -299,73 +321,39 @@ hemma_room:
         layout:
           grid-template-columns: 1fr
           grid-auto-flow: row
-          column-gap: 12px
+          row-gap: 12px
+          margin: 0
+
         cards:
+          # Media Player 1
           - type: custom:button-card
             template: hemma_badge_media
             entity: '[[[ return variables.media_player_1 ]]]'
-            styles:
-              card:
-                - display: >
-                    [[[
-                      if (!variables.show_media_player_1) return 'none';
-                      const id = variables.media_player_1;
-                      const st = id && states[id]?.state
-                        ? String(states[id].state).toLowerCase()
-                        : 'unknown';
-                      return ['playing','paused','buffering'].includes(st)
-                        ? 'inline-grid'
-                        : 'none';
-                    ]]]
+            variables:
+              enabled: '[[[ return variables.show_media_player_1 ]]]'
 
+          # Media Player 2
           - type: custom:button-card
             template: hemma_badge_media
             entity: '[[[ return variables.media_player_2 ]]]'
-            styles:
-              card:
-                - display: >
-                    [[[
-                      if (!variables.show_media_player_2) return 'none';
-                      const id = variables.media_player_2;
-                      const st = id && states[id]?.state
-                        ? String(states[id].state).toLowerCase()
-                        : 'unknown';
-                      return ['playing','paused','buffering'].includes(st)
-                        ? 'inline-grid'
-                        : 'none';
-                    ]]]
+            variables:
+              enabled: '[[[ return variables.show_media_player_2 ]]]'
 
+          # Media Player 3
           - type: custom:button-card
             template: hemma_badge_media
             entity: '[[[ return variables.media_player_3 ]]]'
-            styles:
-              card:
-                - display: >
-                    [[[
-                      if (!variables.show_media_player_3) return 'none';
-                      const id = variables.media_player_3;
-                      const st = id && states[id]?.state
-                        ? String(states[id].state).toLowerCase()
-                        : 'unknown';
-                      return ['playing','paused','buffering'].includes(st)
-                        ? 'inline-grid'
-                        : 'none';
-                    ]]]
+            variables:
+              enabled: '[[[ return variables.show_media_player_3 ]]]'
 
+          # Media Player 4
           - type: custom:button-card
             template: hemma_badge_media
             entity: '[[[ return variables.media_player_4 ]]]'
-            styles:
-              card:
-                - display: >
-                    [[[
-                      if (!variables.show_media_player_4) return 'none';
-                      const id = variables.media_player_4;
-                      const st = id && states[id]?.state
-                        ? String(states[id].state).toLowerCase()
-                        : 'unknown';
-                      return ['playing','paused','buffering'].includes(st)
-                        ? 'inline-grid'
-                        : 'none';
-                    ]]]
+            variables:
+              enabled: '[[[ return variables.show_media_player_4 ]]]'
 
+    motion_detection: |
+      [[[
+        return "Motion detected"
+      ]]]

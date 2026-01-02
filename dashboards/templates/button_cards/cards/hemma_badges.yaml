@@ -304,15 +304,38 @@ hemma_badge_media:
       - box-shadow: none !important
       - margin-inline-start: var(--badge-inset-start, 0px)
       - margin-left: -5px
-      - margin-block-end: 18px 
+      - margin-block-end: 18px
       - min-height: "calc(var(--badge-min-height-current, var(--badge-min-height, 44px)) + 4px) !important"
       - --badge-rim-width: 1.4px
       - --badge-rim-alpha: 0.24
       - --badge-rim-glow: 0.12
       - display: >
           [[[
+            const enabled = !(variables?.enabled === false || variables?.enabled === 'false');
+            if (!enabled) return 'none';
             const s = String(entity?.state || '').toLowerCase();
-            return ['playing','paused','buffering'].includes(s) ? 'inline-grid' : 'none';
+            const a = entity?.attributes || {};
+            if (s === 'playing' || s === 'buffering') return 'inline-grid';
+            if (s === 'paused') {
+              const norm = (v) => String(v || '').trim();
+              const title   = norm(a.media_title || a.title);
+              const artist  = norm(a.media_artist || a.artist || a.media_album_artist);
+              const album   = norm(a.media_album_name);
+              const series  = norm(a.media_series_title);
+              const channel = norm(a.media_channel);
+              const bad = (v) => {
+                const x = v.toLowerCase();
+                return !x || ['paused','idle','unknown','unavailable','none','-'].includes(x);
+              };
+              const meaningful =
+                (!bad(title)) ||
+                (!bad(artist)) ||
+                (!bad(album)) ||
+                (!bad(series)) ||
+                (!bad(channel));
+              return meaningful ? 'inline-grid' : 'none';
+            }
+            return 'none';
           ]]]
       - --bg-url: >
           [[[
@@ -356,7 +379,6 @@ hemma_badge_media:
       const a = entity?.attributes || {};
       const s = String(entity?.state || '').toLowerCase();
       const cap = x => x ? x.charAt(0).toUpperCase() + x.slice(1) : '';
-
       const friendly = a.friendly_name || 'Media';
       const type     = String(a.media_content_type || '').toLowerCase();
       const title    = (a.media_title || a.title || '').trim();
@@ -364,30 +386,22 @@ hemma_badge_media:
       const series   = (a.media_series_title || '').trim();
       const channel  = (a.media_channel || '').trim();
       const app      = (a.app_name || '').trim();
-
       let sub = cap(s || 'Off');
-
       if (['playing','paused','buffering'].includes(s)) {
         sub = (type === 'music')
           ? ((artist && title) ? `${artist} - ${title}` : (artist || title || cap(s)))
           : (series || title || channel || app || cap(s));
       }
-
       const esc = (sub || '').replaceAll('"','&quot;');
-
       const isMobile =
         (window?.matchMedia?.('(max-width: 768px)')?.matches) ?? false;
-
       const tv = (k, d) =>
         Number(variables?.[k] ?? hass?.themes?.theme_variables?.[k] ?? d);
-
       const fontPx  = tv('media_title_px', 12);
       const weight  = '600';
       const fudgePx = tv('media_marquee_fudge_px', 140);
-
       const maxVW   = Math.min(window?.innerWidth || 375, 768);
       const availPx = Math.max(0, maxVW - fudgePx);
-
       let textPx = 0;
       try {
         const c = document.createElement('canvas');
@@ -395,10 +409,8 @@ hemma_badge_media:
         ctx.font = `${weight} ${fontPx}px Hanken Grotesk, system-ui, -apple-system, Segoe UI, Roboto, sans-serif`;
         textPx = ctx.measureText(sub).width;
       } catch(e){}
-
       const shouldScroll = isMobile && textPx > availPx;
       const inner = `<span class="m__inner" data-text="${esc}">${esc}</span><span class="m__inner" data-text="${esc}">${esc}</span>`;
-
       return `
         <div style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:0;">
           <div style="
@@ -413,13 +425,11 @@ hemma_badge_media:
           ">
             ${friendly}
           </div>
-
           <div class="mwrap ${shouldScroll ? 'm--scroll' : ''}" style="min-width:0;">
             <div class="m ${shouldScroll ? 'm__run' : ''}">
               ${inner}
             </div>
           </div>
-
           <div class="sub--static" data-text="${esc}">${esc}</div>
         </div>
       `;
@@ -448,9 +458,9 @@ hemma_badge_media:
         custom_fields:
           ic:
             - display: block
-      card:
-        - --badge-rim-glow: .10
-        - --media-sub-opacity: .86
+        card:
+          - --badge-rim-glow: .10
+          - --media-sub-opacity: .86
 
     - value: paused
       styles:
@@ -459,10 +469,10 @@ hemma_badge_media:
         custom_fields:
           ic:
             - display: none
-      card:
-        - --anim-play: paused
-        - --badge-rim-glow: .02
-        - --media-sub-opacity: .75
+        card:
+          - --anim-play: paused
+          - --badge-rim-glow: .02
+          - --media-sub-opacity: .75
 
     - value: buffering
       styles:
@@ -592,8 +602,6 @@ hemma_badge_media:
       --matte-wash1: .006;
       --matte-wash2: .032;
       --matte-wash3: .024;
-
-      /* Local speeds: slow + subtle */
       --media-orbit-speed: 30s;
       --media-breathe-speed: 40s;
     }
@@ -649,7 +657,6 @@ hemma_badge_media:
       animation-play-state: var(--anim-play, running);
     }
 
-    /* Subtle left<->right drift of the artwork stack (layers 8–10) */
     @keyframes orbit{
       0%{
         background-position:
@@ -674,7 +681,6 @@ hemma_badge_media:
       }
     }
 
-    /* Gentle zoom breathing so colors morph but don't scream */
     @keyframes breathe{
       0%{
         background-size:
@@ -702,7 +708,7 @@ hemma_badge_media:
     :host::before{
       content:"";
       position:absolute;
-      inset:-6px;  # was -10px
+      inset:-6px;
       border-radius: calc(var(--badge-br,9999px) + 6px);
       pointer-events:none;
       z-index:4;
@@ -711,7 +717,7 @@ hemma_badge_media:
       background-position: 50% 50%;
       filter: blur(var(--rim-blur, 16px)) saturate(1.35) brightness(1.06) contrast(1.06);
       mix-blend-mode: screen;
-      padding: calc(var(--badge-rim-width, .55px) + 6px);  # was +10px
+      padding: calc(var(--badge-rim-width, .55px) + 6px);
       -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
               mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
       -webkit-mask-composite: xor;
