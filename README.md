@@ -24,7 +24,7 @@ Hemma adds new features and changes including:
 
 - **New light/dark tuning**  
   - Refined card backgrounds, shadows, and typography  
-  - Dark mode adjusted for better contrast and “liquid glass” style cards
+  - Dark mode adjusted for better contrast and frosted glass style cards
 
 - **Updated layouts and cards**  
   - Refined screen layout includes (`hemma_screen_layout.yaml`, `hemma_entity_layout.yaml`)  
