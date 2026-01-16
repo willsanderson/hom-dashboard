@@ -1,0 +1,101 @@
+# Plex
+hemma_badge_plex:
+  template: [hemma_badge_media]
+  tap_action:
+    action: more-info
+    entity: >
+      [[[
+        return variables?.session_entity || entity?.entity_id;
+      ]]]
+  hold_action:
+    action: more-info
+    entity: >
+      [[[
+        return variables?.session_entity || entity?.entity_id;
+      ]]]
+  triggers_update:
+    - '[[[ return variables?.session_entity || entity?.entity_id; ]]]'
+    - '[[[ return entity?.entity_id; ]]]'
+  show_state: false
+  show_label: false
+  icon: >
+    [[[
+      const sid = variables?.session_entity || entity?.entity_id;
+      const s = (sid && hass.states[sid]?.state || '').toLowerCase();
+      if (s === 'paused') return 'mdi:pause';
+      return 'mdi:cast-audio';
+    ]]]
+  custom_fields:
+    ic: >
+      [[[
+        const sid = variables?.session_entity || entity?.entity_id;
+        const s = (sid && hass.states[sid]?.state || '').toLowerCase();
+        if (s !== 'playing') return '';
+        return `
+          <div class="eq" aria-hidden="true">
+            <span class="b b1"></span><span class="b b2"></span><span class="b b3"></span><span class="b b4"></span>
+          </div>
+        `;
+      ]]]
+  styles:
+    card:
+      - --media-sub-opacity: .86
+      - display: >
+          [[[
+            const st = String(entity?.state || 'off').toLowerCase();
+            return st === 'on' ? 'inline-grid' : 'none';
+          ]]]
+      - --anim-play: >
+          [[[
+            const sid = variables?.session_entity || entity?.entity_id;
+            const s = (sid && hass.states[sid]?.state || '').toLowerCase();
+            return s === 'paused' ? 'paused' : 'running';
+          ]]]
+      - --bg-url: >
+          [[[
+            const cacheKey = '_homPlexBgUrl';
+            const sid = variables?.session_entity || entity?.entity_id;
+            const a = (sid && hass.states[sid]?.attributes) || {};
+            const raw = a.image_url || a.entity_picture_local || a.entity_picture || a.media_image_url;
+            if (raw) {
+              const url = String(raw).startsWith('/') ? `${location.origin}${raw}` : raw;
+              const wrapped = `url("${url}")`;
+              this[cacheKey] = wrapped;
+              return wrapped;
+            }
+            return this[cacheKey] || 'none';
+          ]]]
+    icon:
+      - display: >
+          [[[
+            const sid = variables?.session_entity || entity?.entity_id;
+            const s = (sid && hass.states[sid]?.state || '').toLowerCase();
+            return s === 'playing' ? 'none' : 'block';
+          ]]]
+    custom_fields:
+      ic:
+        - display: >
+            [[[
+              const sid = variables?.session_entity || entity?.entity_id;
+              const s = (sid && hass.states[sid]?.state || '').toLowerCase();
+              return s === 'playing' ? 'block' : 'none';
+            ]]]
+  name: >
+    [[[
+      const sid = variables?.session_entity || entity?.entity_id;
+      const a = (sid && hass.states[sid]?.attributes) || {};
+      const plexUser = a.user || 'Unknown';
+      const full = a.full_title || '';
+      const esc = (t) => String(t || '').replaceAll('"','&quot;');
+
+      return `
+        <div style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:0%;">
+          <div style="font-size:var(--badge-font-size-current,13px);font-weight:700;color:var(--primary-text-color);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+            Plex &ndash; ${esc(plexUser)}
+          </div>
+          <div style="font-size:calc(var(--badge-font-size-current,13px) - 1px);opacity:.84;color:var(--primary-text-color);line-height:var(--badge-subline-lh-current,1.15);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+            ${esc(full)}
+          </div>
+        </div>
+      `;
+    ]]]

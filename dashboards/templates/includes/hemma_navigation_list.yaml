@@ -28,3 +28,13 @@
   styles:
     card:
       - box-shadow: none
+
+- type: custom:button-card
+  template:
+    - hemma_nav_button
+  name: Scenes
+  variables:
+    path: /dashboard-hemma/scenes
+  styles:
+    card:
+      - box-shadow: none

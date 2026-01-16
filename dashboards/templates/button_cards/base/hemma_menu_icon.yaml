@@ -47,16 +47,21 @@ hemma_menu_icon:
         - height: 22px
         - margin: 0
         - line-height: 0
-        - opacity: 1
 
   extra_styles: |
     :host{
-      position: relative !important;
+      position: fixed !important;
+      top: 8px !important;
+      left: 10px !important;
+      right: auto !important;
+
       width: 40px !important;
       height: 40px !important;
       margin: 0 !important;
       display: block !important;
       color: var(--primary-text-color) !important;
+      z-index: 9999 !important;
+      pointer-events: auto !important;
     }
 
     :host ha-card{
@@ -85,26 +90,24 @@ hemma_menu_icon:
       display: block !important;
       fill: currentColor !important;
       pointer-events: none !important;
+      opacity: .32 !important;
+      transition: opacity 360ms cubic-bezier(.22,.61,.36,1) !important;
+      will-change: opacity;
     }
 
-    @media (hover:hover) and (min-width: 769px){
-      :host .hamburger{
-        opacity: .12 !important;
-        transition: opacity 360ms cubic-bezier(.22,.61,.36,1) !important;
-        will-change: opacity;
-      }
-
+    @media (hover: hover) and (pointer: fine) and (min-width: 769px){
+      :host .hamburger{ opacity: .12 !important; }
       :host(:hover) .hamburger,
       :host(:focus-within) .hamburger,
-      :host ha-card:hover .hamburger{
-        opacity: .9 !important;
-      }
+      :host ha-card:hover .hamburger{ opacity: .9 !important; }
     }
 
-    @media (max-width: 768px){
+    @media (max-width: 767px), (max-height: 500px){
       :host{
         width: 48px !important;
         height: 48px !important;
+        top: 8px !important;
+        left: calc(var(--hero-gutter, 10px) - 11px) !important;
       }
 
       :host ha-card{
@@ -116,6 +119,13 @@ hemma_menu_icon:
       :host .hamburger{
         width: 28px !important;
         height: 28px !important;
-        opacity: .3  !important;
+        opacity: .1 !important;
+      }
+    }
+
+    @media (min-width:768px) and (max-width:1249px) and (orientation: portrait){
+      :host{
+        top: 6px !important;
+        left: calc(var(--hero-gutter, 10px) - 16px) !important;
       }
     }

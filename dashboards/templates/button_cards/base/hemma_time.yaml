@@ -4,11 +4,7 @@ hemma_time:
 
   variables:
     time_entity: sensor.time
-
-    # Whether to convert to 12h with AM/PM
     use_12h: true
-
-    # Optional label after the time, e.g. "UHR", "HRS"
     time_suffix:
 
   triggers_update:
@@ -46,21 +42,46 @@ hemma_time:
         display = to12h(timePart);
       }
 
-      if (suffix) {
-        display = `${display} ${suffix}`;
-      }
+      if (suffix) display = `${display} ${suffix}`;
 
       return display.toUpperCase();
     ]]]
 
+  show_icon: false
+  show_state: false
+  show_label: false
+
   styles:
-    name:
-      - color: var(--primary-text-color)
-      - letter-spacing: 1px
-      - font-size: 18px
-      - text-transform: uppercase
-      - font-weight: 700
-      - justify-self: start
+    grid:
+      - grid-template-areas: '"n"'
+      - grid-template-columns: max-content
+      - grid-template-rows: min-content
+      - justify-items: end
+      - align-items: center
+
     card:
       - background: transparent
       - box-shadow: none
+      - border-radius: 0
+      - padding: 0
+      - margin: 0
+      - height: min-content
+      - width: max-content
+      - min-width: 0
+      - overflow: visible
+      - pointer-events: none
+      - "--mdc-ripple-press-opacity": 0
+      - "-webkit-tap-highlight-color": transparent
+
+    name:
+      - color: var(--primary-text-color)
+      - opacity: 0.92
+      - letter-spacing: 1px
+      - font-size: 18px
+      - line-height: 1
+      - text-transform: uppercase
+      - font-weight: 700
+      - justify-self: end
+      - align-self: center
+      - padding: 0
+      - margin: 0

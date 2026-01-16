@@ -12,19 +12,20 @@ Hemma:
       ha-card-box-shadow: none
       button-card-box-shadow: var(--ha-shadow-light)
       button-card-box-shadow-active: var(--ha-shadow-light-active)
+
       hemma-nav-bg: rgba(255,255,255,0.11)
-      hemma-nav-border: rgba(255,255,255,0.1)
+      hemma-nav-border: rgba(255,255,255,0.12)
       hemma-nav-shadow: >
         inset 3px 3px 5px -5px rgba(255,255,255,0.08),
         inset -3px -3px 5px -5px rgba(255,255,255,0.08),
         inset 0 0 3px -1px rgba(255,255,255,0.1),
-        0 14px 22px rgba(0,0,0,0.08)
+        0 14px 22px rgba(0,0,0,0.04)
       hemma-nav-inactive-opacity: .7
-      hemma-nav-icon: rgba(255,255,255,.7)
+      hemma-nav-icon: rgba(255,255,255,.72)
       hemma-nav-icon-active: rgba(255,255,255,1)
       hemma-nav-active-fill: rgba(255,255,255,0.2)
       hemma-nav-pill-shadow: inset 0 0 1px rgba(255,255,255,0.5)
-      hemma-nav-blur: blur(10px)
+      hemma-nav-blur: blur(8px) saturate(180%)
       hemma-nav-fade: |
         linear-gradient(
           to top,
@@ -32,14 +33,17 @@ Hemma:
           rgba(0,0,0,0.35) 30%,
           rgba(0,0,0,0.0) 65%
         )
+
       hemma-slider-track: rgba(255,255,255,0.22)
       hemma-slider-progress: rgba(255,255,255,0.95)
       hemma-slider-thumb: "#ffffff"
       hemma-slider-shadow: 0 2px 10px rgba(0,0,0,.18)
+
       hero-img-filter: saturate(1.02) brightness(.985)
       hero-tint-top: rgba(56,56,56,0.65)
       hero-tint-mid: rgba(53,53,53,0.60)
       hero-tint-bottom: rgba(50,50,50,0.50)
+
       primary-text-color: "#ffffff"
       text-primary-color: rgba(255,255,255,.95)
       secondary-text-color: rgba(240,240,240,0.8)
@@ -60,6 +64,7 @@ Hemma:
       ha-card-box-shadow: none
       button-card-box-shadow: var(--ha-shadow-dark)
       button-card-box-shadow-active: var(--ha-shadow-dark-active)
+
       hemma-nav-bg: rgba(0,0,0,.3)
       hemma-nav-border: rgba(240,240,240,0.16)
       hemma-nav-inactive-opacity: .6
@@ -70,7 +75,7 @@ Hemma:
         inset 0 -10px 14px -14px rgba(0,0,0,0.08)
       hemma-nav-active-fill: rgba(255,255,255,0.2)
       hemma-nav-pill-shadow: inset 0 0 1px rgba(255,255,255,0.14)
-      hemma-nav-blur: blur(12px)
+      hemma-nav-blur: blur(8px) saturate(180%)
       hemma-nav-fade: |
         linear-gradient(
           to top,
@@ -78,14 +83,17 @@ Hemma:
           rgba(0,0,0,0.35) 30%,
           rgba(0,0,0,0.0) 65%
         )
+
       hemma-slider-track: rgba(200,200,200,0.22)
       hemma-slider-progress: rgba(200,200,200,0.95)
       hemma-slider-thumb: "#ffffff"
       hemma-slider-shadow: 0 2px 12px rgba(0,0,0,.34)
+
       hero-img-filter: saturate(1.02) brightness(0.98)
       hero-tint-top: rgba(50,50,50,0.65)
       hero-tint-mid: rgba(50,50,50,0.60)
       hero-tint-bottom: rgba(50,50,50,0.55)
+
       primary-text-color: "#ffffff"
       text-primary-color: rgba(255,255,255,.98)
       secondary-text-color: rgba(240,240,240,0.9)
@@ -97,9 +105,6 @@ Hemma:
       vignette-bottom: 0.34
       dark-vignette: 1
 
-  # Global
-
-  # Rounded Cards
   ha-shadow-light: >
     inset 0 0 0 1px rgba(255,255,255,0.06),
     inset 6px 6px 10px -10px rgba(255,255,255,0.13),
@@ -113,7 +118,7 @@ Hemma:
     0 14px 22px rgba(0,0,0,0.04)
 
   ha-shadow-dark: >
-    inset 0 0 0 1px rgba(120,120,120,0.22),
+    inset 0 0 0 1px rgba(120,120,120,0.16),
     inset 0 10px 14px -16px rgba(255,255,255,0.25),
     inset 0 -10px 18px -16px rgba(255,255,255,0.18),
     inset 1.5px 1.5px 1px -1.5px rgba(255,255,255,0.06),
@@ -128,77 +133,63 @@ Hemma:
     inset -1px -2px 3px -1px rgba(255,255,255,0.08),
     0 18px 20px rgba(0,0,0,0.04)
 
-  # Boxy Cards
-  # ha-shadow-light: >
-  #   inset 8px 8px 10px -12px rgba(255,255,255,0.18),
-  #   inset -8px -8px 10px -12px rgba(255,255,255,0.14),
-  #   inset -0.5px -0.5px 2px -1.5px rgba(255,255,255,0.5),
-  #   inset 0 0 6px -3px rgba(255,255,255,0.03),
-  #   0 16px 28px rgba(0,0,0,0.04)
-
-  # ha-shadow-dark: >
-  #   inset 4px 4px 20px -3px rgba(255,255,255,0.04),
-  #   inset -4px -4px 20px -3px rgba(255,255,255,0.04),
-  #   inset 0 0 6px -3px rgba(255,255,255,0.02),
-  #   0 16px 28px rgba(0,0,0,0.06)
-
-  # ha-shadow-dark-active: >
-  #   inset 0 10px 14px -16px rgba(255,255,255,0.12),
-  #   inset 0 -10px 18px -16px rgba(150,150,150,0.12),
-  #   inset 0 0 0 .7px rgba(255,255,255,0.06),
-  #   0 18px 20px rgba(0,0,0,0.06)
-
-  # Fonts
   primary-font-family: "Hanken Grotesk"
   ha-font-family-body: var(--primary-font-family)
   ha-card-header-font-family: var(--primary-font-family)
 
-  # Header
   app-header-backdrop-filter: blur(10px)
   app-header-edit-background-color: rgba(0,0,0,0.2)
 
-  # Sidebar
   sidebar-background-color: var(--secondary-background-color)
   sidebar-selected-background-color: var(--primary-background-color)
   sidebar-selected-icon-color: var(--primary-text-color)
   sidebar-selected-text-color: var(--sidebar-selected-icon-color)
 
-  # Dashboard / base
   primary-color: '#61b4ff'
   accent-color: '#61b4ff'
   divider-color: rgba(50, 50, 50, 0.8)
   state-icon-color: var(--primary-color)
   ha-color-on-primary-normal: var(--primary-color)
 
-  # Entity Layout
+  # Entity Layout - Desktop
   hemma-entity-height-desktop: 180px
-  hemma-entity-height-mobile: 120px
-  hemma-entity-padding-desktop: 40px
-  hemma-entity-padding-mobile: 20px
+  hemma-entity-inner-pad-desktop: 24px
   hemma-entity-name-font-desktop: 18px
   hemma-entity-state-font-desktop: 15px
-
-  # - Use Preset A for 1-row carousel
-  # - Use Preset B for 2-row grid
-  # (only one preset block should be uncommented at a time)
-
-  # Preset A (1-Row Carousel)
+  hemma-entity-icon-size-desktop: 34px
+  hemma-scene-height-desktop: 110px
+  hemma-scene-width-desktop: 280px
   hemma-entity-rows-desktop: repeat(1, auto)
   hemma-entity-col-width-desktop: 280px
-  hemma-entity-justify-desktop: flex-start
+  hemma-entity-justify-desktop: start
   hemma-entity-right-inset-desktop: 0px
   hemma-entity-bottom-desktop: 20px
   hemma-entity-shadow-pad-right-desktop: 0px
   hemma-entity-overflow-y-desktop: hidden
 
-  # Preset B (2-Row Grid)
-  # hemma-entity-rows-desktop: repeat(2, auto)
-  # hemma-entity-col-width-desktop: 250px
-  # hemma-entity-justify-desktop: center
-  # hemma-entity-right-inset-desktop: var(--page-gutter, 8vw)
-  # hemma-entity-bottom-desktop: 30px
-  # hemma-entity-shadow-pad-right-desktop: 16px
-  # hemma-entity-overflow-y-desktop: visible
+  # Entity Layout - Tablet
+  hemma-entity-col-width-tablet: 210px
+  hemma-entity-height-tablet: 150px
+  hemma-entity-inner-pad-tablet: 18px
+  hemma-entity-name-font-tablet: 16px
+  hemma-entity-state-font-tablet: 15px
+  hemma-entity-icon-size-tablet: 28px
+  hemma-time-nudge-tablet: 36px
+  hemma-scene-height-tablet: 90px
+  hemma-scene-width-tablet: 230px
+  hemma-entity-overflow-y-tablet: var(--hemma-entity-overflow-y-desktop)
+
+  # Entity Layout - Mobile
+  hemma-entity-col-width-mobile: 180px
+  hemma-entity-height-mobile: 120px
+  hemma-entity-inner-pad-mobile: 16px
+  hemma-entity-name-font-mobile: 14px
+  hemma-entity-state-font-mobile: 14px
+  hemma-entity-col-width-landscape: 200px
+  hemma-time-nudge-mobile: 8px
+  hemma-entity-icon-size-mobile: 26px
+  hemma-scene-height-mobile: 72px
+  hemma-scene-width-mobile: 180px
 
   # Entity Variables
   hemma-entity-active: rgba(255,255,255,1)
@@ -209,16 +200,13 @@ Hemma:
   hemma-entity-picture-active-filter: none
   hemma-entity-text-shadow: 0 0 3px rgba(0, 0, 0, 0.15)
 
-  # Temperature Formatting
-  hero-temp-font-size-desktop: 18px
-  hero-temp-font-size-mobile: 14px
-
   # Badge Formatting - Global
   badge-background: rgba(0,0,0,0.35)
   badge-title-inactive: rgba(235,235,235,.6)
-  badge-inset-start: 4px
-  badge-br: 9999px
+  badge-media-inset-start: 6px
+  badge-rim-bleed: 6px
   badge-rim-width: .55px
+  badge-br: 9999px
   badge-subline-lh: 1.18
   badge-subline-lh-mobile: 1.15
   badge-shadow: >
@@ -227,14 +215,6 @@ Hemma:
     inset 0 0 0 .8px rgba(0,0,0,0.03),
     0 12px 24px rgba(0,0,0,0.04)
 
-  # Badge Formatting - Mobile
-  badge-col-gap-mobile: 4px
-  badge-gap-mobile: 6px
-  badge-font-size-mobile: 13px
-  badge-padding-mobile: 0 13px 0 8px
-  badge-min-height-mobile: 41px
-  badge-icon-size-mobile: 26px
-  
   # Badge Formatting - Desktop
   badge-col-gap: 6px
   badge-gap: 10px
@@ -243,201 +223,334 @@ Hemma:
   badge-icon-size: 35px
   badge-font-size: 15px
 
+  # Badge Formatting - Mobile
+  badge-col-gap-mobile: 4px
+  badge-gap-mobile: 7px
+  badge-font-size-mobile: 13px
+  badge-padding-mobile: 0 13px 0 8px
+  badge-min-height-mobile: 41px
+  badge-icon-size-mobile: 26px
+  badge-media-row-gap-desktop: calc(var(--badge-gap, 10px) + var(--badge-rim-bleed, 6px) + var(--badge-rim-bleed, 6px))
+  badge-media-row-gap-tablet: calc(var(--badge-gap-tablet, 8px) + var(--badge-rim-bleed, 6px) + var(--badge-rim-bleed, 6px))
+  badge-media-row-gap-mobile: calc(var(--badge-gap-mobile, 7px) + var(--badge-rim-bleed, 6px) + var(--badge-rim-bleed, 6px))
+
+  # Badge Formatting - Tablet
+  badge-gap-tablet: 8px
+  badge-col-gap-tablet: 5px
+  badge-padding-tablet: 3px 13px 3px 8px
+  badge-min-height-tablet: 46px
+  badge-icon-size-tablet: 32px
+  badge-font-size-tablet: 14px
+  badge-subline-lh-tablet: 1.16
+
+  # Temperature Formatting
+  hero-header-gap-desktop: 6px
+  hero-header-gap-tablet: 6px
+  hero-header-gap-mobile: 5px
+  hero-temp-font-size-desktop: 18px
+  hero-temp-font-size-tablet: 16px
+  hero-temp-font-size-mobile: 14px
+
+  # Layout / Spacing
+  page-gutter-desktop: 8vw
+  page-gutter-tablet: 4vw
+  page-gutter-mobile: 11px
+
+  header-top-desktop: clamp(300px, 26vh, 340px)
+  header-top-tablet: clamp(180px, 22vh, 280px)
+  header-top-mobile: clamp(40px, 18vh, 84px)
+
+  hemma-header-temp-nudge: 3px
+  hemma-header-badge-nudge: 0px
+  hemma-hero-top-landscape-nudge: 16px
+  hemma-tiles-top-landscape-nudge: 38px
+  
+  # Navigation Sizing
+  hemma-nav-margin-desktop: 8vw
+  hemma-nav-margin-tablet: 4.3vw
+  hemma-nav-gap-desktop: 50px
+  hemma-nav-gap-tablet: 45px
+  hemma-nav-top-desktop: 60px
+  hemma-nav-top-tablet: 55px
+
+  # Hero Title Sizing
+  hero-title-size-desktop: clamp(52px, 4.6vw + 8px, 96px)
+  hero-title-size-tablet: clamp(62px, 5.2vw + 8px, 86px)
+  hero-title-size-mobile: clamp(45px, 9vw + 2px, 68px)
+  hero-title-line-height-desktop: 1.18
+  hero-title-line-height-tablet: 1.18
+  hero-title-line-height-mobile: 1.20
+  hero-title-letter-spacing-desktop: -2px
+  hero-title-letter-spacing-tablet: -1.5px
+  hero-title-letter-spacing-mobile: -1.2px
+  hero-title-margin-left-desktop: -2px
+  hero-title-margin-left-tablet: 2px
+  hero-title-margin-left-mobile: 2px
+
+  # Media Badge Width Cap
+  badge-media-max-width-desktop: 640px
+  badge-media-max-width-tablet: 520px
+  badge-media-max-width-mobile: 100%
+
+  # Dialog
+  ha-dialog-surface-backdrop-filter: blur(10px)
+  ha-dialog-surface-background: var(--ha-card-background)
+  ha-dialog-border-radius: 28px
+
   # Cards
   card-background-color: var(--secondary-background-color)
   paper-listbox-background-color: var(--primary-background-color)
   ha-card-header-color: var(--primary-text-color)
   paper-card-background-color: var(--ha-card-background)
   ha-card-border-color: transparent
-  ha-card-border-radius: 28px # Set to 0px if you prefer original button cards or 28px for rounded
+  ha-card-border-radius: 28px
   ha-card-border-width: 0
-  stack-card-gap: "0px"
-  horizontal-stack-card-gap: "10px"
+  stack-card-gap: 0px
+  horizontal-stack-card-gap: 10px
 
-  # Labels 
+  # Labels
   label-badge-background-color: '#23232E'
   label-badge-text-color: '#F1F1F1'
   label-badge-red: rgba(255,159,9,0.7)
-
-  # Layout / spacing
-  page-gutter-desktop: 8vw
-  page-gutter-tablet: 4vw
-  page-gutter-mobile: 11px
-
-  header-top-desktop: clamp(300px, 26vh, 340px)
-  header-top-tablet:  clamp(180px, 22vh, 280px)
-  header-top-mobile:  clamp(40px, 18vh, 84px)
-
-  # Dialog 
-  ha-dialog-surface-backdrop-filter: blur(10px) # this currently disables desktop dropdown
-  ha-dialog-surface-background: var(--ha-card-background)
-  ha-dialog-border-radius: 28px
-
-  # Media animation
-  media-orbit: 55s
-  media-breathe: 36s
-
-  # MDC / inputs / sliders
-  mdc-theme-on-surface: var(--primary-text-color)
-  mdc-theme-surface: var(--secondary-background-color)
-  mdc-theme-text-primary-on-background: var(--primary-text-color)
-  mdc-theme-text-secondary-on-background: var(--secondary-text-color)
-  mdc-theme-text-icon-on-background: var(--secondary-text-color)
-  mdc-theme-text-disabled-on-background: var(--disabled-text-color)
-
-  mdc-dialog-heading-ink-color: var(--primary-text-color)
-  mdc-dialog-content-ink-color: var(--secondary-text-color)
-
-  mdc-text-field-ink-color: var(--primary-text-color)
-  mdc-text-field-fill-color: transparent
-  mdc-menu-surface-backdrop-filter: none
-  mdc-select-ink-color: var(--primary-text-color)
-  mdc-select-label-ink-color: var(--primary-text-color)
-  mdc-select-idle-line-color: var(--secondary-text-color)
-  mdc-select-dropdown-icon-color: var(--primary-text-color)
-  mdc-select-hover-line-color: var(--secondary-text-color)
-  mdc-select-fill-color: var(--card-background-color)
-  mdc-checkbox-unchecked-color: '#FFF'
-  mdc-radio-unchecked-color: '#FFF'
-
-  input-label-ink-color: var(--secondary-text-color)
-  input-disabled-ink-color: var(--secondary-text-color)
-  input-fill-color: transparent
-  input-disabled-fill-color: transparent
-  input-dropdown-icon-color: var(--primary-text-color)
-  input-idle-line-color: rgba(255,255,255,.2)
-  input-hover-line-color: var(--secondary-text-color)
-
-  paper-slider-knob-color: '#FFFFFF'
-  paper-slider-knob-start-color: var(--paper-slider-knob-color)
-  paper-slider-pin-color: var(--paper-slider-knob-color)
-  paper-slider-active-color: "#0984ff"
-  paper-slider-secondary-color: var(--paper-slider-knob-color)
-  paper-slider-container-color: rgba(255,255,255,0.5)
-  paper-slider-font-color: '#000'
-  ha-slider-background: none
 
   # Code Editor
   code-editor-background-color: '#161616'
 
   # Layout Tweaks
-  masonry-view-card-margin: "0px"
+  masonry-view-card-margin: 0px
 
   # Browser Mod Extras
   clear-background-color: var(--ha-card-background)
-  
+
   # Card Mod
   card-mod-theme: "Hemma"
 
   card-mod-root-yaml: |
     .: |
-        html,
-        body {
-          overflow-x: hidden !important;
-          max-width: 100vw !important;
-        }
+      html,
+      body {
+        overflow-x: hidden !important;
+        max-width: 100vw !important;
+      }
 
-        #view,
-        hui-view {
-          overflow-x: hidden !important;
-          max-width: 100vw !important;
-        }
+      #view,
+      hui-view {
+        overflow-x: hidden !important;
+        max-width: 100vw !important;
+      }
 
-        :root {
-          --page-gutter: var(--page-gutter-desktop);
-          --hemma-rail-left: var(--page-gutter-desktop);
-          --content-rail: calc(var(--hemma-rail-left) + var(--hemma-entity-padding-desktop, 40px));
-        }
+      /* Desktop (default) */
+      :host, ha-app-layout {
+        --page-gutter: var(--page-gutter-desktop);
+        --hemma-rail-left: var(--page-gutter-desktop);
+        --content-rail: var(--hemma-rail-left);
+        --hero-top: var(--header-top-desktop);
+        --hero-gutter: var(--page-gutter-desktop);
+        --hero-header-gap-current: var(--hero-header-gap-desktop, 6px);
+        --hero-temp-font-size: var(--hero-temp-font-size-desktop, 18px);
+        --hemma-header-stack-h-current: clamp(220px, 26vh, 320px);
+        --hemma-scene-col-width-current: var(--hemma-scene-width-desktop, 280px);
+        --hemma-nav-margin-current: var(--hemma-nav-margin-desktop, 8vw);
+        --hemma-nav-gap-current: var(--hemma-nav-gap-desktop, 50px);
+        --hemma-nav-top-current: var(--hemma-nav-top-desktop, 60px);
+        --hero-room-name-size-current: var(--hero-title-size-desktop, clamp(52px, 4.6vw + 8px, 96px));
+        --hero-room-name-line-height-current: var(--hero-title-line-height-desktop, 1.18);
+        --hero-room-name-letter-spacing-current: var(--hero-title-letter-spacing-desktop, -2px);
+        --hero-room-name-margin-left-current: var(--hero-title-margin-left-desktop, -2px);
+        --badge-media-max-width-current: var(--badge-media-max-width-desktop, 640px);
+        --badge-media-row-gap-current: var(--badge-media-row-gap-desktop, 14px);
+        --hemma-entity-col-width-current: var(--hemma-entity-col-width-desktop, 280px);
+        --hemma-entity-height-current: var(--hemma-entity-height-desktop, 180px);
+        --hemma-entity-rows-current: var(--hemma-entity-rows-desktop, repeat(1, auto));
+        --hemma-entity-justify-current: var(--hemma-entity-justify-desktop, flex-start);
+        --hemma-entity-right-inset-current: var(--hemma-entity-right-inset-desktop, 0px);
+        --hemma-entity-left-inset-current: var(--hemma-rail-left, var(--page-gutter, 8vw));
+        --hemma-entity-bottom-current: var(--hemma-entity-bottom-desktop, 20px);
+        --hemma-entity-shadow-pad-right-current: var(--hemma-entity-shadow-pad-right-desktop, 0px);
+        --hemma-entity-overflow-y-current: var(--hemma-entity-overflow-y-desktop, hidden);
+        --hemma-entity-inner-pad-current: var(--hemma-entity-inner-pad-desktop, 24px);
+        --hemma-entity-name-font-current: var(--hemma-entity-name-font-desktop, 18px);
+        --hemma-entity-state-font-current: var(--hemma-entity-state-font-desktop, 15px);
+        --hemma-entity-icon-size-current: var(--hemma-entity-icon-size-desktop, 34px);
+        --hemma-nav-height: 54px;
+        --hemma-nav-height-landscape: 42px;
+        --hemma-nav-offset-bottom: calc(env(safe-area-inset-bottom, 0px) + 20px); /* EXACTLY 20px above bottom safe area */
+        --hemma-nav-offset-top: calc(env(safe-area-inset-top, 0px) + 12px);
+        --hemma-nav-clearance: 8px;
+      }
 
-        @media (min-width: 769px) and (max-width: 1249px) {
-          :root {
-            --page-gutter: var(--page-gutter-tablet);
-            --hemma-rail-left: var(--page-gutter-tablet);
-            --content-rail: calc(var(--hemma-rail-left) + var(--hemma-entity-padding-desktop, 40px));
-          }
+      /* Tablet */
+      @media (min-width: 768px) and (max-width: 1249px) and (min-height: 501px) {
+        :host, ha-app-layout {
+          --page-gutter: var(--page-gutter-tablet);
+          --hemma-rail-left: var(--page-gutter-tablet);
+          --content-rail: var(--hemma-rail-left);
+          --hero-top: var(--header-top-tablet);
+          --hero-gutter: var(--page-gutter-tablet);
+          --hero-header-gap-current: var(--hero-header-gap-tablet, 6px);
+          --hero-temp-font-size: var(--hero-temp-font-size-tablet, 16px);
+          --hemma-header-stack-h-current: clamp(190px, 24vh, 280px);
+          --hemma-scene-col-width-current: var(--hemma-scene-width-tablet, 230px);
+          --hemma-nav-margin-current: var(--hemma-nav-margin-tablet, 4vw);
+          --hemma-nav-gap-current: var(--hemma-nav-gap-tablet, 34px);
+          --hemma-nav-top-current: var(--hemma-nav-top-tablet, 46px);
+          --hero-room-name-size-current: var(--hero-title-size-tablet, clamp(36px, 4.2vw + 6px, 64px));
+          --hero-room-name-line-height-current: var(--hero-title-line-height-tablet, 1.18);
+          --hero-room-name-letter-spacing-current: var(--hero-title-letter-spacing-tablet, -1.5px);
+          --hero-room-name-margin-left-current: var(--hero-title-margin-left-tablet, -1px);
+          --badge-media-max-width-current: var(--badge-media-max-width-tablet, 520px);
+          --badge-media-row-gap-current: var(--badge-media-row-gap-tablet, 14px);
+          --hemma-entity-col-width-current: var(--hemma-entity-col-width-tablet, 210px);
+          --hemma-entity-height-current: var(--hemma-entity-height-tablet, 150px);
+          --hemma-entity-overflow-y-current: var(--hemma-entity-overflow-y-tablet, var(--hemma-entity-overflow-y-desktop, hidden));
+          --hemma-entity-inner-pad-current: var(--hemma-entity-inner-pad-tablet, 18px);
+          --hemma-entity-name-font-current: var(--hemma-entity-name-font-tablet, 15px);
+          --hemma-entity-state-font-current: var(--hemma-entity-state-font-tablet, 13px);
+          --hemma-entity-icon-size-current: var(--hemma-entity-icon-size-tablet, 28px);
         }
+      }
 
-        @media (max-width: 768px), (max-height: 500px) {
-          :root {
-            --page-gutter: var(--page-gutter-mobile);
-            --hemma-rail-left: var(--page-gutter-mobile);
-            --content-rail: calc(var(--hemma-rail-left) + var(--hemma-entity-padding-mobile, 20px));
-          }
+      /* Mobile Portrait */
+      @media (max-width: 767px), (max-height: 500px) {
+        :host, ha-app-layout {
+          --page-gutter: var(--page-gutter-mobile);
+          --hemma-rail-left: var(--page-gutter-mobile);
+          --content-rail: var(--hemma-rail-left);
+          --hero-top: var(--header-top-mobile);
+          --hero-gutter: var(--page-gutter-mobile);
+          --hero-header-gap-current: var(--hero-header-gap-mobile, 5px);
+          --hero-temp-font-size: var(--hero-temp-font-size-mobile, 14px);
+          --hemma-header-stack-h-current: clamp(210px, 30vh, 300px);
+          --hemma-scene-col-width-current: var(--hemma-scene-width-mobile, 180px);
+          --hero-room-name-size-current: var(--hero-title-size-mobile, clamp(38px, 9vw + 2px, 64px));
+          --hero-room-name-line-height-current: var(--hero-title-line-height-mobile, 1.20);
+          --hero-room-name-letter-spacing-current: var(--hero-title-letter-spacing-mobile, -1.2px);
+          --hero-room-name-margin-left-current: var(--hero-title-margin-left-mobile, 2px);
+          --badge-media-max-width-current: var(--badge-media-max-width-mobile, 100%);
+          --badge-media-row-gap-current: var(--badge-media-row-gap-mobile, 10px);
+          --hemma-entity-col-width-current: var(--hemma-entity-col-width-mobile, 180px);
+          --hemma-entity-height-current: var(--hemma-entity-height-mobile, 120px);
+          --hemma-entity-inner-pad-current: var(--hemma-entity-inner-pad-mobile, 16px);
+          --hemma-entity-name-font-current: var(--hemma-entity-name-font-mobile, 14px);
+          --hemma-entity-state-font-current: var(--hemma-entity-state-font-mobile, 14px);
+          --hemma-entity-icon-size-current: var(--hemma-entity-icon-size-mobile, 26px);
         }
+      }
 
-        @media (prefers-reduced-motion: reduce) {
-          .m__run,
-          .eq .b {
-            animation: none !important;
-          }
-        }
+      /* Mobile Landscape*/
+      @media (hover: none) and (pointer: coarse) and (orientation: landscape) and (max-height: 600px) {
+        :host, ha-app-layout {
+          --hemma-landscape-left-rail: clamp(240px, 34vw, 320px);
+          --hemma-landscape-badge-stop-pad: 12px;
 
-        .hemma-entities,
-        .hemma-entities > div {
-          scrollbar-width: none;
-          -ms-overflow-style: none;
-        }
+          --badge-media-max-width-current: calc(
+            var(--hemma-landscape-left-rail) - var(--hemma-landscape-badge-stop-pad)
+          );
 
-        .hemma-entities::-webkit-scrollbar,
-        .hemma-entities > div::-webkit-scrollbar {
-          width: 0 !important;
-          height: 0 !important;
-          background: transparent !important;
-        }
+          --hemma-header-stack-h-current: clamp(150px, 42vh, 220px);
+          --hemma-tiles-top-landscape: calc(
+            var(--hero-top, calc(env(safe-area-inset-top, 0px) + 96px))
+            + var(--hemma-tiles-top-landscape-nudge, 0px)
+          );
 
-        app-header,
-        app-toolbar {
-          background: transparent;
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
+          --hero-room-name-size-current: clamp(32px, 5.6vw + 6px, 46px);
+          --hero-room-name-line-height-current: 1.12;
+          --hero-room-name-letter-spacing-current: -1px;
         }
+      }
 
-        ha-card {
-          transition: filter .2s ease, opacity .2s ease;
+      @media (prefers-reduced-motion: reduce) {
+        .m__run,
+        .eq .b {
+          animation: none !important;
         }
+      }
+
+      .hemma-entities,
+      .hemma-entities > div {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+
+      .hemma-entities::-webkit-scrollbar,
+      .hemma-entities > div::-webkit-scrollbar {
+        width: 0 !important;
+        height: 0 !important;
+        background: transparent !important;
+      }
+
+      app-header,
+      app-toolbar {
+        background: transparent;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
+
+      ha-card {
+        transition: filter .2s ease, opacity .2s ease;
+      }
+
+      /* Tablet Portrait*/
+      @media (min-width: 768px) and (max-width: 1249px) and (orientation: portrait) and (hover: none){
+        :host, ha-app-layout{
+          --hemma-entity-bottom-current: calc(
+            var(--hemma-nav-offset-bottom)
+            + var(--hemma-nav-height)
+            + 6px
+          );
+        }
+      }
+
+      /* Tablet Landscape */
+      @media (min-width: 768px) and (max-width: 1249px) and (orientation: landscape) and (hover: none){
+        :host, ha-app-layout{
+          --hemma-entity-bottom-current: 12px;
+        }
+      }
 
   card-mod-view-yaml: |
     .: |
-        hui-view,
-        hui-view > #columns {
-          min-height: 100% !important;
-          max-width: 100vw !important;
-          overflow-x: hidden !important;
-        }
+      hui-view,
+      hui-view > #columns {
+        min-height: 100% !important;
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
+      }
 
-        :host {
-          overflow-x: hidden !important;
-          overflow-y: auto !important;
-        }
+      :host {
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+      }
 
-        app-header,
-        app-toolbar {
-          background: transparent;
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
+      @media (max-width: 767px), (max-height: 500px) {
+        :host::after{
+          content:"";
+          position: fixed;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          height: 170px;
+          pointer-events: none;
+          z-index: 2;
+          background: var(--hemma-nav-fade, linear-gradient(
+            to top,
+            rgba(0,0,0,0.82) 0%,
+            rgba(0,0,0,0.0) 65%
+          ));
         }
+      }
 
-        ha-card {
-          transition: filter .2s ease, opacity .2s ease;
-        }
+      @media (max-height: 500px) and (orientation: landscape){
+        :host::after{ display: none !important; }
+      }
 
-        @media (max-width: 768px), (max-height: 500px) {
-          :host::after{
-            content:"";
-            position: fixed;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            height: 170px;
-            pointer-events: none;
-            z-index: 2;
-            background: var(--hemma-nav-fade, linear-gradient(
-              to top,
-              rgba(0,0,0,0.82) 0%,
-              rgba(0,0,0,0.0) 65%
-            ));
-          }
+      @media (max-height: 500px) and (orientation: landscape) {
+        :host, ha-app-layout {
+          --hero-room-name-size-current: clamp(30px, 5.2vw + 2px, 44px);
+          --hero-room-name-line-height-current: 1.12;
+          --hero-room-name-letter-spacing-current: -1px;
         }
+      }
 
   card-mod-card: |
     ha-card {
@@ -446,14 +559,14 @@ Hemma:
     }
 
     @media (hover:hover) {
-      :host(:not(.hemma-hero)) ha-card:hover,
-      :host(:not(.hemma-hero)) ha-card:focus-within {
+      :host(:not(.hemma-room)) ha-card:hover,
+      :host(:not(.hemma-room)) ha-card:focus-within {
         filter: var(--hemma-hover-filter, brightness(1.10)) !important;
       }
     }
 
     @media (hover:none) {
-      :host(:not(.hemma-hero)) ha-card:active {
+      :host(:not(.hemma-room)) ha-card:active {
         filter: var(--hemma-hover-filter, brightness(1.12)) !important;
       }
     }
@@ -507,4 +620,31 @@ Hemma:
       transform: translateY(.5px);
       backface-visibility: hidden;
       will-change: transform;
+    }
+
+    :host(.hemma-hero),
+    :host(.hemma-hero) ha-card,
+    :host(.hemma-hero) .button-card-main,
+    :host(.hemma-hero) .button-card-content{
+      direction: ltr !important;
+      text-align: left !important;
+    }
+
+    :host(.hemma-hero) #custom_fields{
+      direction: ltr !important;
+      justify-content: flex-start !important;
+      justify-items: start !important;
+      place-content: start !important;
+      text-align: left !important;
+    }
+
+    :host(.hemma-hero) #custom_fields > div[id^="badges"],
+    :host(.hemma-hero) #custom_fields > div[id*="badge"]{
+      direction: ltr !important;
+      justify-self: start !important;
+      align-self: start !important;
+      place-self: start !important;
+      margin-left: 0 !important;
+      margin-right: auto !important;
+      text-align: left !important;
     }

@@ -1,0 +1,68 @@
+# Air Quality
+hemma_badge_air_quality:
+  template: [hemma_badge_base]
+
+  variables:
+    enabled: true
+
+  tap_action: { action: more-info }
+
+  extra_styles: >
+    [[[
+      const enabled = !(variables?.enabled === false || variables?.enabled === 'false');
+      const hasEnt  = !!entity?.entity_id;
+      const stRaw   = String(entity?.state ?? '').trim();
+      const st      = stRaw.toLowerCase();
+      const hide    = !enabled || !hasEnt || !stRaw || ['unknown','unavailable','none'].includes(st);
+
+      return `:host{display:${hide ? 'none' : 'inline-block'} !important;}`;
+    ]]]
+
+  styles:
+    card:
+      - display: >
+          [[[
+            const enabled = !(variables?.enabled === false || variables?.enabled === 'false');
+            const hasEnt  = !!entity?.entity_id;
+            const stRaw   = String(entity?.state ?? '').trim();
+            const st      = stRaw.toLowerCase();
+            const hide    = !enabled || !hasEnt || !stRaw || ['unknown','unavailable','none'].includes(st);
+
+            return hide ? 'none' : 'inline-grid';
+          ]]]
+    icon:
+      - color: >
+          [[[
+            const s = String(entity?.state || 'unknown').toLowerCase();
+            if (s === 'excellent') return '#67f5a0';
+            if (s === 'good')      return '#44e371';
+            if (s === 'moderate')  return '#f0c741';
+            if (s === 'bad')       return '#f5962a';
+            if (s === 'very bad')  return '#e53552';
+            return 'var(--disabled-text-color)';
+          ]]]
+
+  icon: >
+    [[[
+      const s = String(entity?.state || 'unknown').toLowerCase();
+      if (s === 'very bad') return 'mdi:emoticon-dead-outline';
+      if (['excellent','good','moderate','bad'].includes(s)) return 'mdi:blur';
+      return 'mdi:cloud';
+    ]]]
+
+  name: >
+    [[[
+      const raw = String(entity?.state ?? 'Unknown');
+      const nice = raw ? raw.charAt(0).toUpperCase() + raw.slice(1) : 'Unknown';
+
+      return `
+        <div style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:0;">
+          <div style="font-size:var(--badge-font-size-current,13px);font-weight:700;color:var(--badge-title-color,var(--secondary-text-color));line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+            Air Quality
+          </div>
+          <div style="font-size:calc(var(--badge-font-size-current,13px) - 1px);color:var(--badge-sub-color,var(--secondary-text-color));line-height:var(--badge-subline-lh-current,1.15);opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+            ${nice}
+          </div>
+        </div>
+      `;
+    ]]]

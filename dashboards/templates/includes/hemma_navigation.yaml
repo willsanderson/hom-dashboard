@@ -2,7 +2,7 @@
 type: conditional
 conditions:
   - condition: screen
-    media_query: "(min-width: 769px)"
+    media_query: "(min-width: 769px) and (min-height: 501px) and (hover: hover) and (pointer: fine)"
 
 card:
   type: custom:layout-card
@@ -63,3 +63,6 @@ card:
 
     - type: custom:button-card
       template: hemma_time
+      styles:
+        card:
+          - padding-top: 5px

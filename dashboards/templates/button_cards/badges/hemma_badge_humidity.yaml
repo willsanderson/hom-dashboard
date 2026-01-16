@@ -1,0 +1,66 @@
+# Humidity
+hemma_badge_humidity:
+  template: [hemma_badge_base]
+
+  variables:
+    enabled: true
+
+  tap_action: { action: more-info }
+  icon: mdi:water-percent
+
+  extra_styles: >
+    [[[
+      const enabled = !(variables?.enabled === false || variables?.enabled === 'false');
+      const hasEnt  = !!entity?.entity_id;
+      const stRaw   = String(entity?.state ?? '').trim();
+      const st      = stRaw.toLowerCase();
+      const v       = parseFloat(stRaw);
+      const hide    = !enabled || !hasEnt || !stRaw || ['unknown','unavailable','none'].includes(st) || Number.isNaN(v);
+
+      return `:host{display:${hide ? 'none' : 'inline-block'} !important;}`;
+    ]]]
+
+  styles:
+    card:
+      - display: >
+          [[[
+            const enabled = !(variables?.enabled === false || variables?.enabled === 'false');
+            const hasEnt  = !!entity?.entity_id;
+            const stRaw   = String(entity?.state ?? '').trim();
+            const st      = stRaw.toLowerCase();
+            const v       = parseFloat(stRaw);
+            const hide    = !enabled || !hasEnt || !stRaw || ['unknown','unavailable','none'].includes(st) || Number.isNaN(v);
+
+            return hide ? 'none' : 'inline-grid';
+          ]]]
+    icon:
+      - color: >
+          [[[
+            const v = parseFloat(entity?.state);
+            if (isNaN(v)) return 'var(--disabled-text-color)';
+            if (v <= 29.99) return '#ffb254';
+            if (v >= 61)    return '#4bd1fa';
+            return '#45dced';
+          ]]]
+
+  name: >
+    [[[
+      const v = parseFloat(entity?.state);
+      let label = 'Unknown';
+      if (!isNaN(v)) {
+        if (v <= 29.99)      label = 'Very Dry';
+        else if (v >= 61)    label = 'High';
+        else                 label = 'Good';
+      }
+
+      return `
+        <div style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:0;">
+          <div style="font-size:var(--badge-font-size-current,13px);font-weight:700;color:var(--badge-title-color,var(--secondary-text-color));line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+            Humidity
+          </div>
+          <div style="font-size:calc(var(--badge-font-size-current,13px) - 1px);color:var(--badge-sub-color,var(--secondary-text-color));line-height:var(--badge-subline-lh-current,1.15);opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+            ${label}
+          </div>
+        </div>
+      `;
+    ]]]

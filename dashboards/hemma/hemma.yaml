@@ -46,10 +46,6 @@ views:
           media_player_4: media_player.kitchen
 
           # ---- Optional variables ----
-          # show_humidity: true
-          # humidity_sensor: sensor.some_humidity
-          # show_quality: true
-          # quality_sensor: sensor.some_air_quality
           # show_motion: true
           # motion_sensor: binary_sensor.some_motion
 
@@ -116,16 +112,6 @@ views:
 
           show_quality: true
           quality_sensor: sensor.air_quality_dyson_overall
-
-          # ---- Optional variables ----
-          # show_motion: true
-          # motion_sensor: binary_sensor.some_motion
-          # show_presence: true
-          # presence_entity_1: sensor.someone
-          # presence_entity_2: sensor.someone_else
-          # show_media_badge: true
-          # show_media_player_1: true
-          # media_player_1: media_player.some_player
 
       # MOBILE NAVBAR
       - !include /config/dashboards/templates/includes/hemma_navbar_mobile.yaml
@@ -208,16 +194,6 @@ views:
           show_quality: true
           quality_sensor: sensor.air_quality_dyson_overall
 
-          # ---- Optional variables ----
-          # show_motion: true
-          # motion_sensor: binary_sensor.some_motion
-          # show_presence: true
-          # presence_entity_1: sensor.someone
-          # presence_entity_2: sensor.someone_else
-          # show_media_badge: true
-          # show_media_player_1: true
-          # media_player_1: media_player.some_player
-
       # MOBILE NAVBAR
       - !include /config/dashboards/templates/includes/hemma_navbar_mobile.yaml
 
@@ -282,14 +258,6 @@ views:
 
           show_motion: true
           motion_sensor: binary_sensor.hue_motion_sensor_motion
-
-          # ---- Optional variables ----
-          # show_presence: true
-          # presence_entity_1: sensor.someone
-          # presence_entity_2: sensor.someone_else
-          # show_media_badge: true
-          # show_media_player_1: true
-          # media_player_1: media_player.some_player
 
       # MOBILE NAVBAR
       - !include /config/dashboards/templates/includes/hemma_navbar_mobile.yaml

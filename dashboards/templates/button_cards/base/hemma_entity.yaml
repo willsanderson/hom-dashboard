@@ -33,7 +33,6 @@ hemma_entity:
       #battery{ opacity: 0; }
     }
 
-
   custom_fields:
     battery: |
       [[[
@@ -104,25 +103,8 @@ hemma_entity:
       - backdrop-filter: blur(14px)
       - border-radius: var(--ha-card-border-radius, 30px)
       - position: relative
-      - height: |
-          [[[
-            const isMobile = window.innerWidth <= 768;
-            return isMobile
-              ? 'var(--hemma-entity-height-mobile, 120px)'
-              : 'var(--hemma-entity-height-desktop, 180px)';
-          ]]]
-      - padding: |
-          [[[
-            return (window.innerWidth <= 768)
-              ? 'var(--hemma-entity-inner-pad-mobile, 18px)'
-              : 'var(--hemma-entity-inner-pad-desktop, 22px)';
-          ]]]
-      - padding-top: |
-          [[[
-            return (window.innerWidth <= 768)
-              ? 'var(--hemma-entity-inner-pad-mobile, 18px)'
-              : 'var(--hemma-entity-inner-pad-desktop, 22px)';
-          ]]]
+      - height: var(--hemma-entity-height-current, var(--hemma-entity-height-desktop, 180px))
+      - padding: var(--hemma-entity-inner-pad-current, var(--hemma-entity-inner-pad-desktop, 22px))
       - scroll-snap-align: start
       - display: |
           [[[
@@ -150,13 +132,7 @@ hemma_entity:
       - text-shadow: var(--hemma-entity-text-shadow, 0 0 3px rgba(0, 0, 0, 0.3))
       - justify-self: start
       - margin-bottom: 0px
-      - font-size: |
-          [[[
-            const isMobile = window.innerWidth <= 768;
-            return isMobile
-              ? 'var(--hemma-entity-name-font-mobile, 15px)'
-              : 'var(--hemma-entity-name-font-desktop, 16px)';
-          ]]]
+      - font-size: var(--hemma-entity-name-font-current, var(--hemma-entity-name-font-desktop, 16px))
       - line-height: 1.15
       - white-space: nowrap
       - overflow: hidden
@@ -166,13 +142,7 @@ hemma_entity:
     state:
       - text-transform: capitalize
       - color: var(--hemma-entity-inactive, var(--secondary-text-color)) !important
-      - font-size: |
-          [[[
-            const isMobile = window.innerWidth <= 768;
-            return isMobile
-              ? 'var(--hemma-entity-state-font-mobile, 13px)'
-              : 'var(--hemma-entity-state-font-desktop, 14px)';
-          ]]]
+      - font-size: var(--hemma-entity-state-font-current, var(--hemma-entity-state-font-desktop, 14px))
       - text-shadow: var(--hemma-entity-text-shadow, 0 0 3px rgba(0, 0, 0, 0.3))
       - justify-self: start
       - font-weight: 700
@@ -195,18 +165,8 @@ hemma_entity:
       - justify-self: start
       - align-self: start
       - color: var(--hemma-entity-inactive, var(--secondary-text-color)) !important
-      - width: |
-          [[[
-            return (window.innerWidth <= 768)
-              ? 'var(--hemma-entity-icon-size-mobile, 26px)'
-              : 'var(--hemma-entity-icon-size-desktop, 30px)';
-          ]]]
-      - height: |
-          [[[
-            return (window.innerWidth <= 768)
-              ? 'var(--hemma-entity-icon-size-mobile, 26px)'
-              : 'var(--hemma-entity-icon-size-desktop, 30px)';
-          ]]]
+      - width: var(--hemma-entity-icon-size-current, var(--hemma-entity-icon-size-desktop, 30px))
+      - height: var(--hemma-entity-icon-size-current, var(--hemma-entity-icon-size-desktop, 30px))
       - background: transparent
       - transition: opacity .18s ease, filter .18s ease
 

@@ -52,6 +52,12 @@ hemma_room:
     show_media_player_4: false
     media_player_4:
 
+    show_psn_1: false
+    psn_1:
+
+    show_psn_2: false
+    psn_2:
+
   tap_action: { action: none }
   hold_action: { action: none }
   double_tap_action: { action: none }
@@ -81,31 +87,28 @@ hemma_room:
       - grid-area: n
       - color: var(--primary-text-color)
       - opacity: 0.9
-      - font-size: "clamp(48px, 6.897vw + 17.931px, 100px)"
-      - letter-spacing: "-2px"
+      - font-size: var(--hero-room-name-size-current, clamp(48px, 6vw + 12px, 100px))
+      - letter-spacing: var(--hero-room-name-letter-spacing-current, -2px)
       - font-weight: 700
       - justify-self: start
       - padding-left: 0
-      - line-height: >
-          [[[
-            const w = window?.innerWidth || 1024;
-            return (w <= 768) ? '1.22' : '1.2';
-          ]]]
-      - margin-left: >
-          [[[
-            const w = window?.innerWidth || 1024;
-            return (w <= 768) ? '0px' : '-2px';
-          ]]]
+      - line-height: var(--hero-room-name-line-height-current, 1.2)
+      - margin-left: var(--hero-room-name-margin-left-current, 0px)
       - overflow: visible
 
     grid:
       - grid-template-columns: 1fr
-      - grid-template-rows: min-content
       - grid-template-areas: |
           "temperature"
           "n"
           "badges"
           "badges_media"
+      - grid-template-rows: >
+          [[[
+            const reserve = 'var(--hero-temp-reserve, 22px)';
+            return `minmax(${reserve}, min-content) min-content min-content min-content`;
+          ]]]
+      - row-gap: var(--hero-header-gap-current, 6px)
       - align-content: start
 
     custom_fields:
@@ -113,7 +116,7 @@ hemma_room:
         - display: >
             [[[
               return variables.show_motion && variables.motion_sensor ? 'block' : 'none';
-            ]]]  
+            ]]]
         - position: fixed
         - right: 0
         - left: 0
@@ -139,29 +142,80 @@ hemma_room:
         - display: >
             [[[
               const navOpen = states['input_boolean.hemma_mobile_navigation']?.state === 'on';
-              const has = variables.show_temp && variables.temp_sensor && states[variables.temp_sensor];
-              return (!navOpen && has) ? 'block' : 'none';
+              return navOpen ? 'none' : 'block';
             ]]]
+        - visibility: >
+            [[[
+              const has = variables.show_temp && variables.temp_sensor && states[variables.temp_sensor];
+              return has ? 'visible' : 'hidden';
+            ]]]
+        - min-height: var(--hero-temp-reserve, 22px)
         - color: var(--primary-text-color)
         - opacity: 0.9
         - justify-self: start
         - margin: 0
-        - padding-left: 3px
-        - font-size: >
-            [[[
-              const w = window?.innerWidth || 1024;
-              return (w <= 768)
-                ? 'var(--hero-temp-font-size-mobile, 14px)'
-                : 'var(--hero-temp-font-size-desktop, 16px)';
-            ]]]
+        - padding-left: 0
+        - margin-left: >
+            calc(
+              var(--hero-room-name-margin-left-current, 0px) +
+              var(--hemma-header-temp-nudge, 0px))
+        - font-size: var(--hero-temp-font-size, var(--hero-temp-font-size-desktop, 16px))
         - "--button-card-ripple-color": transparent
         - "-webkit-tap-highlight-color": transparent
 
+      time:
+        - position: fixed
+        - top: >
+            [[[
+              const mm = (q) => (window.matchMedia ? window.matchMedia(q).matches : false);
+
+              const w = window?.innerWidth || 1024;
+              const h = window?.innerHeight || 800;
+
+              const isMobile = (w <= 767 || h <= 500);
+              const isTablet = (w >= 768 && w <= 1249 && h > 500);
+
+              const nudge =
+                isMobile ? 'var(--hemma-time-nudge-mobile, 8px)' :
+                isTablet ? 'var(--hemma-time-nudge-tablet, 36px)' :
+                '0px';
+
+              return `calc(env(safe-area-inset-top, 0px) + var(--hemma-nav-top-current, 46px) - ${nudge})`;
+            ]]]
+        - right: >
+            [[[
+              return `var(--hemma-nav-margin-current, 4vw)`;
+            ]]]
+        - z-index: 10
+        - pointer-events: auto
+        - "--mdc-ripple-press-opacity": 0
+        - "-webkit-tap-highlight-color": transparent
+        - display: >
+            [[[
+              const navOpen = states['input_boolean.hemma_mobile_navigation']?.state === 'on';
+              const mm = (q) => (window.matchMedia ? window.matchMedia(q).matches : false);
+              const isTouch = mm('(pointer: coarse)') || mm('(hover: none)');
+              const w = window?.innerWidth || 1024;
+              const h = window?.innerHeight || 800;
+              const isTablet = (w >= 768 && w <= 1249 && h > 500);
+              return (!navOpen && isTouch && isTablet) ? 'block' : 'none';
+            ]]]
+
       badges:
         - grid-area: badges
-        - justify-self: start
+        - justify-self: start !important
+        - align-self: start !important
+        - place-self: start !important
+        - text-align: left !important
+        - margin-left: >
+            calc(
+              var(--hero-room-name-margin-left-current, 0px) +
+              var(--hemma-header-badge-nudge, 0px)) !important
+        - margin-right: auto !important
+        - width: max-content
+        - max-width: 100%
         - margin-top: 0
-        - margin-bottom: 10px
+        - margin-bottom: 0
         - padding-left: 0
         - pointer-events: auto
         - display: >
@@ -173,8 +227,21 @@ hemma_room:
 
       badges_media:
         - grid-area: badges_media
-        - justify-self: start
-        - padding-left: 2px
+        - justify-self: start !important
+        - align-self: start !important
+        - place-self: start !important
+        - text-align: left !important
+        - margin-left: >
+            calc(
+              var(--hero-room-name-margin-left-current, 0px) +
+              var(--hemma-header-badge-nudge, 0px)
+            ) !important
+        - padding-left: 0
+        - padding-top: var(--badge-rim-bleed, 6px)
+        - padding-bottom: var(--badge-rim-bleed, 6px)
+        - margin-right: auto !important
+        - width: "min(var(--badge-media-max-width-current, 640px), 100%)"
+        - max-width: 100%
         - pointer-events: auto
         - display: >
             [[[
@@ -199,10 +266,12 @@ hemma_room:
             [[[
               const w = window?.innerWidth || 1024;
               const h = window?.innerHeight || 800;
-              if (w <= 768 || h <= 500) {
+
+              if (w <= 767 || h <= 500) {
                 return 'calc(var(--hero-gutter) - 11px)';
               }
-              return '12px';
+
+              return 'calc(var(--hero-gutter) - 6px)';
             ]]]
         - width: 40px
         - height: 40px
@@ -221,10 +290,16 @@ hemma_room:
 
     temperature: |
       [[[
-        if (!(variables.show_temp && variables.temp_sensor && states[variables.temp_sensor])) return;
+        const navOpen = states['input_boolean.hemma_mobile_navigation']?.state === 'on';
+        if (navOpen) return '';
+
+        const has = variables.show_temp && variables.temp_sensor && states[variables.temp_sensor];
+        if (!has) return '&nbsp;';
+
         const vRaw = states[variables.temp_sensor].state;
         const v = Number(vRaw);
-        if (Number.isNaN(v)) return;
+        if (Number.isNaN(v)) return '&nbsp;';
+
         const t = Math.round(v);
 
         let label = 'Very Hot';
@@ -241,112 +316,126 @@ hemma_room:
         `;
       ]]]
 
+    time:
+      card:
+        type: custom:button-card
+        template: hemma_time
+
     badges:
       card:
         type: custom:layout-card
         layout_type: custom:grid-layout
+
+        card_mod:
+          style: |
+            :host{
+              --layout-margin: 0px !important;
+              --layout-padding: 0px !important;
+            }
+
+            ha-card{
+              padding: 0 !important;
+              margin: 0 !important;
+              background: transparent !important;
+              box-shadow: none !important;
+              border-radius: 0 !important;
+            }
+
         layout:
           grid-auto-flow: column
           grid-auto-columns: max-content
           grid-template-columns: none
-          column-gap: var(--badge-gap-current, var(--badge-gap, 8px))
-          margin: 0
+          justify-content: start
+          justify-items: start
+          align-items: center
+          grid-column-gap: var(--badge-gap-current, var(--badge-gap, 10px))
+          grid-row-gap: var(--badge-gap-current, var(--badge-gap, 10px))
+
         cards:
           - type: custom:button-card
             template: hemma_badge_presence
             entity: '[[[ return variables.presence_entity_1 ]]]'
-            styles:
-              card:
-                - display: >
-                    [[[
-                      if (!variables.show_presence) return "none";
-                      const id = variables.presence_entity_1;
-                      if (!id || !states[id]) return "none";
-                      const st = (states[id].state || "unknown").toLowerCase().replace(/_/g," ");
-                      if (["unknown","unavailable","extended away"].includes(st)) return "none";
-                      return "inline-grid";
-                    ]]]
+            variables:
+              enabled: '[[[ return variables.show_presence ]]]'
 
           - type: custom:button-card
             template: hemma_badge_presence
             entity: '[[[ return variables.presence_entity_2 ]]]'
-            styles:
-              card:
-                - display: >
-                    [[[
-                      if (!variables.show_presence) return "none";
-                      const id = variables.presence_entity_2;
-                      if (!id || !states[id]) return "none";
-                      const st = (states[id].state || "unknown").toLowerCase().replace(/_/g," ");
-                      if (["unknown","unavailable"].includes(st)) return "none";
-                      return "inline-grid";
-                    ]]]
+            variables:
+              enabled: '[[[ return variables.show_presence ]]]'
 
           - type: custom:button-card
             template: hemma_badge_air_quality
             entity: '[[[ return variables.quality_sensor ]]]'
-            styles:
-              card:
-                - display: >
-                    [[[
-                      const id = variables.quality_sensor;
-                      const st = id && states[id]?.state
-                        ? String(states[id].state).toLowerCase()
-                        : "unknown";
-                      return (variables.show_quality && id && states[id] && !["unknown","unavailable"].includes(st))
-                        ? "inline-grid"
-                        : "none";
-                    ]]]
+            variables:
+              enabled: '[[[ return variables.show_quality ]]]'
 
           - type: custom:button-card
             template: hemma_badge_humidity
             entity: '[[[ return variables.humidity_sensor ]]]'
-            styles:
-              card:
-                - display: >
-                    [[[
-                      const id = variables.humidity_sensor;
-                      const st = id && states[id]?.state
-                        ? String(states[id].state).toLowerCase()
-                        : "unknown";
-                      return (variables.show_humidity && id && states[id] && !["unknown","unavailable"].includes(st))
-                        ? "inline-grid"
-                        : "none";
-                    ]]]
+            variables:
+              enabled: '[[[ return variables.show_humidity ]]]'
 
     badges_media:
       card:
         type: custom:layout-card
         layout_type: custom:grid-layout
+
+        card_mod:
+          style: |
+            :host{
+              --layout-margin: 0px !important;
+              --layout-padding: 0px !important;
+              --layout-height: auto !important;
+              --layout-overflow: visible !important;
+            }
+
+            ha-card{
+              padding: 0 !important;
+              margin: 0 !important;
+              background: transparent !important;
+              box-shadow: none !important;
+              border-radius: 0 !important;
+            }
+
+            #container{
+              height: auto !important;
+              align-items: start !important;
+              align-content: start !important;
+              justify-items: start !important;
+              justify-content: start !important;
+              text-align: left !important;
+            }
+
         layout:
           grid-template-columns: 1fr
           grid-auto-flow: row
-          row-gap: 12px
-          margin: 0
+          grid-auto-rows: min-content
+          grid-row-gap: var(--badge-media-row-gap-current, 12px)
+          justify-items: start
+          justify-content: start
+          align-items: start
+          align-content: start
 
         cards:
-          # Media Player 1
           - type: custom:button-card
             template: hemma_badge_media
             entity: '[[[ return variables.media_player_1 ]]]'
             variables:
               enabled: '[[[ return variables.show_media_player_1 ]]]'
 
-          # Media Player 2
           - type: custom:button-card
             template: hemma_badge_media
             entity: '[[[ return variables.media_player_2 ]]]'
             variables:
               enabled: '[[[ return variables.show_media_player_2 ]]]'
 
-          # Media Player 3
           - type: custom:button-card
             template: hemma_badge_media
             entity: '[[[ return variables.media_player_3 ]]]'
             variables:
               enabled: '[[[ return variables.show_media_player_3 ]]]'
 
-          # Media Player 4
           - type: custom:button-card
             template: hemma_badge_media
             entity: '[[[ return variables.media_player_4 ]]]'

@@ -263,7 +263,8 @@ hemma_thermostat:
     card:
       - --rail-w: |
           [[[
-            return (window.innerWidth <= 768) ? '48px' : '60px';
+            const isMobile = window.matchMedia('(max-width: 767px), (max-height: 600px)').matches;
+            return isMobile ? '48px' : '60px';
           ]]]
     name:
       - opacity: |
@@ -283,21 +284,23 @@ hemma_thermostat:
         - position: absolute
         - top: |
             [[[
-              return (window.innerWidth <= 768) ? '16px' : '20px';
+              const isMobile = window.matchMedia('(max-width: 767px), (max-height: 600px)').matches;
+              return isMobile ? '16px' : '20px';
             ]]]
         - left: |
             [[[
-              return (window.innerWidth <= 768) ? '16px' : '20px';
+              const isMobile = window.matchMedia('(max-width: 767px), (max-height: 600px)').matches;
+              return isMobile ? '16px' : '20px';
             ]]]
         - width: |
             [[[
-              const w = window.innerWidth || 1024;
-              return (w <= 768) ? '26px' : '34px';
+              const isMobile = window.matchMedia('(max-width: 767px), (max-height: 600px)').matches;
+              return isMobile ? '26px' : '34px';
             ]]]
         - height: |
             [[[
-              const w = window.innerWidth || 1024;
-              return (w <= 768) ? '26px' : '34px';
+              const isMobile = window.matchMedia('(max-width: 767px), (max-height: 600px)').matches;
+              return isMobile ? '26px' : '34px';
             ]]]
         - border-radius: 9999px
         - box-sizing: border-box
@@ -317,8 +320,8 @@ hemma_thermostat:
         - line-height: 1
         - font-size: |
             [[[
-              const w = window.innerWidth || 1024;
-              return (w <= 768) ? '12px' : '16px';
+              const isMobile = window.matchMedia('(max-width: 767px), (max-height: 600px)').matches;
+              return isMobile ? '12px' : '16px';
             ]]]
         - letter-spacing: -.5px
         - background: |

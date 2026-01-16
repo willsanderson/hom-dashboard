@@ -24,12 +24,15 @@ hemma_shared:
                       var(--hemma-rail-left,
                       var(--page-gutter, 8vw)));
       --hero-top: var(--header-top-desktop, clamp(220px, 26vh, 340px));
-      --row-left-pad: 0px;
-      --hemma-hover-filter: none !important;
-      --hero-temp-font-size: var(--hero-temp-font-size-desktop, 15px);
+      --hero-temp-font-size: var(--hero-temp-font-size-desktop, 18px);
       --hero-temp-font-weight: 600;
       --hero-temp-letter-spacing: 0.04em;
-      --hero-temp-margin-bottom: var(--hero-temp-margin-bottom-desktop, 10px);
+      --hero-temp-reserve: calc(var(--hero-temp-font-size) * 1.2);
+      --hero-header-gap-current: var(--hero-header-gap-desktop, 6px);
+      --badge-gap-current: var(--badge-gap, 10px);
+      --hemma-hover-filter: none !important;
+      -webkit-tap-highlight-color: transparent !important;
+      --mdc-ripple-press-opacity: 0 !important;
     }
 
     :host ha-card{
@@ -80,7 +83,6 @@ hemma_shared:
       animation: heroSwap .35s ease;
     }
 
-    /* Base hero tint */
     :host ha-card::before{
       content:"";
       position:absolute;
@@ -118,23 +120,26 @@ hemma_shared:
     }
 
     /* Tablet */
-    @media (min-width:769px) and (max-width:1249px){
+    @media (min-width:768px) and (max-width:1249px){
       :host{
-        --hero-top: var(--header-top-tablet, clamp(300px, 28vh, 380px));
+        --hero-top: var(--header-top-tablet, clamp(180px, 22vh, 280px));
+        --hero-temp-font-size: var(--hero-temp-font-size-tablet, var(--hero-temp-font-size-desktop, 18px));
+        --hero-header-gap-current: var(--hero-header-gap-tablet, var(--hero-header-gap-desktop, 6px));
+        --badge-gap-current: var(--badge-gap-tablet, var(--badge-gap, 10px));
       }
     }
 
     /* Mobile */
-    @media (max-width:768px), (max-height:500px){
+    @media (max-width: 767px), (max-height: 500px){
       :host{
         --hero-top: var(--header-top-mobile, clamp(80px, 12vh, 120px));
         --hero-temp-font-size: var(--hero-temp-font-size-mobile, 13px);
-        --hero-temp-margin-bottom: var(--hero-temp-margin-bottom-mobile, 8px);
+        --badge-gap-current: var(--badge-gap-mobile, var(--badge-gap, 10px));
+        --hero-header-gap-current: var(--hero-header-gap-mobile, 5px);
         --tiles-pad-bottom: calc(130px + env(safe-area-inset-bottom));
-        --row-left-pad: 0px;
-        --hero-gutter: var(--hemma-rail-left, var(--page-gutter-mobile, 10px));
-        --menu-icon-offset: var(--menu-icon-offset-mobile, 20px);
-        --menu-icon-gutter: var(--page-gutter-mobile, 14px);
+        --hero-gutter: var(--content-rail,
+                      var(--hemma-rail-left,
+                      var(--page-gutter-mobile, 10px)));
       }
 
       :host ha-card{
@@ -180,5 +185,21 @@ hemma_shared:
         margin:0 !important;
         overflow:visible !important;
         display:grid !important;
+      }
+    }
+
+    @media (max-height: 500px) and (orientation: landscape){
+      :host{
+        --hero-gutter: 18px;
+        --hero-top: calc(env(safe-area-inset-top, 0px) + 96px + var(--hemma-hero-top-landscape-nudge, 0px));
+        --tiles-pad-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+      }
+
+      :host .button-card-main{
+        padding:
+          var(--hero-top)
+          calc(18px + env(safe-area-inset-right, 0px))
+          calc(16px + env(safe-area-inset-bottom, 0px))
+          calc(18px + env(safe-area-inset-left, 0px)) !important;
       }
     }
