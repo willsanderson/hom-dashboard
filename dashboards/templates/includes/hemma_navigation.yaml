@@ -76,6 +76,11 @@ card:
 
       card_mod:
         style: |
+          :host{
+            --hemma-header-offset: var(--app-header-height, var(--header-height, 0px));
+            --hemma-nav-popup-top: 80px;
+            --hemma-nav-popup-nudge-x: -18px;
+          }
           ha-card{
             background: transparent !important;
             box-shadow: none !important;
@@ -183,17 +188,6 @@ card:
           color: var(--navbar-active-color) !important;
         }
 
-        .navbar.desktop :is(.route.active .label::before, .label.active::before){
-          content: "" !important;
-          position: absolute !important;
-          left: 0 !important;
-          right: 0 !important;
-          bottom: 9px !important;
-          height: 2px !important;
-          border-radius: 2px !important;
-          background: rgba(255,255,255,0.85) !important;
-        }
-
         .navbar.desktop .route:nth-child(4) .label{
           gap: 6px !important;
           padding-right: 0 !important;
@@ -237,11 +231,7 @@ card:
           --hemma-popup-label-inactive-opacity: .82;
         }
 
-        .navbar.desktop .route.active .label{
-          position: relative !important;
-        }
-
-        .navbar.desktop .route.active .label::before{
+        .navbar.desktop :is(.route.active .label, .label.active)::before{
           content: "" !important;
           position: absolute !important;
           left: 0 !important;
@@ -250,14 +240,6 @@ card:
           height: 2px !important;
           border-radius: 2px !important;
           background: rgba(255,255,255,0.85) !important;
-        }
-
-        .navbar-popup.open-bottom{
-          margin-top: -5px !important;
-        }
-
-        .navbar-popup-backdrop{
-          background: rgba(0,0,0,0.12) !important;
         }
 
         .navbar-popup-backdrop.visible{
@@ -345,6 +327,20 @@ card:
           content: none !important;
           display: none !important;
           opacity: 0 !important;
+        }
+
+        .navbar-popup[class*="open-"]{
+          position: fixed !important;
+          top: var(--hemma-nav-popup-top) !important;
+          margin: 0 !important;
+          z-index: 999999 !important;
+          margin-left: var(--hemma-nav-popup-nudge-x) !important;
+        }
+
+        .navbar-popup-backdrop{
+          position: fixed !important;
+          inset: 0 !important;
+          z-index: 999998 !important;
         }
 
       routes:
