@@ -116,11 +116,9 @@ cards:
           width: 100% !important;
           height: auto !important;
           flex: 0 0 auto !important;
-
           display: flex !important;
           align-items: center !important;
           justify-content: center !important;
-
           background: transparent !important;
           border: 0 !important;
           box-shadow: none !important;
@@ -184,30 +182,29 @@ cards:
           padding: 12px !important;
           width: max-content !important;
           max-width: calc(100vw - 24px) !important;
-          translate: 0 -6px !important;
           box-sizing: border-box !important;
           display: flex !important;
           flex-direction: column-reverse !important;
           align-items: flex-start !important;
           justify-content: flex-start !important;
           text-align: left !important;
+          transition: all 0.22s cubic-bezier(.2,.8,.2,1) !important;
           --hemma-popup-label-size: 15px;
           --hemma-popup-label-weight: 400;
           --hemma-popup-label-active-weight: 550;
           --hemma-popup-label-inactive-opacity: .82;
         }
 
-        .navbar-popup.label-left,
-        .navbar-popup.open-up.label-left,
-        .navbar-popup.label-right,
-        .navbar-popup.open-up.label-right{
-          align-items: flex-start !important;
-          justify-content: flex-start !important;
-          text-align: left !important;
+        .navbar-popup.open-up{
+          margin-top: -8px !important;
         }
 
-        .navbar-popup-backdrop{
-          background: rgba(0,0,0,0.12) !important;
+        .navbar-popup-backdrop.visible{
+          opacity: 0 !important;
+        }
+
+        .navbar-popup.visible .popup-item{
+          transition-delay: calc(var(--index) * 0.03s) !important;
         }
 
         .navbar-popup,
@@ -232,8 +229,8 @@ cards:
           text-align: left !important;
         }
 
-        .navbar-popup .popup-item:hover{ background: rgba(255,255,255,0.08) !important; }
-        .navbar-popup .popup-item:active{ background: rgba(255,255,255,0.12) !important; }
+        .navbar-popup .popup-item:hover{ background: rgba(255,255,255,0.06) !important; }
+        .navbar-popup .popup-item:active{ background: rgba(255,255,255,0.10) !important; }
 
         .navbar-popup .popup-item ha-icon{
           width: 18px !important;
@@ -251,10 +248,8 @@ cards:
           font-size: var(--hemma-popup-label-size) !important;
           font-weight: var(--hemma-popup-label-weight) !important;
           line-height: 1.1 !important;
-
           margin: 0 !important;
           padding: 0 !important;
-
           color: rgba(255,255,255,0.92) !important;
           opacity: var(--hemma-popup-label-inactive-opacity) !important;
         }
@@ -271,13 +266,13 @@ cards:
         .navbar-card, .navbar-card *{ box-sizing: border-box !important; }
 
       routes:
-        # 1) Home
+        # Home
         - url: /dashboard-hemma/home
           label: Home
           icon: mdi:home-variant
           icon_selected: mdi:home-variant
 
-        # 2) Rooms
+        # Rooms (Dropdown Menu)
         - label: Rooms
           icon: >
             [[[
@@ -314,7 +309,7 @@ cards:
               url: /dashboard-hemma/living-room
               icon: mdi:sofa
 
-        # 3) Scenes
+        # Scenes (Dropdown Menu)
         - label: Scenes
           icon: mdi:layers
           icon_selected: mdi:layers
@@ -322,27 +317,24 @@ cards:
             action: open-popup
           popup: |
             [[[
-              const HIDE = new Set([]);
-              const HIDE_PREFIXES = [];
+              const reg = hass.entities;
 
-              const reg = hass.entities || hass.entityRegistry || null;
-              const isVisibleInRegistry = (entity_id) => {
-                if (!reg) return true;
-                const entry =
-                  (typeof reg === 'object' && !Array.isArray(reg) && reg[entity_id]) ||
-                  (Array.isArray(reg) ? reg.find(x => x?.entity_id === entity_id) : null) ||
-                  null;
-                if (!entry) return true;
-                const hidden = !!(entry.hidden || entry.hidden_by);
-                const disabled = !!(entry.disabled || entry.disabled_by);
-                return !(hidden || disabled);
+              const getRegEntry = (id) => {
+                if (!reg) return null;
+                if (Array.isArray(reg)) return reg.find(e => e?.entity_id === id) || null;
+                return reg[id] || (reg.get ? reg.get(id) : null) || null;
+              };
+
+              const isHidden = (id) => {
+                const e = getRegEntry(id);
+                // Different HA versions expose slightly different fields
+                return !!(e && (e.hidden || e.hidden_by || e.disabled || e.disabled_by));
               };
 
               const scenes = Object.values(hass.states || {})
                 .filter(e => e?.entity_id?.startsWith('scene.'))
-                .filter(e => !HIDE.has(e.entity_id))
-                .filter(e => !HIDE_PREFIXES.some(p => e.entity_id.startsWith(p)))
-                .filter(e => isVisibleInRegistry(e.entity_id))
+                // Keep only scenes that are NOT hidden/disabled in HA
+                .filter(s => !isHidden(s.entity_id))
                 .slice()
                 .sort((a,b) => (a.attributes?.friendly_name || a.entity_id)
                   .localeCompare(b.attributes?.friendly_name || b.entity_id));
@@ -358,34 +350,36 @@ cards:
               }));
             ]]]
 
-  # Landscape
+
+  # Landscape (Tablet only)
   - type: conditional
     conditions:
       - condition: state
         entity: input_boolean.hemma_mobile_navigation
         state: "off"
       - condition: screen
-        media_query: "(orientation: landscape)"
+        media_query: "(orientation: landscape) and (min-width: 768px) and (max-width: 1400px)"
+
     card:
       type: custom:navbar-card
+
       desktop:
-        min_width: 99999
-        hidden: true
-        show_labels: false
-      mobile:
-        mode: docked
+        min_width: 1
+        hidden: false
+        mode: floating
+        position: top
         show_labels: true
-        hidden: >
-          [[[
-            const mm = (q) => (window.matchMedia ? window.matchMedia(q).matches : false);
-            const isTouch = mm('(pointer: coarse)') || mm('(hover: none)');
-            return !isTouch;
-          ]]]
+        show_popup_label_backgrounds: false
+
+      mobile:
+        hidden: true
+
       layout:
         auto_padding:
           enabled: false
           desktop_px: 0
           mobile_px: 0
+
       card_mod:
         style: |
           :host{ z-index: 2147483647 !important; }
@@ -396,9 +390,11 @@ cards:
             overflow: visible !important;
             padding: 0 !important;
           }
+
       styles: |
-        .navbar-card.desktop{ display:none !important; }
-        ha-card.navbar-card.mobile{
+        .navbar-card.mobile{ display:none !important; }
+
+        ha-card.navbar-card.desktop{
           position: fixed !important;
           left: 50% !important;
           transform: translateX(-50%) !important;
@@ -412,14 +408,15 @@ cards:
           backdrop-filter: blur(12px) !important;
           border: 1px solid var(--hemma-nav-border, rgba(255,255,255,0.12)) !important;
           box-shadow: var(--hemma-nav-shadow, 0 18px 36px rgba(0,0,0,.04)) !important;
-          overflow: hidden !important;
+          overflow: visible !important;
+
           --navbar-primary-color: var(--hemma-nav-icon, rgba(255,255,255,.78)) !important;
           --navbar-active-color: var(--hemma-nav-icon-active, rgba(255,255,255,1)) !important;
           --navbar-route-active-background: transparent !important;
           --navbar-route-active-color: inherit !important;
         }
 
-        .navbar.mobile{
+        .navbar.desktop{
           --navbar-route-icon-size: 0px !important;
           display:flex !important;
           gap: 5px !important;
@@ -477,16 +474,213 @@ cards:
           opacity: 1 !important;
         }
 
+        .navbar.desktop .route:nth-child(5) .label{
+          gap: 6px !important;
+        }
+        .navbar.desktop .route:nth-child(5) .label::after{
+          content: "\2304" !important;
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          line-height: 1 !important;
+          font-weight: 800 !important;
+          opacity: 0.8 !important;
+          width: 16px !important;
+          overflow: visible !important;
+          transform: translateY(-2px) scaleY(1.05) scaleX(1.35) !important;
+          transform-origin: center !important;
+        }
+
+        .navbar-card.desktop .route{
+          height: auto !important;
+          min-height: 0 !important;
+          width: auto !important;
+          min-width: 0 !important;
+
+          padding: 0 !important;
+          margin: 0 !important;
+          flex: 0 0 auto !important;
+        }
+
+        .navbar-card.desktop .button{
+          width: auto !important;
+          height: auto !important;
+          padding: 0 !important;
+        }
+
+        .navbar-card.desktop .label{
+          padding: 10px 12px !important;
+          line-height: 1 !important;
+        }
+
+        .navbar-popup{
+          background: rgba(0,0,0,0.25) !important;
+          -webkit-backdrop-filter: blur(10px) saturate(110%) !important;
+          backdrop-filter: blur(10px) saturate(110%) !important;
+          box-shadow: var(--button-card-box-shadow) !important;
+          border-radius: 22px !important;
+          padding: 8px !important;
+          width: max-content !important;
+          max-width: calc(100vw - 24px) !important;
+          box-sizing: border-box !important;
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: stretch !important;
+          justify-content: flex-start !important;
+          text-align: left !important;
+          transition: all 0.22s cubic-bezier(.2,.8,.2,1) !important;
+
+          --hemma-popup-label-size: 15px;
+          --hemma-popup-label-weight: 400;
+          --hemma-popup-label-active-weight: 550;
+          --hemma-popup-label-inactive-opacity: .82;
+        }
+
+        .navbar-popup.open-bottom{
+          margin-top: 10px !important;
+        }
+
+        .navbar-popup-backdrop{
+          background: rgba(0,0,0,0.12) !important;
+        }
+
+        .navbar-popup-backdrop.visible{
+          opacity: 0 !important;
+        }
+
+        .navbar-popup .popup-item{
+          display: grid !important;
+          grid-template-columns: 18px 1fr !important;
+          align-items: center !important;
+          justify-items: start !important;
+          column-gap: 11px !important;
+          padding: 10px 12px 10px 10px !important;
+          border-radius: 16px !important;
+          width: 100% !important;
+          box-sizing: border-box !important;
+          text-align: left !important;
+          background: transparent !important;
+        }
+
+        .navbar-popup .popup-item:hover{ background: rgba(255,255,255,0.06) !important; }
+        .navbar-popup .popup-item:active{ background: rgba(255,255,255,0.10) !important; }
+
+        .navbar-popup .popup-item .button{
+          width: auto !important;
+          height: auto !important;
+          background: transparent !important;
+          box-shadow: none !important;
+          border: 0 !important;
+          border-radius: 0 !important;
+          padding: 0 !important;
+          margin: 0 !important;
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+        }
+
+        .navbar-popup .popup-item .button:hover,
+        .navbar-popup .popup-item .button:active{
+          background: transparent !important;
+          box-shadow: none !important;
+        }
+
+        .navbar-popup ha-icon{
+          width: 18px !important;
+          height: 18px !important;
+          --mdc-icon-size: 18px !important;
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          line-height: 1 !important;
+          color: rgba(255,255,255,0.92) !important;
+          opacity: var(--hemma-popup-label-inactive-opacity) !important;
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+
+        .navbar-popup .label{
+          font-size: var(--hemma-popup-label-size) !important;
+          font-weight: var(--hemma-popup-label-weight) !important;
+          line-height: 1.1 !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          color: rgba(255,255,255,0.92) !important;
+          opacity: var(--hemma-popup-label-inactive-opacity) !important;
+          background: transparent !important;
+          width: 100% !important;
+        }
+
+        .navbar-popup :is(.popup-item.active ha-icon, .popup-item.active .label){
+          opacity: 1 !important;
+        }
+
+        .navbar-popup .popup-item.active .label{
+          font-weight: var(--hemma-popup-label-active-weight) !important;
+        }
+
+        .navbar-popup.visible .popup-item{
+          transition-delay: calc(var(--index) * 0.02s) !important;
+        }
+
+        .navbar-popup ha-ripple{ display:none !important; }
+        .navbar-popup .mdc-ripple-surface::before,
+        .navbar-popup .mdc-ripple-surface::after{
+          content: none !important;
+          display: none !important;
+          opacity: 0 !important;
+        }
+
       routes:
         - url: /dashboard-hemma/home
           label: Home
           icon: mdi:home-variant
+
         - url: /dashboard-hemma/living-room
           label: Living Room
           icon: mdi:sofa
+
         - url: /dashboard-hemma/kitchen
           label: Kitchen
           icon: mdi:fridge
+
         - url: /dashboard-hemma/bedroom
           label: Bedroom
           icon: mdi:bed-king
+
+        - label: Scenes
+          icon: mdi:layers
+          tap_action:
+            action: open-popup
+          popup: |
+            [[[
+              const reg = hass.entities;
+
+              const getRegEntry = (id) => {
+                if (!reg) return null;
+                if (Array.isArray(reg)) return reg.find(e => e?.entity_id === id) || null;
+                return reg[id] || (reg.get ? reg.get(id) : null) || null;
+              };
+
+              const isHidden = (id) => {
+                const e = getRegEntry(id);
+                return !!(e && (e.hidden || e.hidden_by || e.disabled || e.disabled_by));
+              };
+
+              const scenes = Object.values(hass.states || {})
+                .filter(e => e?.entity_id?.startsWith('scene.'))
+                .filter(s => !isHidden(s.entity_id))
+                .slice()
+                .sort((a,b) => (a.attributes?.friendly_name || a.entity_id)
+                  .localeCompare(b.attributes?.friendly_name || b.entity_id));
+
+              return scenes.map(s => ({
+                label: s.attributes?.friendly_name || s.entity_id.replace('scene.',''),
+                icon: s.attributes?.icon || 'mdi:layers',
+                tap_action: {
+                  action: 'call-service',
+                  service: 'scene.turn_on',
+                  service_data: { entity_id: s.entity_id }
+                }
+              }));
+            ]]]

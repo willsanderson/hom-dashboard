@@ -1,4 +1,4 @@
-# Navigation Layout
+# Desktop Navbar
 type: conditional
 conditions:
   - condition: screen
@@ -11,58 +11,382 @@ card:
     grid-template-columns: max-content 1fr max-content
     align-items: center
     column-gap: 50px
-    margin: 0 8vw 0 8vw
-    position: absolute
-    inset: 60px 0 auto 0
+    margin: 0 8vw
     padding: 0
 
   card_mod:
     style: |
-      :host {
-        --layout-margin: 0 !important;
-        --layout-padding: 0 !important;
+      :host{
+        position: fixed !important;
+        top: 46px !important;
+        left: 0 !important;
+        right: 0 !important;
+        z-index: 50 !important;
+        height: 0 !important;
       }
 
-      #root {
+      ha-card{
+        background: transparent !important;
+        box-shadow: none !important;
+        border: 0 !important;
         margin: 0 !important;
         padding: 0 !important;
-        align-items: center !important;
+        height: 0 !important;
+        overflow: visible !important;
+      }
+
+      #root{
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: visible !important;
+        pointer-events: none !important;
+      }
+
+      #root > *{
+        pointer-events: auto !important;
       }
 
   cards:
+    # Logo (left)
     - type: custom:button-card
       template: hemma_logo
       styles:
         card:
           - margin-left: 2px
 
-    - type: custom:layout-card
-      layout_type: custom:grid-layout
+    # Navbar (center)
+    - type: custom:navbar-card
+      desktop:
+        min_width: 1
+        hidden: false
+        mode: floating
+        position: top
+        show_labels: true
+        show_popup_label_backgrounds: false
+
+      mobile:
+        hidden: true
+
       layout:
-        grid-auto-flow: column
-        place-content: center
-        align-items: center
-        grid-column-gap: 50px
-        margin: 0
-        padding: 0
+        auto_padding:
+          enabled: false
+          desktop_px: 0
+          mobile_px: 0
+          media_player_px: 0
 
       card_mod:
         style: |
-          :host {
-            --layout-margin: 0 !important;
-            --layout-padding: 0 !important;
-          }
-
-          #root {
-            margin: 0 !important;
+          ha-card{
+            background: transparent !important;
+            box-shadow: none !important;
+            border: 0 !important;
             padding: 0 !important;
-            align-items: center !important;
+            margin: 0 !important;
+            overflow: visible !important;
+            justify-self: center !important;
+            align-self: center !important;
           }
 
-      cards: !include /config/dashboards/templates/includes/hemma_navigation_list.yaml
+      styles: |
+        :is(
+          ha-card.navbar-card.desktop,
+          .navbar-card.desktop,
+          .navbar-card.desktop.bottom,
+          .navbar-card.desktop.top,
+          .navbar-card.desktop.left,
+          .navbar-card.desktop.right
+        ){
+          position: relative !important;
+          inset: auto !important;
+          top: auto !important;
+          bottom: auto !important;
+          left: auto !important;
+          right: auto !important;
+          width: fit-content !important;
+          max-width: 100% !important;
+          overflow: visible !important;
+          background: transparent !important;
+          border: 0 !important;
+          box-shadow: none !important;
+          margin: 0 !important;
+          padding: 0 !important;
 
+          --navbar-primary-color: rgba(255,255,255,.82) !important;
+          --navbar-active-color:  rgba(255,255,255,1) !important;
+          --navbar-route-background: transparent !important;
+          --navbar-route-active-background: transparent !important;
+          --navbar-active-background: transparent !important;
+        }
+
+        .navbar-card.desktop{
+          gap: 40px !important;
+        }
+
+        .navbar-card.desktop.top{
+          top: 4px !important;
+        }
+
+        .navbar.desktop{
+          display: flex !important;
+          flex-direction: row !important;
+          align-items: center !important;
+          justify-content: center !important;
+          gap: 40px !important;
+          padding: 0 !important;
+          margin: 0 !important;
+          background: transparent !important;
+          overflow: visible !important;
+        }
+
+        .navbar.desktop .route{
+          width: auto !important;
+          min-width: 0 !important;
+          flex: 0 0 auto !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          padding: 0 !important;
+          margin: 0 !important;
+          background: transparent !important;
+        }
+
+        .navbar.desktop .button{
+          border: 0 !important;
+          background: transparent !important;
+          box-shadow: none !important;
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+
+        .navbar.desktop :is(ha-icon, .icon, .image){
+          display: none !important;
+        }
+
+        .navbar.desktop .label{
+          position: relative !important;
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          padding: 8px 0 14px !important;
+          font-size: 17px !important;
+          font-weight: 600 !important;
+          line-height: 1 !important;
+          color: var(--navbar-primary-color) !important;
+          opacity: .88 !important;
+          background: transparent !important;
+          white-space: nowrap !important;
+          overflow: visible !important;
+        }
+
+        .navbar.desktop :is(.route.active .label, .label.active){
+          opacity: 1 !important;
+          color: var(--navbar-active-color) !important;
+        }
+
+        .navbar.desktop :is(.route.active .label::before, .label.active::before){
+          content: "" !important;
+          position: absolute !important;
+          left: 0 !important;
+          right: 0 !important;
+          bottom: 9px !important;
+          height: 2px !important;
+          border-radius: 2px !important;
+          background: rgba(255,255,255,0.85) !important;
+        }
+
+        .navbar.desktop .route:nth-child(4) .label{
+          gap: 6px !important;
+          padding-right: 0 !important;
+          overflow: visible !important;
+        }
+
+        .navbar.desktop .route:nth-child(4) .label::after{
+          content: "\2304" !important;
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          line-height: 1 !important;
+          font-weight: 800 !important;
+          opacity: 0.8 !important;
+          width: 18px !important;
+          overflow: visible !important;
+          transform: translateY(-4px) scaleY(1.1) scaleX(1.5) !important;
+          transform-origin: center !important;
+        }
+
+        .navbar-popup{
+          background: rgba(0,0,0,0.25) !important;
+          -webkit-backdrop-filter: blur(10px) saturate(110%) !important;
+          backdrop-filter: blur(10px) saturate(110%) !important;
+          box-shadow: var(--button-card-box-shadow) !important;
+          border-radius: 22px !important;
+          padding: 8px !important;
+          width: max-content !important;
+          max-width: calc(100vw - 24px) !important;
+          box-sizing: border-box !important;
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: stretch !important;
+          justify-content: flex-start !important;
+          text-align: left !important;
+          transition: all 0.22s cubic-bezier(.2,.8,.2,1) !important;
+
+          --hemma-popup-label-size: 15px;
+          --hemma-popup-label-weight: 400;
+          --hemma-popup-label-active-weight: 550;
+          --hemma-popup-label-inactive-opacity: .82;
+        }
+
+        .navbar-popup.open-bottom{
+          margin-top: -55px !important;
+        }
+
+        .navbar-popup-backdrop{
+          background: rgba(0,0,0,0.12) !important;
+        }
+
+        .navbar-popup-backdrop.visible{
+          opacity: 0 !important;
+        }
+
+        .navbar-popup .popup-item{
+          display: grid !important;
+          grid-template-columns: 18px 1fr !important;
+          align-items: center !important;
+          justify-items: start !important;
+          column-gap: 11px !important;
+          padding: 10px 12px 10px 10px !important;
+          border-radius: 16px !important;
+          width: 100% !important;
+          box-sizing: border-box !important;
+          text-align: left !important;
+          background: transparent !important;
+        }
+
+        .navbar-popup .popup-item:hover{ background: rgba(255,255,255,0.06) !important; }
+        .navbar-popup .popup-item:active{ background: rgba(255,255,255,0.10) !important; }
+
+        .navbar-popup .popup-item .button{
+          width: auto !important;
+          height: auto !important;
+          background: transparent !important;
+          box-shadow: none !important;
+          border: 0 !important;
+          border-radius: 0 !important;
+          padding: 0 !important;
+          margin: 0 !important;
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+        }
+
+        .navbar-popup .popup-item .button:hover,
+        .navbar-popup .popup-item .button:active{
+          background: transparent !important;
+          box-shadow: none !important;
+        }
+
+        .navbar-popup ha-icon{
+          width: 18px !important;
+          height: 18px !important;
+          --mdc-icon-size: 18px !important;
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          line-height: 1 !important;
+          color: rgba(255,255,255,0.92) !important;
+          opacity: var(--hemma-popup-label-inactive-opacity) !important;
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+
+        .navbar-popup .label{
+          font-size: var(--hemma-popup-label-size) !important;
+          font-weight: var(--hemma-popup-label-weight) !important;
+          line-height: 1.1 !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          color: rgba(255,255,255,0.92) !important;
+          opacity: var(--hemma-popup-label-inactive-opacity) !important;
+          background: transparent !important;
+          width: 100% !important;
+        }
+
+        .navbar-popup :is(.popup-item.active ha-icon, .popup-item.active .label){
+          opacity: 1 !important;
+        }
+
+        .navbar-popup .popup-item.active .label{
+          font-weight: var(--hemma-popup-label-active-weight) !important;
+        }
+
+        .navbar-popup.visible .popup-item{
+          transition-delay: calc(var(--index) * 0.02s) !important;
+        }
+
+        .navbar-popup ha-ripple{ display:none !important; }
+        .navbar-popup .mdc-ripple-surface::before,
+        .navbar-popup .mdc-ripple-surface::after{
+          content: none !important;
+          display: none !important;
+          opacity: 0 !important;
+        }
+
+      routes:
+        - url: /dashboard-hemma/living-room
+          label: Living Room
+          icon: mdi:sofa
+
+        - url: /dashboard-hemma/kitchen
+          label: Kitchen
+          icon: mdi:fridge
+
+        - url: /dashboard-hemma/bedroom
+          label: Bedroom
+          icon: mdi:bed-king
+
+        - label: Scenes
+          icon: mdi:layers
+          tap_action:
+            action: open-popup
+          popup: |
+            [[[
+              const reg = hass.entities;
+
+              const getRegEntry = (id) => {
+                if (!reg) return null;
+                if (Array.isArray(reg)) return reg.find(e => e?.entity_id === id) || null;
+                return reg[id] || (reg.get ? reg.get(id) : null) || null;
+              };
+
+              const isHidden = (id) => {
+                const e = getRegEntry(id);
+                // Different HA versions expose slightly different fields
+                return !!(e && (e.hidden || e.hidden_by || e.disabled || e.disabled_by));
+              };
+
+              const scenes = Object.values(hass.states || {})
+                .filter(e => e?.entity_id?.startsWith('scene.'))
+                // Keep only scenes that are NOT hidden/disabled in HA
+                .filter(s => !isHidden(s.entity_id))
+                .slice()
+                .sort((a,b) => (a.attributes?.friendly_name || a.entity_id)
+                  .localeCompare(b.attributes?.friendly_name || b.entity_id));
+
+              return scenes.map(s => ({
+                label: s.attributes?.friendly_name || s.entity_id.replace('scene.',''),
+                icon: s.attributes?.icon || 'mdi:layers',
+                tap_action: {
+                  action: 'call-service',
+                  service: 'scene.turn_on',
+                  service_data: { entity_id: s.entity_id }
+                }
+              }));
+            ]]]
+
+    # Time (right)
     - type: custom:button-card
       template: hemma_time
       styles:
         card:
-          - padding-top: 5px
+          - padding-top: 3px
