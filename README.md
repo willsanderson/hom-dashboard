@@ -45,9 +45,6 @@ Under the hood it’s still YAML files you can read, copy, and modify. This repo
 ![desktop-bedroom-light](https://github.com/user-attachments/assets/dced24c2-a797-4a86-9ff1-5fb885f30c68)
 ![desktop-bedroom-dark](https://github.com/user-attachments/assets/53ffa13d-9615-4026-8bea-ab1a029964a0)
 
-### Boxy Button Cards
-![livingroom-light-box](https://github.com/user-attachments/assets/d45fba70-b3a6-46b6-81cf-2c98d2d8389f)
-
 ## Mobile View (Light/Dark)
 <img src="https://github.com/user-attachments/assets/ac99f833-c742-4219-abe3-2eda7054d29c" width="400">
 <img src="https://github.com/user-attachments/assets/5b10405d-0a56-4de9-bd93-4a4b5383f96b" width="400">
