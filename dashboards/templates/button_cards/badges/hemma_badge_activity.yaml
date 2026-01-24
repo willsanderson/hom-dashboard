@@ -1,0 +1,203 @@
+# Activity Badge
+hemma_badge_activity:
+  template: [hemma_badge_base]
+  show_state: false
+  show_label: false
+  show_entity_picture: true
+  tap_action: { action: more-info }
+  hold_action: { action: more-info }
+
+  styles:
+    card:
+      - padding: 0 14px 0 8px !important
+      - background: rgba(0,0,0,0.18) !important
+      - -webkit-backdrop-filter: blur(14px) saturate(1.2) !important
+      - backdrop-filter: blur(14px) saturate(1.2) !important
+      - height: auto !important
+      - min-height: "calc(var(--badge-min-height-current, var(--badge-min-height, 44px)) + 6px) !important"
+      - overflow: hidden
+      - width: fit-content
+      - min-width: 0
+      - justify-self: start
+      - align-self: start
+      - place-self: start
+      - margin-inline-start: 0px !important
+      - margin-bottom: var(--badge-row-gap-current, var(--badge-row-gap, 6px)) !important
+      - margin-left: 0px !important
+      - --badge-after-z: 0
+      - --badge-before-z: 1
+
+      - display: >
+          [[[
+            const enabled =
+              (variables?.enabled === true) ||
+              (variables?.enabled === 'true') ||
+              (variables?.enabled === 'True') ||
+              (variables?.enabled === 1) ||
+              (variables?.enabled === '1');
+            if (!enabled) return 'none';
+
+            const s = String(entity?.state || '').toLowerCase();
+            const a = entity?.attributes || {};
+
+            if (['playing','buffering','paused'].includes(s)) return 'grid';
+
+            // If it's not actively reporting anything, hide.
+            const norm = (v) => String(v || '').trim();
+            const title   = norm(a.media_title || a.title);
+            const artist  = norm(a.media_artist || a.artist || a.media_album_artist);
+            const app     = norm(a.app_name || a.source);
+            return (title || artist || app) ? 'inline-grid' : 'none';
+          ]]]
+
+      - --bg-url: >
+          [[[
+            const cacheKey = '_hemmaMediaBgUrl';
+            const a = entity?.attributes || {};
+            const pref = a.entity_picture_local || a.entity_picture || a.media_image_url;
+            if (pref) {
+              const url = String(pref).startsWith('/') ? `${location.origin}${pref}` : pref;
+              const wrapped = `url("${url}")`;
+              this[cacheKey] = wrapped;
+              return wrapped;
+            }
+            return this[cacheKey] || 'none';
+          ]]]
+
+    grid:
+      - grid-template-areas: '"i l"'
+      - grid-template-columns: min-content minmax(0, 1fr)
+      - column-gap: 6px
+      - row-gap: 0
+      - align-items: center
+
+    name:
+      - grid-area: l
+      - padding: 0 !important
+      - min-width: 0
+
+    icon:
+      - display: none
+
+  name: >
+    [[[
+      const a = entity?.attributes || {};
+      const friendly = a.friendly_name || 'Activity';
+
+      const title   = String(a.media_title || a.title || '').trim();
+      const artist  = String(a.media_artist || a.artist || a.media_album_artist || '').trim();
+      const app     = String(a.app_name || a.source || '').trim();
+
+      const sub = (artist && title) ? `${artist} — ${title}` : (title || artist || app);
+
+      const esc = (t) => String(t || '').replaceAll('"','&quot;');
+
+      return `
+        <div class="mp-wrap">
+          <div class="mp-title">${esc(friendly)}</div>
+          <div class="mp-sub">${esc(sub || '')}</div>
+        </div>
+      `;
+    ]]]
+
+  extra_styles: |
+    :host{
+      --hemma-mp-img: var(--badge-icon-size-current, var(--badge-icon-size, 36px));
+    }
+
+    :host ha-card::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      border-radius: inherit;
+      background: var(--bg-url);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      filter: blur(26px) saturate(1.5);
+      opacity: .45;
+      transform: scale(1.25);
+      z-index: 0;
+    }
+
+    :host ha-card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      border-radius: inherit;
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,0.18),
+        0 0 0 1px rgba(255,255,255,0.06);
+      z-index: 1;
+    }
+
+    #name{
+      display:flex !important;
+      align-items:center !important;
+      padding-block: 2px !important;
+      overflow: visible !important;
+    }
+
+    .mp-wrap{
+      display:flex;
+      flex-direction:column;
+      align-items:flex-start;
+      gap:2px;
+      min-width:0;
+      max-width:100%;
+      padding-top: 0 !important;
+      padding-bottom: 2px !important;
+      min-height: 0 !important;
+    }
+
+    .mp-title{
+      font-size: var(--badge-font-size-current, 13px);
+      font-weight: 700;
+      line-height: 1.2;
+      color: rgba(255,255,255,0.96);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      text-shadow: 0 0 3px rgba(0,0,0,0.25);
+    }
+
+    .mp-sub{
+      font-size: calc(var(--badge-font-size-current, 13px) - 1px);
+      font-weight: 500;
+      line-height: 1.15;
+      opacity: .82;
+      color: rgba(255,255,255,0.90);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      text-shadow: 0 0 3px rgba(0,0,0,0.20);
+    }
+
+    #img-cell{
+      width:  var(--hemma-mp-img, 44px) !important;
+      height: var(--hemma-mp-img, 44px) !important;
+      border-radius: 9999px !important;
+      overflow: hidden !important;
+      display:block !important;
+      line-height:0 !important;
+      transform: translateY(-0.5px);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.14) !important;
+    }
+
+    #name, #name *{
+      overflow: visible !important;
+    }
+
+    #container,
+    #container > #aspect-ratio{
+      position: relative !important;
+      z-index: 3 !important;
+    }
+
+    #img-cell{
+      position: relative !important;
+      z-index: 4 !important;
+      isolation: isolate !important;
+    }

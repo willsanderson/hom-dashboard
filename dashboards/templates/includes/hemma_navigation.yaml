@@ -80,6 +80,9 @@ card:
             --hemma-header-offset: var(--app-header-height, var(--header-height, 0px));
             --hemma-nav-popup-top: 80px;
             --hemma-nav-popup-nudge-x: -18px;
+            --hemma-desktop-media-top: 104px;
+            --hemma-desktop-media-w: 420px;
+            --hemma-desktop-media-h: 58px;
           }
           ha-card{
             background: transparent !important;
@@ -163,7 +166,8 @@ card:
           margin: 0 !important;
         }
 
-        .navbar.desktop :is(ha-icon, .icon, .image){
+        /* Only hide route icons (keep media-player control icons alive) */
+        .navbar.desktop .route :is(ha-icon, .icon, .image){
           display: none !important;
         }
 
@@ -342,6 +346,153 @@ card:
           inset: 0 !important;
           z-index: 999998 !important;
         }
+
+        /* ===== Desktop media player ===== */
+        @media (hover: hover) and (pointer: fine){
+
+          .media-player{
+            position: fixed !important;
+            top: var(--hemma-desktop-media-top, 104px) !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            z-index: 999997 !important;
+            width: min(var(--hemma-desktop-media-w, 420px), calc(100vw - 32px)) !important;
+            max-width: var(--hemma-desktop-media-w, 420px) !important;
+            min-height: var(--hemma-desktop-media-h, 58px) !important;
+            height: var(--hemma-desktop-media-h, 58px) !important;
+            padding: 8px 10px 8px 3px !important;
+            background-color: rgba(0,0,0,0.18) !important;
+            -webkit-backdrop-filter: blur(14px) saturate(1.2) !important;
+            backdrop-filter: blur(14px) saturate(1.2) !important;
+            box-shadow: var(--button-card-box-shadow, var(--ha-card-box-shadow)) !important;
+            border-radius: 9999px !important;
+            border: 0 !important;
+            overflow: hidden !important;
+          }
+
+          .media-player-bg{
+            position: absolute !important;
+            inset: 0 !important;
+            z-index: 0 !important;
+            pointer-events: none !important;
+            opacity: 0.38 !important;
+            filter: blur(26px) saturate(1.35) !important;
+            transform: scale(1.35) !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+          }
+
+          .media-player::before{
+            content:"" !important;
+            position:absolute !important;
+            inset:0 !important;
+            border-radius:inherit !important;
+            pointer-events:none !important;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.10) !important;
+            z-index: 1 !important;
+          }
+
+          .media-player::after{
+            content:"" !important;
+            position:absolute !important;
+            inset:0 !important;
+            border-radius: inherit !important;
+            pointer-events:none !important;
+            background: rgba(0,0,0,0.12) !important;
+            z-index: 1 !important;
+          }
+
+          .media-player > :not(.media-player-bg){
+            position: relative !important;
+            z-index: 2 !important;
+          }
+
+          .media-player-image{
+            width: 42px !important;
+            height: 42px !important;
+            aspect-ratio: 1 / 1 !important;
+            flex: 0 0 auto !important;
+            border-radius: 9999px !important;
+            overflow: hidden !important;
+            margin-left: -5px !important;
+            margin-right: 4px !important;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.10) !important;
+          }
+
+          .media-player-image img{
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            display: block !important;
+          }
+
+          /* typography */
+          .media-player-title{
+            font-family: var(--primary-font-family, var(--ha-font-family-body)) !important;
+            font-size: 15px !important;
+            font-weight: 650 !important;
+            color: var(--primary-text-color, #fff) !important;
+            text-shadow: var(--hemma-entity-text-shadow, 0 0 3px rgba(0,0,0,.15)) !important;
+          }
+
+          .media-player-artist{
+            font-family: var(--primary-font-family, var(--ha-font-family-body)) !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            opacity: 0.78 !important;
+            color: var(--secondary-text-color, rgba(240,240,240,.85)) !important;
+          }
+
+          /* progress bar (covers different class names) */
+          .media-player :is(.media-player-progress-bar, .progress, .progress-bar){
+            background: var(--hemma-slider-track, rgba(255,255,255,0.22)) !important;
+            border-radius: 999px !important;
+            overflow: hidden !important;
+          }
+          .media-player :is(.media-player-progress-bar-fill, .progress-fill, .bar){
+            background: var(--hemma-slider-progress, rgba(255,255,255,0.95)) !important;
+            border-radius: 999px !important;
+          }
+
+          /* controls */
+          .media-player :is(ha-icon-button, mwc-icon-button, button, .button){
+            border-radius: 999px !important;
+            background: rgba(255,255,255,0.10) !important;
+            box-shadow: none !important;
+            padding: 6px !important;
+            transition: background .16s ease, transform .12s ease !important;
+          }
+
+          .media-player :is(ha-icon-button, mwc-icon-button, button, .button):hover{
+            background: rgba(255,255,255,0.14) !important;
+          }
+
+          .media-player :is(ha-icon-button, mwc-icon-button, button, .button):active{
+            background: rgba(255,255,255,0.18) !important;
+            transform: translateY(.5px) !important;
+          }
+
+          .media-player :is(ha-icon, svg){
+            color: rgba(255,255,255,0.92) !important;
+            fill: rgba(255,255,255,0.92) !important;
+          }
+        }
+
+      # media_player:
+      #   show: |
+      #     [[[
+      #       const st = states['media_player.spotify']?.state;
+      #       return (st === 'playing' || st === 'paused');
+      #     ]]]
+      #   album_cover_background: true
+      #   desktop_position: top-center
+      #   entity: media_player.spotify
+      #   tap_action:
+      #     action: more-info
+      #     entity: media_player.spotify
+      #   hold_action:
+      #     action: none
 
       routes:
         - url: /dashboard-hemma/living-room

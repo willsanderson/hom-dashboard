@@ -1,4 +1,4 @@
-# /config/dashboards/hemma/hemma_dashboard.yaml
+# /config/dashboards/hemma/hemma.yaml
 # Hemma Dashboard (Room Config + Entities)
 
 button_card_templates: !include_dir_merge_named /config/dashboards/templates/button_cards
@@ -6,7 +6,6 @@ button_card_templates: !include_dir_merge_named /config/dashboards/templates/but
 kiosk_mode:
   hide_header: true
   hide_sidebar: false
-  hide_dialog_light_settings_actions: true
   mobile_settings:
     hide_header: true
     hide_sidebar: false
@@ -155,7 +154,7 @@ views:
             entity: media_player.living_room
             name: Sonos
             variables:
-              icon: music
+              icon: speaker
 
           - type: custom:button-card
             template: hemma_fan
@@ -222,7 +221,7 @@ views:
             entity: media_player.kitchen
             name: Sonos
             variables:
-              icon: music
+              icon: speaker
 
           - type: custom:button-card
             template: hemma_media
@@ -304,6 +303,13 @@ views:
               icon: fan
 
           - type: custom:button-card
+            template: hemma_media
+            entity: media_player.bedroom
+            name: Sonos
+            variables:
+              icon: speaker
+
+          - type: custom:button-card
             template: hemma_fan
             entity: fan.bedroom
             name: Fan
@@ -316,10 +322,3 @@ views:
             name: Air Purifier
             variables:
               icon: fan
-
-          - type: custom:button-card
-            template: hemma_media
-            entity: media_player.bedroom
-            name: Sonos
-            variables:
-              icon: music

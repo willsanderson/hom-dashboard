@@ -9,9 +9,14 @@ hemma_badge_base:
       - border-radius: var(--badge-br, 9999px)
       - padding: var(--badge-padding-current, var(--badge-padding, 6px 14px))
       - min-height: var(--badge-min-height-current, var(--badge-min-height, 44px))
-      - display: inline-grid
+      - display: >
+          [[[
+            // If a badge passes variables.enabled, honor it.
+            if (variables.enabled === undefined) return 'inline-grid';
+            return variables.enabled ? 'inline-grid' : 'none';
+          ]]]
       - align-items: center
-      - gap: var(--badge-inner-gap-current, var(--badge-inner-gap, 12px))
+      - gap: 0
       - width: fit-content
       - margin-inline-start: 0
       - margin-inline-end: 0
@@ -28,6 +33,7 @@ hemma_badge_base:
       - grid-template-areas: '"i l"'
       - grid-template-columns: min-content minmax(0, 1fr)
       - column-gap: var(--badge-col-gap-current, var(--badge-col-gap, 6px))
+      - row-gap: 0
       - align-items: center
 
     name:
@@ -54,8 +60,8 @@ hemma_badge_base:
       - width: var(--badge-icon-size-current, var(--badge-icon-size, 28px))
       - height: var(--badge-icon-size-current, var(--badge-icon-size, 28px))
       - border-radius: 50%
-      - object-fit: cover
       - z-index: 4
+      - object-fit: cover
       - margin-inline-start: var(--badge-icon-nudge, 0px)
 
     label:
@@ -66,42 +72,29 @@ hemma_badge_base:
 
   extra_styles: |
     :host{
-      --badge-font-size-current:   var(--badge-font-size, 13px);
-      --badge-icon-size-current:   var(--badge-icon-size, 32px);
-      --badge-col-gap-current:     var(--badge-col-gap, 5px);
-      --badge-inner-gap-current:   var(--badge-inner-gap, 12px);
-      --badge-padding-current:     var(--badge-padding, 4px 13px 4px 8px);
-      --badge-min-height-current:  var(--badge-min-height, 43px);
-      --badge-gap-current:         var(--badge-gap, 8px);
-      --badge-subline-lh-current:  var(--badge-subline-lh, 1.15);
+      /* Keep only non-layout “helpers” here.
+         All sizing “current” tokens now come from your theme. */
       --media-sub-opacity: .82;
+      --badge-after-z:  2;
+      --badge-before-z: 3;
     }
 
-    @media (min-width: 769px) and (max-width: 1249px){
-      :host{
-        --badge-font-size-current:   var(--badge-font-size-tablet, var(--badge-font-size, 13px));
-        --badge-icon-size-current:   var(--badge-icon-size-tablet, var(--badge-icon-size, 32px));
-        --badge-col-gap-current:     var(--badge-col-gap-tablet, var(--badge-col-gap, 5px));
-        --badge-inner-gap-current:   var(--badge-inner-gap-tablet, var(--badge-inner-gap, 12px));
-        --badge-padding-current:     var(--badge-padding-tablet, var(--badge-padding, 4px 13px 4px 8px));
-        --badge-min-height-current:  var(--badge-min-height-tablet, var(--badge-min-height, 43px));
-        --badge-gap-current:         var(--badge-gap-tablet, var(--badge-gap, 8px));
-        --badge-subline-lh-current:  var(--badge-subline-lh-tablet, var(--badge-subline-lh, 1.15));
-      }
+    ha-card::after{  z-index: var(--badge-after-z, 2) !important; }
+    ha-card::before{ z-index: var(--badge-before-z, 3) !important; }
+
+    #img-cell{
+      width:  var(--badge-icon-size-current, var(--badge-icon-size, 32px)) !important;
+      height: var(--badge-icon-size-current, var(--badge-icon-size, 32px)) !important;
+      border-radius: 9999px !important;
+      overflow: hidden !important;
+      display: block !important;
     }
 
-    @media (max-width: 768px), (max-height: 500px){
-      :host{
-        --badge-font-size-current:   var(--badge-font-size-mobile, var(--badge-font-size, 13px));
-        --badge-icon-size-current:   var(--badge-icon-size-mobile, var(--badge-icon-size, 28px));
-        --badge-col-gap-current:     var(--badge-col-gap-mobile, var(--badge-col-gap, 6px));
-        --badge-inner-gap-current:   var(--badge-inner-gap-mobile, var(--badge-inner-gap, 12px));
-        --badge-padding-current:     var(--badge-padding-mobile, var(--badge-padding, 4px 13px 4px 8px));
-        --badge-min-height-current:  var(--badge-min-height-mobile, var(--badge-min-height, 43px));
-        --badge-gap-current:         var(--badge-gap-mobile, var(--badge-gap, 8px));
-        --badge-subline-lh-current:  var(--badge-subline-lh-mobile, var(--badge-subline-lh, 1.15));
-      }
+    #img-cell img,
+    #img-cell ha-img{
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      display: block !important;
+      border-radius: inherit !important;
     }
-
-    ha-card::before{ z-index: 3 !important; }
-    ha-card::after{  z-index: 2 !important; }

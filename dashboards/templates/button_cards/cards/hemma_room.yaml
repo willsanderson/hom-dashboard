@@ -16,6 +16,10 @@ hemma_room:
     - '[[[ return variables.media_player_2 ]]]'
     - '[[[ return variables.media_player_3 ]]]'
     - '[[[ return variables.media_player_4 ]]]'
+    - '[[[ return variables.psn_1 ]]]'
+    - '[[[ return variables.psn_2 ]]]'
+    - '[[[ return variables.media_plex_binary ]]]'
+    - '[[[ return variables.media_plex_session ]]]'
     - input_boolean.hemma_mobile_navigation
 
   variables:
@@ -52,11 +56,17 @@ hemma_room:
     show_media_player_4: false
     media_player_4:
 
+    show_media_plex: false
+    media_plex_binary:
+    media_plex_session:
+
     show_psn_1: false
     psn_1:
 
     show_psn_2: false
     psn_2:
+
+    _hemma_mp_styles: !include /config/dashboards/templates/includes/hemma_media_player_styles.yaml
 
   tap_action: { action: none }
   hold_action: { action: none }
@@ -174,8 +184,6 @@ hemma_room:
         - position: fixed
         - top: >
             [[[
-              const mm = (q) => (window.matchMedia ? window.matchMedia(q).matches : false);
-
               const w = window?.innerWidth || 1024;
               const h = window?.innerHeight || 800;
 
@@ -238,22 +246,36 @@ hemma_room:
         - align-self: start !important
         - place-self: start !important
         - text-align: left !important
+        - margin-top: var(--badge-media-gap, 0px)
+        - margin-right: auto !important
         - margin-left: >
             calc(
               var(--hero-room-name-margin-left-current, 0px) +
-              var(--hemma-header-badge-nudge, 0px)
-            ) !important
+              var(--hemma-header-badge-nudge, 0px)) !important
         - padding-left: 0
         - padding-top: 0px
         - padding-bottom: 0px
-        - margin-right: auto !important
         - width: "min(var(--badge-media-max-width-current, 640px), 100%)"
         - max-width: 100%
         - pointer-events: auto
         - display: >
             [[[
               const navOpen = states['input_boolean.hemma_mobile_navigation']?.state === 'on';
-              return (!navOpen && variables.show_media_badge) ? 'block' : 'none';
+
+              const anyMp =
+                (variables.show_media_player_1 && variables.media_player_1) ||
+                (variables.show_media_player_2 && variables.media_player_2) ||
+                (variables.show_media_player_3 && variables.media_player_3) ||
+                (variables.show_media_player_4 && variables.media_player_4);
+
+              const anyOther =
+                (variables.show_media_badge) ||
+                anyMp ||
+                (variables.show_media_plex && variables.media_plex_binary) ||
+                (variables.show_psn_1 && variables.psn_1) ||
+                (variables.show_psn_2 && variables.psn_2);
+
+              return (!navOpen && anyOther) ? 'block' : 'none';
             ]]]
 
       navigation:
@@ -355,8 +377,7 @@ hemma_room:
           justify-content: start
           justify-items: start
           align-items: center
-          grid-column-gap: var(--badge-gap-current, var(--badge-gap, 10px))
-          grid-row-gap: var(--badge-gap-current, var(--badge-gap, 10px))
+          grid-column-gap: var(--badge-gap-current, var(--badge-col-gap, 10px))
 
         cards:
           - type: custom:button-card
@@ -418,36 +439,272 @@ hemma_room:
           grid-template-columns: 1fr
           grid-auto-flow: row
           grid-auto-rows: min-content
-          grid-row-gap: var(--badge-gap-current, var(--badge-gap, 10px))
+          grid-row-gap: 0px
           justify-items: start
           justify-content: start
           align-items: start
           align-content: start
 
         cards:
+
+          # Media Player 1
+          - type: custom:navbar-card
+            desktop: { min_width: 1, hidden: false, show_labels: false, show_popup_label_backgrounds: false, mode: docked }
+            mobile: { hidden: true }
+            routes: []
+            media_player:
+              entity: '[[[ return variables.media_player_1 ]]]'
+              show: |
+                [[[
+                  const eid = variables.media_player_1;
+                  const enabled = variables.show_media_player_1 && eid;
+                  if (!enabled) return false;
+
+                  const s  = states[eid];
+                  const st = s?.state;
+                  const a  = s?.attributes || {};
+
+                  if (st === 'playing' || st === 'buffering') return true;
+
+                  if (st === 'paused') {
+                    const title  = String(a.media_title || '').trim();
+                    const artist = String(a.media_artist || a.artist || a.media_album_artist || '').trim();
+                    const app    = String(a.app_name || a.source || '').trim();
+
+                    const dur = Number(a.media_duration || 0);
+                    const pos = Number(a.media_position || 0);
+
+                    const badTitles = new Set(['idle', 'paused', 'unknown', 'unavailable']);
+                    const titleKey = title.toLowerCase();
+
+                    const hasText =
+                      (title && !badTitles.has(titleKey) && title !== app) ||
+                      !!artist;
+
+                    const hasTimingDefault = (dur > 0) || (pos > 0);
+
+                    const isYouTube =
+                      String(a.app_id || '') === 'com.google.ios.youtube' ||
+                      String(a.app_name || '').toLowerCase() === 'youtube';
+
+                    if (isYouTube) {
+                      const upd = a.media_position_updated_at;
+                      const ageMs = upd ? (Date.now() - new Date(upd).getTime()) : 999999999;
+                      const recent = ageMs < (3 * 60 * 1000); // 3 minutes
+
+                      const hasTimingStrict = (dur > 0) && (pos > 0);
+                      return hasText && hasTimingStrict && recent;
+                    }
+
+                    return hasText && hasTimingDefault;
+                  }
+
+                  return false;
+                ]]]
+
+              album_cover_background: true
+              tap_action: { action: more-info, entity: '[[[ return variables.media_player_1 ]]]' }
+              hold_action: { action: none }
+            styles: '[[[ return variables._hemma_mp_styles ]]]'
+
+          # Media Player 2
+          - type: custom:navbar-card
+            desktop: { min_width: 1, hidden: false, show_labels: false, show_popup_label_backgrounds: false, mode: docked }
+            mobile: { hidden: true }
+            routes: []
+            media_player:
+              entity: '[[[ return variables.media_player_2 ]]]'
+              show: |
+                [[[
+                  const eid = variables.media_player_2;
+                  const enabled = variables.show_media_player_2 && eid;
+                  if (!enabled) return false;
+
+                  const s  = states[eid];
+                  const st = s?.state;
+                  const a  = s?.attributes || {};
+
+                  if (st === 'playing' || st === 'buffering') return true;
+
+                  if (st === 'paused') {
+                    const title  = String(a.media_title || '').trim();
+                    const artist = String(a.media_artist || a.artist || a.media_album_artist || '').trim();
+                    const app    = String(a.app_name || a.source || '').trim();
+
+                    const dur = Number(a.media_duration || 0);
+                    const pos = Number(a.media_position || 0);
+
+                    const badTitles = new Set(['idle', 'paused', 'unknown', 'unavailable']);
+                    const titleKey = title.toLowerCase();
+
+                    const hasText =
+                      (title && !badTitles.has(titleKey) && title !== app) ||
+                      !!artist;
+
+                    const hasTimingDefault = (dur > 0) || (pos > 0);
+
+                    const isYouTube =
+                      String(a.app_id || '') === 'com.google.ios.youtube' ||
+                      String(a.app_name || '').toLowerCase() === 'youtube';
+
+                    if (isYouTube) {
+                      const upd = a.media_position_updated_at;
+                      const ageMs = upd ? (Date.now() - new Date(upd).getTime()) : 999999999;
+                      const recent = ageMs < (3 * 60 * 1000); // 3 minutes
+
+                      const hasTimingStrict = (dur > 0) && (pos > 0);
+                      return hasText && hasTimingStrict && recent;
+                    }
+
+                    return hasText && hasTimingDefault;
+                  }
+
+                  return false;
+                ]]]
+
+              album_cover_background: true
+              tap_action: { action: more-info, entity: '[[[ return variables.media_player_2 ]]]' }
+              hold_action: { action: none }
+            styles: '[[[ return variables._hemma_mp_styles ]]]'
+
+          # Media Player 3
+          - type: custom:navbar-card
+            desktop: { min_width: 1, hidden: false, show_labels: false, show_popup_label_backgrounds: false, mode: docked }
+            mobile: { hidden: true }
+            routes: []
+            media_player:
+              entity: '[[[ return variables.media_player_3 ]]]'
+              show: |
+                [[[
+                  const eid = variables.media_player_3;
+                  const enabled = variables.show_media_player_3 && eid;
+                  if (!enabled) return false;
+
+                  const s  = states[eid];
+                  const st = s?.state;
+                  const a  = s?.attributes || {};
+
+                  if (st === 'playing' || st === 'buffering') return true;
+
+                  if (st === 'paused') {
+                    const title  = String(a.media_title || '').trim();
+                    const artist = String(a.media_artist || a.artist || a.media_album_artist || '').trim();
+                    const app    = String(a.app_name || a.source || '').trim();
+
+                    const dur = Number(a.media_duration || 0);
+                    const pos = Number(a.media_position || 0);
+
+                    const badTitles = new Set(['idle', 'paused', 'unknown', 'unavailable']);
+                    const titleKey = title.toLowerCase();
+
+                    const hasText =
+                      (title && !badTitles.has(titleKey) && title !== app) ||
+                      !!artist;
+
+                    const hasTimingDefault = (dur > 0) || (pos > 0);
+
+                    const isYouTube =
+                      String(a.app_id || '') === 'com.google.ios.youtube' ||
+                      String(a.app_name || '').toLowerCase() === 'youtube';
+
+                    if (isYouTube) {
+                      const upd = a.media_position_updated_at;
+                      const ageMs = upd ? (Date.now() - new Date(upd).getTime()) : 999999999;
+                      const recent = ageMs < (3 * 60 * 1000); // 3 minutes
+
+                      const hasTimingStrict = (dur > 0) && (pos > 0);
+                      return hasText && hasTimingStrict && recent;
+                    }
+
+                    return hasText && hasTimingDefault;
+                  }
+
+                  return false;
+                ]]]
+              album_cover_background: true
+              tap_action: { action: more-info, entity: '[[[ return variables.media_player_3 ]]]' }
+              hold_action: { action: none }
+            styles: '[[[ return variables._hemma_mp_styles ]]]'
+
+          # Media Player 4
+          - type: custom:navbar-card
+            desktop: { min_width: 1, hidden: false, show_labels: false, show_popup_label_backgrounds: false, mode: docked }
+            mobile: { hidden: true }
+            routes: []
+            media_player:
+              entity: '[[[ return variables.media_player_4 ]]]'
+              show: |
+                [[[
+                  const eid = variables.media_player_4;
+                  const enabled = variables.show_media_player_4 && eid;
+                  if (!enabled) return false;
+
+                  const s  = states[eid];
+                  const st = s?.state;
+                  const a  = s?.attributes || {};
+
+                  if (st === 'playing' || st === 'buffering') return true;
+
+                  if (st === 'paused') {
+                    const title  = String(a.media_title || '').trim();
+                    const artist = String(a.media_artist || a.artist || a.media_album_artist || '').trim();
+                    const app    = String(a.app_name || a.source || '').trim();
+
+                    const dur = Number(a.media_duration || 0);
+                    const pos = Number(a.media_position || 0);
+
+                    const badTitles = new Set(['idle', 'paused', 'unknown', 'unavailable']);
+                    const titleKey = title.toLowerCase();
+
+                    const hasText =
+                      (title && !badTitles.has(titleKey) && title !== app) ||
+                      !!artist;
+
+                    const hasTimingDefault = (dur > 0) || (pos > 0);
+
+                    const isYouTube =
+                      String(a.app_id || '') === 'com.google.ios.youtube' ||
+                      String(a.app_name || '').toLowerCase() === 'youtube';
+
+                    if (isYouTube) {
+                      const upd = a.media_position_updated_at;
+                      const ageMs = upd ? (Date.now() - new Date(upd).getTime()) : 999999999;
+                      const recent = ageMs < (3 * 60 * 1000); // 3 minutes
+
+                      const hasTimingStrict = (dur > 0) && (pos > 0);
+                      return hasText && hasTimingStrict && recent;
+                    }
+
+                    return hasText && hasTimingDefault;
+                  }
+
+                  return false;
+                ]]]
+              album_cover_background: true
+              tap_action: { action: more-info, entity: '[[[ return variables.media_player_4 ]]]' }
+              hold_action: { action: none }
+            styles: '[[[ return variables._hemma_mp_styles ]]]'
+
+          # PlayStation
           - type: custom:button-card
-            template: hemma_badge_media
-            entity: '[[[ return variables.media_player_1 ]]]'
+            template: hemma_badge_activity
+            entity: '[[[ return variables.psn_1 ]]]'
             variables:
-              enabled: '[[[ return variables.show_media_player_1 ]]]'
+              enabled: '[[[ return variables.show_psn_1 ]]]'
 
           - type: custom:button-card
-            template: hemma_badge_media
-            entity: '[[[ return variables.media_player_2 ]]]'
+            template: hemma_badge_activity
+            entity: '[[[ return variables.psn_2 ]]]'
             variables:
-              enabled: '[[[ return variables.show_media_player_2 ]]]'
+              enabled: '[[[ return variables.show_psn_2 ]]]'
 
+          # Plex
           - type: custom:button-card
-            template: hemma_badge_media
-            entity: '[[[ return variables.media_player_3 ]]]'
+            template: hemma_badge_plex
+            entity: '[[[ return variables.media_plex_binary ]]]'
             variables:
-              enabled: '[[[ return variables.show_media_player_3 ]]]'
-
-          - type: custom:button-card
-            template: hemma_badge_media
-            entity: '[[[ return variables.media_player_4 ]]]'
-            variables:
-              enabled: '[[[ return variables.show_media_player_4 ]]]'
+              enabled: '[[[ return variables.show_media_plex ]]]'
+              session_entity: '[[[ return variables.media_plex_session ]]]'
 
     motion_detection: |
       [[[

@@ -9,10 +9,10 @@ hemma_shared:
       opacity: 0;
       pointer-events: none;
       background-image:
-        url("/local/hemma/rooms/home-demo.jpg"),
-        url("/local/hemma/rooms/livingroom-demo.jpg"),
-        url("/local/hemma/rooms/kitchen-demo.jpg"),
-        url("/local/hemma/rooms/bedroom-demo.jpg");
+        url("/local/hemma/rooms/home.jpg"),
+        url("/local/hemma/rooms/livingroom.jpg"),
+        url("/local/hemma/rooms/kitchen.jpg"),
+        url("/local/hemma/rooms/bedroom.jpg");
       background-repeat: no-repeat;
       background-size: cover;
     }
@@ -29,7 +29,6 @@ hemma_shared:
       --hero-temp-letter-spacing: 0.04em;
       --hero-temp-reserve: calc(var(--hero-temp-font-size) * 1.2);
       --hero-header-gap-current: var(--hero-header-gap-desktop, 6px);
-      --badge-gap-current: var(--badge-gap, 10px);
       --hemma-hover-filter: none !important;
       -webkit-tap-highlight-color: transparent !important;
       --mdc-ripple-press-opacity: 0 !important;
@@ -125,7 +124,6 @@ hemma_shared:
         --hero-top: var(--header-top-tablet, clamp(180px, 22vh, 280px));
         --hero-temp-font-size: var(--hero-temp-font-size-tablet, var(--hero-temp-font-size-desktop, 18px));
         --hero-header-gap-current: var(--hero-header-gap-tablet, var(--hero-header-gap-desktop, 6px));
-        --badge-gap-current: var(--badge-gap-tablet, var(--badge-gap, 10px));
       }
     }
 
@@ -134,7 +132,6 @@ hemma_shared:
       :host{
         --hero-top: var(--header-top-mobile, clamp(80px, 12vh, 120px));
         --hero-temp-font-size: var(--hero-temp-font-size-mobile, 13px);
-        --badge-gap-current: var(--badge-gap-mobile, var(--badge-gap, 10px));
         --hero-header-gap-current: var(--hero-header-gap-mobile, 5px);
         --tiles-pad-bottom: calc(130px + env(safe-area-inset-bottom));
         --hero-gutter: var(--content-rail,
