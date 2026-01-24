@@ -166,7 +166,6 @@ card:
           margin: 0 !important;
         }
 
-        /* Only hide route icons (keep media-player control icons alive) */
         .navbar.desktop .route :is(ha-icon, .icon, .image){
           display: none !important;
         }
@@ -347,7 +346,6 @@ card:
           z-index: 999998 !important;
         }
 
-        /* ===== Desktop media player ===== */
         @media (hover: hover) and (pointer: fine){
 
           .media-player{
@@ -444,7 +442,6 @@ card:
             color: var(--secondary-text-color, rgba(240,240,240,.85)) !important;
           }
 
-          /* progress bar (covers different class names) */
           .media-player :is(.media-player-progress-bar, .progress, .progress-bar){
             background: var(--hemma-slider-track, rgba(255,255,255,0.22)) !important;
             border-radius: 999px !important;
@@ -455,7 +452,6 @@ card:
             border-radius: 999px !important;
           }
 
-          /* controls */
           .media-player :is(ha-icon-button, mwc-icon-button, button, .button){
             border-radius: 999px !important;
             background: rgba(255,255,255,0.10) !important;
@@ -479,21 +475,7 @@ card:
           }
         }
 
-      # media_player:
-      #   show: |
-      #     [[[
-      #       const st = states['media_player.spotify']?.state;
-      #       return (st === 'playing' || st === 'paused');
-      #     ]]]
-      #   album_cover_background: true
-      #   desktop_position: top-center
-      #   entity: media_player.spotify
-      #   tap_action:
-      #     action: more-info
-      #     entity: media_player.spotify
-      #   hold_action:
-      #     action: none
-
+      # Navigation Buttons (Edit these)
       routes:
         - url: /dashboard-hemma/living-room
           label: Living Room

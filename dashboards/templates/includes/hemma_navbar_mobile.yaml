@@ -281,6 +281,8 @@ cards:
 
         .navbar-card, .navbar-card *{ box-sizing: border-box !important; }
 
+
+      # Buttons (Edit these)
       routes:
         # Home
         - url: /dashboard-hemma/home
@@ -636,7 +638,9 @@ cards:
           --icon-secondary-color: rgba(255,255,255,0.92) !important;
         }
 
+      # Buttons (Edit these)
       routes:
+        # Home
         - url: /dashboard-hemma/home
           label: Home
           icon: mdi:home-variant
@@ -989,12 +993,15 @@ cards:
           color: rgba(255,255,255,0.92) !important;
         }
 
+      # Buttons (Edit these)
       routes:
+        # Home
         - url: /dashboard-hemma/home
           label: Home
           icon: mdi:home-variant
           icon_selected: mdi:home-variant
 
+        # Rooms (Dropdown Menu)
         - label: Rooms
           icon: >
             [[[
@@ -1031,6 +1038,7 @@ cards:
               url: /dashboard-hemma/living-room
               icon: mdi:sofa
 
+        # Scenes (Dropdown Menu)
         - label: Scenes
           icon: mdi:layers
           icon_selected: mdi:layers
@@ -1355,23 +1363,29 @@ cards:
           opacity: 0 !important;
         }
 
+      # Buttons (Edit these)
       routes:
+        # Home
         - url: /dashboard-hemma/home
           label: Home
           icon: mdi:home-variant
 
+        # Living Room
         - url: /dashboard-hemma/living-room
           label: Living Room
           icon: mdi:sofa
 
+        # Kitchen
         - url: /dashboard-hemma/kitchen
           label: Kitchen
           icon: mdi:fridge
 
+        # Bedroom
         - url: /dashboard-hemma/bedroom
           label: Bedroom
           icon: mdi:bed-king
 
+        # Scenes (Dropdown Menu)
         - label: Scenes
           icon: mdi:layers
           tap_action:
