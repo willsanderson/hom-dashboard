@@ -27,17 +27,17 @@ Hemma adds new features and changes including:
   - Dark mode adjusted for better contrast and frosted glass style cards
 
 - **Updated layouts and cards**  
-  - Refined screen layout includes (`hemma_screen_layout.yaml`, `hemma_entity_layout.yaml`)  
-  - Adjusted spacing, grid behavior, and row heights for desktop/tablet/mobile
+  - Refined screen layout(`hemma_entity_layout.yaml`) 
+  - Adjusted spacing, grid behavior, and row heights for auto-scaling on desktop/tablet/mobile views
   - New button cards including unified thermostat card for heating/cooling, curtain card, fan card, media card
 
-- **Navigation & mobile behavior**  
-  - Custom mobile navbar (`hemma_navbar_mobile.yaml`) tuned for smaller screens  
-  - Improved navigation templates (`hemma_navigation.yaml`, `hemma_navigation_list.yaml`)
+- **New Navigation**  
+  - Custom mobile navbar (`hemma_navbar_mobile.yaml`) tuned for smaller screens
+  - Custom desktop/tablet navbar ('hemma_room.yaml') tuned for larger screens
 
 - **Badges**  
   - New custom badges for room sensors and presence status  
-  - Media badge with dynamic background
+  - Active media player badge
 
 Under the hood it’s still YAML files you can read, copy, and modify. This repo just collects my version into a reusable package.
 
@@ -61,7 +61,7 @@ You’ll need:
 - Custom cards (install via HACS or manual, and ensure they’re added as Lovelace resources):
   - [button-card](https://github.com/custom-cards/button-card)
   - [layout-card](https://github.com/thomasloven/lovelace-layout-card) (Homio and Hemma uses a slightly modified version)
-  - [lovelace-navbar-card](https://github.com/joseluis9595/lovelace-navbar-card) (for mobile view navigation)
+  - [lovelace-navbar-card](https://github.com/joseluis9595/lovelace-navbar-card) (required for navigation and media player badge)
   - Any additional cards you use in your setup (e.g. `browser_mod`, `auto-entities`, etc.)
 
 For exact resource paths and the original recommended setup, refer to the **Getting Started** section in the Homio README:  
@@ -80,12 +80,16 @@ Example layout:
 └── dashboards/
     └── hemma/
         └── hemma.yaml               # Main Hemma dashboard
+└── dashboards/templates/button-cards/
+    ├── badges
+    ├── base
+    └── cards
 └── dashboards/templates/includes/
     ├── hemma_screen_layout.yaml
     ├── hemma_entity_layout.yaml
     ├── hemma_navbar_mobile.yaml
     ├── hemma_navigation.yaml
-    └── hemma_navigation_list.yaml
+    └── hemma_media_player_styles.yaml
 └── themes/
     └── hemma/
         └── hemma.yaml               # Hemma theme
