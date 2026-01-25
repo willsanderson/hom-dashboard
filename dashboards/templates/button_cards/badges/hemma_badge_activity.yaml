@@ -14,7 +14,7 @@ hemma_badge_activity:
       - -webkit-backdrop-filter: blur(14px) saturate(1.2) !important
       - backdrop-filter: blur(14px) saturate(1.2) !important
       - height: auto !important
-      - min-height: "calc(var(--badge-min-height-current, var(--badge-min-height, 44px)) + 6px) !important"
+      - min-height: "calc(var(--badge-min-height-current, var(--badge-min-height, 44px))) !important"
       - overflow: hidden
       - width: fit-content
       - min-width: 0
