@@ -212,29 +212,32 @@ Hemma:
     0 12px 24px rgba(0,0,0,0.04)
 
   # Badge Formatting - Desktop
-  badge-row-gap: 6px
-  badge-col-gap: 10px
+  badge-row-gap: 1px
+  badge-col-gap: 5px
   badge-padding: 4px 15px 4px 9px
-  badge-min-height: 52px
+  badge-min-height: 50px
   badge-icon-size: 36px
   badge-font-size: 16px
-
-  # Badge Formatting - Mobile
-  badge-col-gap-mobile: 4px
-  badge-row-gap-mobile: 7px
-  badge-font-size-mobile: 14px
-  badge-padding-mobile: 0 13px 0 8px
-  badge-min-height-mobile: 48px
-  badge-icon-size-mobile: 32px
+  badge-btn-size: 22px
 
   # Badge Formatting - Tablet
-  badge-row-gap-tablet: 8px
+  badge-row-gap-tablet: 1px
   badge-col-gap-tablet: 5px
   badge-padding-tablet: 3px 13px 3px 8px
   badge-min-height-tablet: 50px
-  badge-icon-size-tablet: 32px
+  badge-icon-size-tablet: 36px
   badge-font-size-tablet: 14px
+  badge-btn-size-tablet: 20px
   badge-subline-lh-tablet: 1.16
+
+  # Badge Formatting - Mobile
+  badge-col-gap-mobile: 5px
+  badge-row-gap-mobile: 1px
+  badge-font-size-mobile: 14px
+  badge-btn-size-mobile: 18px
+  badge-padding-mobile: 0 13px 0 8px
+  badge-min-height-mobile: 46px
+  badge-icon-size-mobile: 34px
 
   # Temperature Formatting
   hero-header-gap-desktop: 6px
@@ -315,6 +318,15 @@ Hemma:
   label-badge-text-color: '#F1F1F1'
   label-badge-red: rgba(255,159,9,0.7)
 
+  # Input
+  input-fill-color: rgba(130,130,130,0.3)
+  input-ink-color: rgba(255,255,255,0.8)
+  input-label-ink-color: rgba(255,255,255,0.6)
+  input-disabled-ink-color: rgba(255,255,255,0.37)
+  input-dropdown-icon-color: rgba(255,255,255,0.54)
+  mdc-text-field-fill-color: rgba(130,130,130,0.3)
+  ha-color-red-40: '#d6314a'
+
   # Code Editor
   code-editor-background-color: '#161616'
 
@@ -329,14 +341,12 @@ Hemma:
 
   card-mod-root-yaml: |
     .: |
-      /* Global Guardrails */
       html, body,
       #view, hui-view {
         overflow-x: hidden !important;
         max-width: 100vw !important;
       }
 
-      /* Header offset variable */
       :host, ha-app-layout {
         --hemma-header-offset: var(--app-header-height, var(--header-height, 0px));
       }
@@ -366,8 +376,6 @@ Hemma:
         overflow: hidden !important;
       }
 
-      /* Breakpoint Variables */
-
       /* Desktop */
       :host, ha-app-layout {
         --page-gutter: var(--page-gutter-desktop);
@@ -394,8 +402,9 @@ Hemma:
         --badge-col-gap-current: var(--badge-col-gap, 10px);
         --badge-padding-current: var(--badge-padding, 4px 15px 4px 9px);
         --badge-min-height-current: var(--badge-min-height, 52px);
-        --badge-icon-size-current: var(--badge-icon-size, 36px);
+        --badge-icon-size-current: var(--badge-icon-size, 34px);
         --badge-font-size-current: var(--badge-font-size, 16px);
+        --badge-btn-size-current: var(--badge-btn-size, 22px);
         --badge-subline-lh-current: var(--badge-subline-lh, 1.18);
 
         --hemma-entity-col-width-current: var(--hemma-entity-col-width-desktop, 280px);
@@ -446,8 +455,9 @@ Hemma:
           --badge-col-gap-current: var(--badge-col-gap-tablet, var(--badge-col-gap, 10px));
           --badge-padding-current: var(--badge-padding-tablet, var(--badge-padding, 4px 15px 4px 9px));
           --badge-min-height-current: var(--badge-min-height-tablet, var(--badge-min-height, 52px));
-          --badge-icon-size-current: var(--badge-icon-size-tablet, var(--badge-icon-size, 36px));
+          --badge-icon-size-current: var(--badge-icon-size-tablet, var(--badge-icon-size, 34px));
           --badge-font-size-current: var(--badge-font-size-tablet, var(--badge-font-size, 16px));
+          --badge-btn-size-current: var(--badge-btn-size-tablet, var(--badge-btn-size, 22px));
           --badge-subline-lh-current: var(--badge-subline-lh-tablet, var(--badge-subline-lh, 1.18));
 
           --hemma-entity-col-width-current: var(--hemma-entity-col-width-tablet, 210px);
@@ -483,8 +493,9 @@ Hemma:
           --badge-col-gap-current: var(--badge-col-gap-mobile, var(--badge-col-gap, 10px));
           --badge-padding-current: var(--badge-padding-mobile, var(--badge-padding, 4px 15px 4px 9px));
           --badge-min-height-current: var(--badge-min-height-mobile, var(--badge-min-height, 52px));
-          --badge-icon-size-current: var(--badge-icon-size-mobile, var(--badge-icon-size, 36px));
+          --badge-icon-size-current: var(--badge-icon-size-mobile, var(--badge-icon-size, 34px));
           --badge-font-size-current: var(--badge-font-size-mobile, var(--badge-font-size, 16px));
+          --badge-btn-size-current: var(--badge-btn-size-mobile, var(--badge-btn-size, 22px));
           --badge-subline-lh-current: var(--badge-subline-lh-mobile, var(--badge-subline-lh, 1.18));
 
           --hemma-entity-col-width-current: var(--hemma-entity-col-width-mobile, 180px);
@@ -541,7 +552,6 @@ Hemma:
         transition: filter .2s ease, opacity .2s ease;
       }
 
-      /* Tablet Tweaks */
       @media (min-width: 768px) and (max-width: 1249px) and (orientation: portrait) and (hover: none){
         :host, ha-app-layout{
           --hemma-entity-bottom-current: calc(env(safe-area-inset-bottom, 0px) + 14px);
@@ -569,7 +579,6 @@ Hemma:
         overflow-y: auto !important;
       }
 
-      /* Freeze scroll / reduce iOS rubber-band — TABLET ONLY */
       @media (min-width: 768px) and (max-width: 1249px) and (min-height: 501px) and (hover: none) and (pointer: coarse) {
         :host {
           overflow: hidden !important;

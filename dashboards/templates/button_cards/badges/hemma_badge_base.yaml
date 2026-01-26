@@ -55,6 +55,13 @@ hemma_badge_base:
       - z-index: 4
       - margin-inline-start: var(--badge-icon-nudge, 0px)
 
+    img_cell:
+      - width: var(--badge-icon-size-current, var(--badge-icon-size, 30px)) !important
+      - height: var(--badge-icon-size-current, var(--badge-icon-size, 30px)) !important
+      - border-radius: 9999px !important
+      - overflow: hidden !important
+      - display: block !important
+
     entity_picture:
       - grid-area: i
       - width: var(--badge-icon-size-current, var(--badge-icon-size, 28px))
@@ -72,8 +79,6 @@ hemma_badge_base:
 
   extra_styles: |
     :host{
-      /* Keep only non-layout “helpers” here.
-         All sizing “current” tokens now come from your theme. */
       --media-sub-opacity: .82;
       --badge-after-z:  2;
       --badge-before-z: 3;
@@ -98,3 +103,45 @@ hemma_badge_base:
       display: block !important;
       border-radius: inherit !important;
     }
+
+    #name{
+      display:flex !important;
+      align-items:center !important;
+      padding-block: 2px !important;
+      min-width: 0 !important;
+      overflow: hidden !important;
+      line-height: normal !important;
+    }
+
+    .mp-wrap{
+      display:flex;
+      flex-direction:column;
+      align-items:flex-start;
+      gap: 2px;
+      min-width:0;
+      max-width:100%;
+      padding-top: 0 !important;
+      padding-bottom: 2px !important;
+    }
+
+    .mp-title{
+      font-size: var(--badge-font-size-current, 13px);
+      font-weight: 700;
+      line-height: 1.14;
+      color: var(--badge-title-color, var(--secondary-text-color));
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .mp-sub{
+      font-size: calc(var(--badge-font-size-current, 13px) - 1px);
+      font-weight: 500;
+      line-height: 1.05;
+      opacity: var(--media-sub-opacity, .82);
+      color: var(--badge-sub-color, var(--secondary-text-color));
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+

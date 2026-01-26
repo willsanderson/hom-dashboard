@@ -55,14 +55,12 @@ hemma_badge_air_quality:
       const raw = String(entity?.state ?? 'Unknown');
       const nice = raw ? raw.charAt(0).toUpperCase() + raw.slice(1) : 'Unknown';
 
+      const esc = (t) => String(t || '').replaceAll('"','&quot;');
+
       return `
-        <div style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:0;">
-          <div style="font-size:var(--badge-font-size-current,13px);font-weight:700;color:var(--badge-title-color,var(--secondary-text-color));line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
-            Air Quality
-          </div>
-          <div style="font-size:calc(var(--badge-font-size-current,13px) - 1px);color:var(--badge-sub-color,var(--secondary-text-color));line-height:var(--badge-subline-lh-current,1.15);opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
-            ${nice}
-          </div>
+        <div class="mp-wrap">
+          <div class="mp-title">Air Quality</div>
+          <div class="mp-sub">${esc(nice)}</div>
         </div>
       `;
     ]]]

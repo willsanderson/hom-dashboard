@@ -13,40 +13,41 @@ hemma_badge_activity:
       - background: rgba(0,0,0,0.18) !important
       - -webkit-backdrop-filter: blur(14px) saturate(1.2) !important
       - backdrop-filter: blur(14px) saturate(1.2) !important
-      - height: auto !important
-      - min-height: "calc(var(--badge-min-height-current, var(--badge-min-height, 44px))) !important"
-      - overflow: hidden
-      - width: fit-content
-      - min-width: 0
       - justify-self: start
       - align-self: start
       - place-self: start
       - margin-inline-start: 0px !important
-      - margin-bottom: var(--badge-row-gap-current, var(--badge-row-gap, 6px)) !important
       - margin-left: 0px !important
       - --badge-after-z: 0
       - --badge-before-z: 1
 
       - display: >
           [[[
-            const enabled =
-              (variables?.enabled === true) ||
-              (variables?.enabled === 'true') ||
-              (variables?.enabled === 'True') ||
-              (variables?.enabled === 1) ||
-              (variables?.enabled === '1');
-            if (!enabled) return 'none';
+            // Respect variables.enabled using the same rules as base
+            const v = variables?.enabled;
+            const isEnabled = () => {
+              if (v === undefined || v === null) return true;
+              if (typeof v === 'boolean') return v;
+              if (typeof v === 'number')  return v !== 0;
+              const s = String(v).trim().toLowerCase();
+              if (['false','0','no','off','disabled'].includes(s)) return false;
+              if (['true','1','yes','on','enabled'].includes(s))   return true;
+              return !!s;
+            };
+            if (!isEnabled()) return 'none';
 
             const s = String(entity?.state || '').toLowerCase();
             const a = entity?.attributes || {};
 
-            if (['playing','buffering','paused'].includes(s)) return 'grid';
+            // If the player looks active-ish, show
+            if (['playing','buffering','paused'].includes(s)) return 'inline-grid';
 
             // If it's not actively reporting anything, hide.
-            const norm = (v) => String(v || '').trim();
-            const title   = norm(a.media_title || a.title);
-            const artist  = norm(a.media_artist || a.artist || a.media_album_artist);
-            const app     = norm(a.app_name || a.source);
+            const norm = (x) => String(x ?? '').trim();
+            const title  = norm(a.media_title || a.title);
+            const artist = norm(a.media_artist || a.artist || a.media_album_artist);
+            const app    = norm(a.app_name || a.source);
+
             return (title || artist || app) ? 'inline-grid' : 'none';
           ]]]
 
@@ -55,6 +56,7 @@ hemma_badge_activity:
             const cacheKey = '_hemmaMediaBgUrl';
             const a = entity?.attributes || {};
             const pref = a.entity_picture_local || a.entity_picture || a.media_image_url;
+
             if (pref) {
               const url = String(pref).startsWith('/') ? `${location.origin}${pref}` : pref;
               const wrapped = `url("${url}")`;
@@ -76,6 +78,9 @@ hemma_badge_activity:
       - padding: 0 !important
       - min-width: 0
 
+    img_cell:
+      - box-shadow: inset 0 0 0 1px rgba(255,255,255,0.14) !important
+
     icon:
       - display: none
 
@@ -84,13 +89,18 @@ hemma_badge_activity:
       const a = entity?.attributes || {};
       const friendly = a.friendly_name || 'Activity';
 
-      const title   = String(a.media_title || a.title || '').trim();
-      const artist  = String(a.media_artist || a.artist || a.media_album_artist || '').trim();
-      const app     = String(a.app_name || a.source || '').trim();
+      const title  = String(a.media_title || a.title || '').trim();
+      const artist = String(a.media_artist || a.artist || a.media_album_artist || '').trim();
+      const app    = String(a.app_name || a.source || '').trim();
 
       const sub = (artist && title) ? `${artist} — ${title}` : (title || artist || app);
 
-      const esc = (t) => String(t || '').replaceAll('"','&quot;');
+      const esc = (s) => String(s ?? '')
+        .replace(/&/g,'&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;')
+        .replace(/'/g,'&#39;');
 
       return `
         <div class="mp-wrap">
@@ -101,10 +111,6 @@ hemma_badge_activity:
     ]]]
 
   extra_styles: |
-    :host{
-      --hemma-mp-img: var(--badge-icon-size-current, var(--badge-icon-size, 36px));
-    }
-
     :host ha-card::after{
       content:"";
       position:absolute;
@@ -175,20 +181,7 @@ hemma_badge_activity:
       text-shadow: 0 0 3px rgba(0,0,0,0.20);
     }
 
-    #img-cell{
-      width:  var(--hemma-mp-img, 44px) !important;
-      height: var(--hemma-mp-img, 44px) !important;
-      border-radius: 9999px !important;
-      overflow: hidden !important;
-      display:block !important;
-      line-height:0 !important;
-      transform: translateY(-0.5px);
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.14) !important;
-    }
-
-    #name, #name *{
-      overflow: visible !important;
-    }
+    #name, #name *{ overflow: visible !important; }
 
     #container,
     #container > #aspect-ratio{

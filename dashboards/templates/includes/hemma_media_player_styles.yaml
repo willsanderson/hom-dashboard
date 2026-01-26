@@ -2,38 +2,41 @@
   /* Hemma Media Player Styles */
 
   :host{
-    --hemma-mp-h: calc(var(--badge-min-height-current, var(--badge-min-height, 52px)) + 6px);
+    --hemma-mp-h: calc(var(--badge-min-height-current, var(--badge-min-height, 50px)));
     --hemma-mp-title: var(--badge-font-size-current, var(--badge-font-size, 15px));
     --hemma-mp-artist: calc(var(--badge-font-size-current, var(--badge-font-size, 15px)) - 2px);
-    --hemma-mp-img: 44px;
-    --hemma-mp-btn: 44px;
+    --hemma-mp-img: var(--badge-icon-size-current, var(--badge-icon-size, 36px));
+    --hemma-mp-icon: var(--badge-icon-size-current, var(--badge-icon-size, 36px));
+    --hemma-mp-btn: var(--badge-icon-size-current, var(--badge-icon-size, 36px));
+    --hemma-mp-btn-icon: var(--badge-btn-size-current, var(--badge-btn-size, 22px));
     --hemma-mp-btn-pad: 6px;
-    --hemma-mp-icon: 22px;
   }
 
   /* Tablet */
   @media (min-width: 768px) and (max-width: 1249px) and (min-height: 501px) and (hover: none) and (pointer: coarse){
     :host{
-      --hemma-mp-h: calc(var(--badge-min-height-current, var(--badge-min-height-tablet, 50px)) + 6px);
+      --hemma-mp-h: calc(var(--badge-min-height-current, var(--badge-min-height-tablet, 50px)));
       --hemma-mp-title: var(--badge-font-size-current, var(--badge-font-size-tablet, 14px));
       --hemma-mp-artist: calc(var(--badge-font-size-current, var(--badge-font-size-tablet, 14px)) - 2px);
-      --hemma-mp-img: 40px;
-      --hemma-mp-btn: 38px;
-      --hemma-mp-btn-pad: 5px;
-      --hemma-mp-icon: 20px;
+      --hemma-mp-img: var(--badge-icon-size-current, var(--badge-icon-size-tablet, 36px));
+      --hemma-mp-icon: var(--badge-icon-size-current, var(--badge-icon-size-tablet, 36px));
+      --hemma-mp-btn: var(--badge-icon-size-current, var(--badge-icon-size-tablet, 36px));
+      --hemma-mp-btn-icon: var(--badge-btn-size-current, var(--badge-btn-size-tablet, 20px));
+      --hemma-mp-btn-pad: 6px;
     }
   }
 
   /* Mobile */
   @media (max-width: 767px), (max-height: 500px){
     :host{
-      --hemma-mp-h: calc(var(--badge-min-height-current, var(--badge-min-height-mobile, 48px)) + 6px);
+      --hemma-mp-h: calc(var(--badge-min-height-current, var(--badge-min-height-mobile, 48px)));
       --hemma-mp-title: var(--badge-font-size-current, var(--badge-font-size-mobile, 14px));
       --hemma-mp-artist: calc(var(--badge-font-size-current, var(--badge-font-size-mobile, 14px)) - 2px);
-      --hemma-mp-img: 36px;
-      --hemma-mp-btn: 36px;
+      --hemma-mp-img: var(--badge-icon-size-current, var(--badge-icon-size-mobile, 34px));
+      --hemma-mp-icon: var(--badge-icon-size-current, var(--badge-icon-size-mobile, 34px));
+      --hemma-mp-btn: var(--badge-icon-size-current, var(--badge-icon-size-mobile, 34px));
+      --hemma-mp-btn-icon: var(--badge-btn-size-current, var(--badge-btn-size-mobile, 18px));
       --hemma-mp-btn-pad: 4px;
-      --hemma-mp-icon: 18px;
     }
   }
 
@@ -61,10 +64,9 @@
     display: flex !important;
     align-items: center !important;
     width: fit-content !important;
-    max-width: min(640px, calc(100vw - 24px)) !important;
-    height: var(--hemma-mp-h) !important;
+    max-width: min(var(--badge-media-max-width-current, 640px), calc(100vw - 24px)) !important;
     min-height: var(--hemma-mp-h) !important;
-    margin: 0 0 var(--badge-row-gap-current, var(--badge-row-gap, 6px)) 0 !important;
+    margin: 0 !important;
     padding: 8px !important;
     border-radius: 9999px !important;
     overflow: hidden !important;
@@ -149,8 +151,14 @@
     display: block !important;
   }
 
+  .media-player-image{ display: none !important; }
+
   .media-player-icon{
-    display: none !important;
+    width: var(--hemma-mp-icon) !important;
+    height: var(--hemma-mp-icon) !important;
+    min-width: var(--hemma-mp-icon) !important;
+    min-height: var(--hemma-mp-icon) !important;
+    border-radius: 9999px !important;
   }
 
   .media-player-title{
@@ -202,15 +210,15 @@
   }
 
   .media-player :is(ha-icon, ha-svg-icon){
-    --mdc-icon-size: var(--hemma-mp-icon) !important;
-    width: var(--hemma-mp-icon) !important;
-    height: var(--hemma-mp-icon) !important;
+    --mdc-icon-size: var(--hemma-mp-btn-icon) !important;
+    width: var(--hemma-mp-btn-icon) !important;
+    height: var(--hemma-mp-btn-icon) !important;
     color: rgba(255,255,255,0.92) !important;
   }
 
   .media-player svg{
-    width: var(--hemma-mp-icon) !important;
-    height: var(--hemma-mp-icon) !important;
+    width: var(--hemma-mp-btn-icon) !important;
+    height: var(--hemma-mp-btn-icon) !important;
     fill: rgba(255,255,255,0.92) !important;
   }
 
