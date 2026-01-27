@@ -31,14 +31,14 @@ hemma_shared:
       --hero-temp-reserve: calc(var(--hero-temp-font-size) * 1.2);
       --hero-header-gap-current: var(--hero-header-gap-desktop, 6px);
 
-      --hero-img-blur: var(--hero-img-blur, 4px);
-      --hero-img-scale: var(--hero-img-scale, 1.08);
+      --hero-img-blur-current: var(--hero-img-blur, 4px);
+      --hero-img-scale-current: var(--hero-img-scale, 1.08);
 
-      --hero-img-filter: blur(var(--hero-img-blur))
+      --hero-img-filter: blur(var(--hero-img-blur-current))
         saturate(var(--hero-img-saturate, 1.02))
         brightness(var(--hero-img-brightness, .985));
 
-      --hero-img-filter-from: blur(var(--hero-img-blur))
+      --hero-img-filter-from: blur(var(--hero-img-blur-current))
         saturate(var(--hero-img-saturate-from, 1.0))
         brightness(var(--hero-img-brightness-from, .97));
 
@@ -91,7 +91,7 @@ hemma_shared:
       opacity:1;
 
       filter: var(--hero-img-filter);
-      transform: scale(var(--hero-img-scale, 1.08)) !important;
+      transform: scale(var(--hero-img-scale-current, 1.08)) !important;
       transform-origin: center;
 
       transition: opacity .35s ease, filter .35s ease, transform .35s ease;
