@@ -198,10 +198,6 @@ Hemma:
   # Badge Formatting - Global
   badge-background: rgba(0,0,0,0.35)
   badge-title-inactive: rgba(235,235,235,.6)
-  badge-media-inset-start: 6px
-  badge-media-gap: 2px
-  badge-rim-bleed: 6px
-  badge-rim-width: .55px
   badge-br: 9999px
   badge-subline-lh: 1.18
   badge-subline-lh-mobile: 1.15
@@ -387,16 +383,13 @@ Hemma:
         --hero-temp-font-size: var(--hero-temp-font-size-desktop, 18px);
         --hemma-header-stack-h-current: var(--hemma-header-cap-desktop, clamp(260px, 30vh, 380px));
         --hemma-scene-col-width-current: var(--hemma-scene-width-desktop, 280px);
-
         --hemma-nav-margin-current: var(--hemma-nav-margin-desktop, 8vw);
         --hemma-nav-gap-current: var(--hemma-nav-gap-desktop, 50px);
         --hemma-nav-top-current: var(--hemma-nav-top-desktop, 60px);
-
         --hero-room-name-size-current: var(--hero-title-size-desktop, clamp(52px, 4.6vw + 8px, 96px));
         --hero-room-name-line-height-current: var(--hero-title-line-height-desktop, 1.18);
         --hero-room-name-letter-spacing-current: var(--hero-title-letter-spacing-desktop, -2px);
         --hero-room-name-margin-left-current: var(--hero-title-margin-left-desktop, -2px);
-
         --badge-media-max-width-current: var(--badge-media-max-width-desktop, 640px);
         --badge-row-gap-current: var(--badge-row-gap, 6px);
         --badge-col-gap-current: var(--badge-col-gap, 10px);
@@ -406,7 +399,6 @@ Hemma:
         --badge-font-size-current: var(--badge-font-size, 16px);
         --badge-btn-size-current: var(--badge-btn-size, 22px);
         --badge-subline-lh-current: var(--badge-subline-lh, 1.18);
-
         --hemma-entity-col-width-current: var(--hemma-entity-col-width-desktop, 280px);
         --hemma-entity-height-current: var(--hemma-entity-height-desktop, 180px);
         --hemma-entity-rows-current: var(--hemma-entity-rows-desktop, repeat(1, auto));
@@ -440,16 +432,13 @@ Hemma:
           --hero-temp-font-size: var(--hero-temp-font-size-tablet, 16px);
           --hemma-header-stack-h-current: var(--hemma-header-cap-tablet, clamp(230px, 28vh, 340px));
           --hemma-scene-col-width-current: var(--hemma-scene-width-tablet, 230px);
-
           --hemma-nav-margin-current: var(--hemma-nav-margin-tablet, 4vw);
           --hemma-nav-gap-current: var(--hemma-nav-gap-tablet, 34px);
           --hemma-nav-top-current: var(--hemma-nav-top-tablet, 46px);
-
           --hero-room-name-size-current: var(--hero-title-size-tablet, clamp(36px, 4.2vw + 6px, 64px));
           --hero-room-name-line-height-current: var(--hero-title-line-height-tablet, 1.18);
           --hero-room-name-letter-spacing-current: var(--hero-title-letter-spacing-tablet, -1.5px);
           --hero-room-name-margin-left-current: var(--hero-title-margin-left-tablet, -1px);
-
           --badge-media-max-width-current: var(--badge-media-max-width-tablet, 520px);
           --badge-row-gap-current: var(--badge-row-gap-tablet, var(--badge-row-gap, 6px));
           --badge-col-gap-current: var(--badge-col-gap-tablet, var(--badge-col-gap, 10px));
@@ -459,7 +448,6 @@ Hemma:
           --badge-font-size-current: var(--badge-font-size-tablet, var(--badge-font-size, 16px));
           --badge-btn-size-current: var(--badge-btn-size-tablet, var(--badge-btn-size, 22px));
           --badge-subline-lh-current: var(--badge-subline-lh-tablet, var(--badge-subline-lh, 1.18));
-
           --hemma-entity-col-width-current: var(--hemma-entity-col-width-tablet, 210px);
           --hemma-entity-height-current: var(--hemma-entity-height-tablet, 150px);
           --hemma-entity-overflow-y-current: var(--hemma-entity-overflow-y-tablet, var(--hemma-entity-overflow-y-desktop, hidden));
@@ -482,12 +470,10 @@ Hemma:
           --hero-temp-font-size: var(--hero-temp-font-size-mobile, 14px);
           --hemma-header-stack-h-current: var(--hemma-header-cap-mobile, clamp(240px, 34vh, 360px));
           --hemma-scene-col-width-current: var(--hemma-scene-width-mobile, 180px);
-
           --hero-room-name-size-current: var(--hero-title-size-mobile, clamp(38px, 9vw + 2px, 64px));
           --hero-room-name-line-height-current: var(--hero-title-line-height-mobile, 1.20);
           --hero-room-name-letter-spacing-current: var(--hero-title-letter-spacing-mobile, -1.2px);
           --hero-room-name-margin-left-current: var(--hero-title-margin-left-mobile, 2px);
-
           --badge-media-max-width-current: var(--badge-media-max-width-mobile, 100%);
           --badge-row-gap-current: var(--badge-row-gap-mobile, var(--badge-row-gap, 6px));
           --badge-col-gap-current: var(--badge-col-gap-mobile, var(--badge-col-gap, 10px));
@@ -497,7 +483,6 @@ Hemma:
           --badge-font-size-current: var(--badge-font-size-mobile, var(--badge-font-size, 16px));
           --badge-btn-size-current: var(--badge-btn-size-mobile, var(--badge-btn-size, 22px));
           --badge-subline-lh-current: var(--badge-subline-lh-mobile, var(--badge-subline-lh, 1.18));
-
           --hemma-entity-col-width-current: var(--hemma-entity-col-width-mobile, 180px);
           --hemma-entity-height-current: var(--hemma-entity-height-mobile, 120px);
           --hemma-entity-inner-pad-current: var(--hemma-entity-inner-pad-mobile, 16px);
@@ -512,12 +497,10 @@ Hemma:
         :host, ha-app-layout {
           --hemma-landscape-left-rail: clamp(240px, 34vw, 320px);
           --hemma-landscape-badge-stop-pad: 12px;
-
           --badge-media-max-width-current: calc(var(--hemma-landscape-left-rail) - var(--hemma-landscape-badge-stop-pad));
           --hemma-header-stack-h-current: var(--hemma-header-cap-landscape, clamp(170px, 44vh, 240px));
-
           --hemma-tiles-top-landscape: calc(var(--hero-top, calc(env(safe-area-inset-top, 0px) + 96px)) + var(--hemma-tiles-top-landscape-nudge, 0px));
-
+          --hemma-tiles-top-landscape: calc(var(--hero-top, calc(env(safe-area-inset-top, 0px) + 96px)) + var(--hemma-tiles-top-landscape-nudge, 0px));
           --hero-room-name-size-current: clamp(32px, 5.6vw + 6px, 46px);
           --hero-room-name-line-height-current: 1.12;
           --hero-room-name-letter-spacing-current: -1px;
