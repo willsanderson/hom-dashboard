@@ -142,6 +142,7 @@ hemma_room:
         - z-index: 999
 
       temperature:
+        - grid-area: temperature
         - display: >
             [[[
               const navOpen = states['input_boolean.hemma_mobile_navigation']?.state === 'on';
@@ -219,6 +220,7 @@ hemma_room:
         - margin-bottom: 0
         - padding-left: 0
         - pointer-events: auto
+        - height: auto !important
         - display: >
             [[[
               return (states['input_boolean.hemma_mobile_navigation']?.state === 'on')
@@ -232,36 +234,25 @@ hemma_room:
         - align-self: start !important
         - place-self: start !important
         - text-align: left !important
-        - margin-top: var(--badge-media-gap, 0px)
+        - margin-top: 0px !important
         - margin-right: auto !important
         - margin-left: >
             calc(
               var(--hero-room-name-margin-left-current, 0px) +
-              var(--hemma-header-badge-nudge, 0px)) !important
-        - padding-left: 0
-        - padding-top: 0px
-        - padding-bottom: 0px
+              var(--hemma-header-badge-nudge, 0px)
+            ) !important
+        - padding-left: 0 !important
+        - padding-top: 0px !important
+        - padding-bottom: 0px !important
+        - height: auto !important
+        - min-height: 0 !important
         - width: "min(var(--badge-media-max-width-current, 640px), 100%)"
         - max-width: 100%
         - pointer-events: auto
         - display: >
             [[[
               const navOpen = states['input_boolean.hemma_mobile_navigation']?.state === 'on';
-
-              const anyMp =
-                (variables.show_media_player_1 && variables.media_player_1) ||
-                (variables.show_media_player_2 && variables.media_player_2) ||
-                (variables.show_media_player_3 && variables.media_player_3) ||
-                (variables.show_media_player_4 && variables.media_player_4);
-
-              const anyOther =
-                (variables.show_media_badge) ||
-                anyMp ||
-                (variables.show_media_plex && variables.media_plex_binary) ||
-                (variables.show_psn_1 && variables.psn_1) ||
-                (variables.show_psn_2 && variables.psn_2);
-
-              return (!navOpen && anyOther) ? 'block' : 'none';
+              return navOpen ? 'none' : 'block';
             ]]]
 
       navigation:
@@ -346,6 +337,9 @@ hemma_room:
             :host{
               --layout-margin: 0px !important;
               --layout-padding: 0px !important;
+              --layout-height: auto !important;
+              --layout-overflow: visible !important;
+              height: auto !important;
             }
 
             ha-card{
@@ -354,6 +348,30 @@ hemma_room:
               background: transparent !important;
               box-shadow: none !important;
               border-radius: 0 !important;
+              height: auto !important;
+            }
+
+            grid-layout{
+              --layout-margin: 0px !important;
+              --layout-padding: 0px !important;
+              --layout-height: auto !important;
+              --layout-overflow: visible !important;
+              height: auto !important;
+            }
+
+            grid-layout$ #root{
+              margin: 0 !important;
+              padding: 0 !important;
+              height: auto !important;
+              max-height: none !important;
+              min-height: 0 !important;
+              place-content: start !important;
+              align-content: start !important;
+            }
+
+            grid-layout$ #root > *{
+              align-self: start !important;
+              justify-self: start !important;
             }
 
         layout:
@@ -398,10 +416,11 @@ hemma_room:
         card_mod:
           style: |
             :host{
-              --layout-margin: 0px !important;
-              --layout-padding: 0px !important;
+              --layout-margin: 0 !important;
+              --layout-padding: 0 !important;
               --layout-height: auto !important;
               --layout-overflow: visible !important;
+              height: auto !important;
             }
 
             ha-card{
@@ -410,10 +429,33 @@ hemma_room:
               background: transparent !important;
               box-shadow: none !important;
               border-radius: 0 !important;
+              height: auto !important;
             }
 
-            #container{
+            layout-card$ grid-layout{
+              --layout-margin: 0 !important;
+              --layout-padding: 0 !important;
+              --layout-height: auto !important;
+              --layout-overflow: visible !important;
               height: auto !important;
+            }
+
+            layout-card$ grid-layout$ #root{
+              margin: 0 !important;
+              padding: 0 !important;
+              height: auto !important;
+              min-height: 0 !important;
+              overflow: visible !important;
+              place-content: start !important;
+              align-content: start !important;
+              justify-content: start !important;
+            }
+
+            layout-card$ grid-layout$ #container{
+              margin: 0 !important;
+              padding: 0 !important;
+              height: auto !important;
+              min-height: 0 !important;
               align-items: start !important;
               align-content: start !important;
               justify-items: start !important;
@@ -421,11 +463,25 @@ hemma_room:
               text-align: left !important;
             }
 
+            layout-card$ grid-layout$ #root > *:has(ha-card[style*="display: none"]) {
+              display: none !important;
+            }
+
+            layout-card$ grid-layout$ #root > *[hidden],
+            layout-card$ grid-layout$ #root > *[style*="display: none"] {
+              display: none !important;
+            }
+
+            layout-card$ grid-layout$ #root > *:has([hidden]),
+            layout-card$ grid-layout$ #root > *:has([style*="display: none"]) {
+              display: none !important;
+            }
+
         layout:
           grid-template-columns: 1fr
           grid-auto-flow: row
           grid-auto-rows: min-content
-          grid-row-gap: 0px
+          grid-row-gap: var(--badge-row-gap-current, var(--badge-row-gap, 6px))
           justify-items: start
           justify-content: start
           align-items: start
@@ -435,7 +491,58 @@ hemma_room:
 
           # Media Player 1
           - type: custom:navbar-card
-            desktop: { min_width: 1, hidden: false, show_labels: false, show_popup_label_backgrounds: false, mode: docked }
+            desktop:
+              min_width: 1
+              hidden: >
+                [[[
+                  const eid = variables.media_player_1;
+                  const enabled = variables.show_media_player_1 && eid;
+                  if (!enabled) return true;
+
+                  const s  = states[eid];
+                  const st = s?.state;
+                  const a  = s?.attributes || {};
+
+                  if (st === 'playing' || st === 'buffering') return false;
+
+                  if (st === 'paused') {
+                    const title  = String(a.media_title || '').trim();
+                    const artist = String(a.media_artist || a.artist || a.media_album_artist || '').trim();
+                    const app    = String(a.app_name || a.source || '').trim();
+
+                    const dur = Number(a.media_duration || 0);
+                    const pos = Number(a.media_position || 0);
+
+                    const badTitles = new Set(['idle','paused','unknown','unavailable']);
+                    const titleKey = title.toLowerCase();
+
+                    const hasText =
+                      (title && !badTitles.has(titleKey) && title !== app) ||
+                      !!artist;
+
+                    const hasTimingDefault = (dur > 0) || (pos > 0);
+
+                    const isYouTube =
+                      String(a.app_id || '') === 'com.google.ios.youtube' ||
+                      String(a.app_name || '').toLowerCase() === 'youtube';
+
+                    if (isYouTube) {
+                      const upd = a.media_position_updated_at;
+                      const ageMs = upd ? (Date.now() - new Date(upd).getTime()) : 999999999;
+                      const recent = ageMs < (3 * 60 * 1000);
+
+                      const hasTimingStrict = (dur > 0) && (pos > 0);
+                      return !(hasText && hasTimingStrict && recent);
+                    }
+
+                    return !(hasText && hasTimingDefault);
+                  }
+
+                  return true;
+                ]]]
+              show_labels: false
+              show_popup_label_backgrounds: false
+              mode: docked
             mobile: { hidden: true }
             routes: []
             media_player:
@@ -460,7 +567,7 @@ hemma_room:
                     const dur = Number(a.media_duration || 0);
                     const pos = Number(a.media_position || 0);
 
-                    const badTitles = new Set(['idle', 'paused', 'unknown', 'unavailable']);
+                    const badTitles = new Set(['idle','paused','unknown','unavailable']);
                     const titleKey = title.toLowerCase();
 
                     const hasText =
@@ -476,8 +583,7 @@ hemma_room:
                     if (isYouTube) {
                       const upd = a.media_position_updated_at;
                       const ageMs = upd ? (Date.now() - new Date(upd).getTime()) : 999999999;
-                      const recent = ageMs < (3 * 60 * 1000); // 3 minutes
-
+                      const recent = ageMs < (3 * 60 * 1000);
                       const hasTimingStrict = (dur > 0) && (pos > 0);
                       return hasText && hasTimingStrict && recent;
                     }
@@ -487,7 +593,6 @@ hemma_room:
 
                   return false;
                 ]]]
-
               album_cover_background: true
               tap_action: { action: more-info, entity: '[[[ return variables.media_player_1 ]]]' }
               hold_action: { action: none }
@@ -495,7 +600,58 @@ hemma_room:
 
           # Media Player 2
           - type: custom:navbar-card
-            desktop: { min_width: 1, hidden: false, show_labels: false, show_popup_label_backgrounds: false, mode: docked }
+            desktop:
+              min_width: 1
+              hidden: >
+                [[[
+                  const eid = variables.media_player_2;
+                  const enabled = variables.show_media_player_2 && eid;
+                  if (!enabled) return true;
+
+                  const s  = states[eid];
+                  const st = s?.state;
+                  const a  = s?.attributes || {};
+
+                  if (st === 'playing' || st === 'buffering') return false;
+
+                  if (st === 'paused') {
+                    const title  = String(a.media_title || '').trim();
+                    const artist = String(a.media_artist || a.artist || a.media_album_artist || '').trim();
+                    const app    = String(a.app_name || a.source || '').trim();
+
+                    const dur = Number(a.media_duration || 0);
+                    const pos = Number(a.media_position || 0);
+
+                    const badTitles = new Set(['idle','paused','unknown','unavailable']);
+                    const titleKey = title.toLowerCase();
+
+                    const hasText =
+                      (title && !badTitles.has(titleKey) && title !== app) ||
+                      !!artist;
+
+                    const hasTimingDefault = (dur > 0) || (pos > 0);
+
+                    const isYouTube =
+                      String(a.app_id || '') === 'com.google.ios.youtube' ||
+                      String(a.app_name || '').toLowerCase() === 'youtube';
+
+                    if (isYouTube) {
+                      const upd = a.media_position_updated_at;
+                      const ageMs = upd ? (Date.now() - new Date(upd).getTime()) : 999999999;
+                      const recent = ageMs < (3 * 60 * 1000);
+
+                      const hasTimingStrict = (dur > 0) && (pos > 0);
+                      return !(hasText && hasTimingStrict && recent);
+                    }
+
+                    return !(hasText && hasTimingDefault);
+                  }
+
+                  return true;
+                ]]]
+              show_labels: false
+              show_popup_label_backgrounds: false
+              mode: docked
             mobile: { hidden: true }
             routes: []
             media_player:
@@ -520,7 +676,7 @@ hemma_room:
                     const dur = Number(a.media_duration || 0);
                     const pos = Number(a.media_position || 0);
 
-                    const badTitles = new Set(['idle', 'paused', 'unknown', 'unavailable']);
+                    const badTitles = new Set(['idle','paused','unknown','unavailable']);
                     const titleKey = title.toLowerCase();
 
                     const hasText =
@@ -536,8 +692,7 @@ hemma_room:
                     if (isYouTube) {
                       const upd = a.media_position_updated_at;
                       const ageMs = upd ? (Date.now() - new Date(upd).getTime()) : 999999999;
-                      const recent = ageMs < (3 * 60 * 1000); // 3 minutes
-
+                      const recent = ageMs < (3 * 60 * 1000);
                       const hasTimingStrict = (dur > 0) && (pos > 0);
                       return hasText && hasTimingStrict && recent;
                     }
@@ -547,7 +702,6 @@ hemma_room:
 
                   return false;
                 ]]]
-
               album_cover_background: true
               tap_action: { action: more-info, entity: '[[[ return variables.media_player_2 ]]]' }
               hold_action: { action: none }
@@ -555,7 +709,58 @@ hemma_room:
 
           # Media Player 3
           - type: custom:navbar-card
-            desktop: { min_width: 1, hidden: false, show_labels: false, show_popup_label_backgrounds: false, mode: docked }
+            desktop:
+              min_width: 1
+              hidden: >
+                [[[
+                  const eid = variables.media_player_3;
+                  const enabled = variables.show_media_player_3 && eid;
+                  if (!enabled) return true;
+
+                  const s  = states[eid];
+                  const st = s?.state;
+                  const a  = s?.attributes || {};
+
+                  if (st === 'playing' || st === 'buffering') return false;
+
+                  if (st === 'paused') {
+                    const title  = String(a.media_title || '').trim();
+                    const artist = String(a.media_artist || a.artist || a.media_album_artist || '').trim();
+                    const app    = String(a.app_name || a.source || '').trim();
+
+                    const dur = Number(a.media_duration || 0);
+                    const pos = Number(a.media_position || 0);
+
+                    const badTitles = new Set(['idle','paused','unknown','unavailable']);
+                    const titleKey = title.toLowerCase();
+
+                    const hasText =
+                      (title && !badTitles.has(titleKey) && title !== app) ||
+                      !!artist;
+
+                    const hasTimingDefault = (dur > 0) || (pos > 0);
+
+                    const isYouTube =
+                      String(a.app_id || '') === 'com.google.ios.youtube' ||
+                      String(a.app_name || '').toLowerCase() === 'youtube';
+
+                    if (isYouTube) {
+                      const upd = a.media_position_updated_at;
+                      const ageMs = upd ? (Date.now() - new Date(upd).getTime()) : 999999999;
+                      const recent = ageMs < (3 * 60 * 1000);
+
+                      const hasTimingStrict = (dur > 0) && (pos > 0);
+                      return !(hasText && hasTimingStrict && recent);
+                    }
+
+                    return !(hasText && hasTimingDefault);
+                  }
+
+                  return true;
+                ]]]
+              show_labels: false
+              show_popup_label_backgrounds: false
+              mode: docked
             mobile: { hidden: true }
             routes: []
             media_player:
@@ -580,7 +785,7 @@ hemma_room:
                     const dur = Number(a.media_duration || 0);
                     const pos = Number(a.media_position || 0);
 
-                    const badTitles = new Set(['idle', 'paused', 'unknown', 'unavailable']);
+                    const badTitles = new Set(['idle','paused','unknown','unavailable']);
                     const titleKey = title.toLowerCase();
 
                     const hasText =
@@ -596,8 +801,7 @@ hemma_room:
                     if (isYouTube) {
                       const upd = a.media_position_updated_at;
                       const ageMs = upd ? (Date.now() - new Date(upd).getTime()) : 999999999;
-                      const recent = ageMs < (3 * 60 * 1000); // 3 minutes
-
+                      const recent = ageMs < (3 * 60 * 1000);
                       const hasTimingStrict = (dur > 0) && (pos > 0);
                       return hasText && hasTimingStrict && recent;
                     }
@@ -614,7 +818,58 @@ hemma_room:
 
           # Media Player 4
           - type: custom:navbar-card
-            desktop: { min_width: 1, hidden: false, show_labels: false, show_popup_label_backgrounds: false, mode: docked }
+            desktop:
+              min_width: 1
+              hidden: >
+                [[[
+                  const eid = variables.media_player_4;
+                  const enabled = variables.show_media_player_4 && eid;
+                  if (!enabled) return true;
+
+                  const s  = states[eid];
+                  const st = s?.state;
+                  const a  = s?.attributes || {};
+
+                  if (st === 'playing' || st === 'buffering') return false;
+
+                  if (st === 'paused') {
+                    const title  = String(a.media_title || '').trim();
+                    const artist = String(a.media_artist || a.artist || a.media_album_artist || '').trim();
+                    const app    = String(a.app_name || a.source || '').trim();
+
+                    const dur = Number(a.media_duration || 0);
+                    const pos = Number(a.media_position || 0);
+
+                    const badTitles = new Set(['idle','paused','unknown','unavailable']);
+                    const titleKey = title.toLowerCase();
+
+                    const hasText =
+                      (title && !badTitles.has(titleKey) && title !== app) ||
+                      !!artist;
+
+                    const hasTimingDefault = (dur > 0) || (pos > 0);
+
+                    const isYouTube =
+                      String(a.app_id || '') === 'com.google.ios.youtube' ||
+                      String(a.app_name || '').toLowerCase() === 'youtube';
+
+                    if (isYouTube) {
+                      const upd = a.media_position_updated_at;
+                      const ageMs = upd ? (Date.now() - new Date(upd).getTime()) : 999999999;
+                      const recent = ageMs < (3 * 60 * 1000);
+
+                      const hasTimingStrict = (dur > 0) && (pos > 0);
+                      return !(hasText && hasTimingStrict && recent);
+                    }
+
+                    return !(hasText && hasTimingDefault);
+                  }
+
+                  return true;
+                ]]]
+              show_labels: false
+              show_popup_label_backgrounds: false
+              mode: docked
             mobile: { hidden: true }
             routes: []
             media_player:
@@ -639,7 +894,7 @@ hemma_room:
                     const dur = Number(a.media_duration || 0);
                     const pos = Number(a.media_position || 0);
 
-                    const badTitles = new Set(['idle', 'paused', 'unknown', 'unavailable']);
+                    const badTitles = new Set(['idle','paused','unknown','unavailable']);
                     const titleKey = title.toLowerCase();
 
                     const hasText =
@@ -655,8 +910,7 @@ hemma_room:
                     if (isYouTube) {
                       const upd = a.media_position_updated_at;
                       const ageMs = upd ? (Date.now() - new Date(upd).getTime()) : 999999999;
-                      const recent = ageMs < (3 * 60 * 1000); // 3 minutes
-
+                      const recent = ageMs < (3 * 60 * 1000);
                       const hasTimingStrict = (dur > 0) && (pos > 0);
                       return hasText && hasTimingStrict && recent;
                     }
