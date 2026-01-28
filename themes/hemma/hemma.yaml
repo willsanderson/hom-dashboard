@@ -51,7 +51,7 @@ Hemma:
       primary-background-color: rgb(40, 40, 40)
       secondary-background-color: rgb(20, 20, 20)
       app-header-background-color: rgba(76, 80, 84, 0.3)
-      ha-card-background-active: rgba(180,180,180,0.2)
+      ha-card-background-active: rgba(100,100,100,0.25)
       ha-card-background: rgba(0,0,0,0.35)
       ha-dialog-background: rgba(0,0,0,0.35)
       ha-new-dialog-background: rgba(30,30,30,1)
@@ -78,11 +78,11 @@ Hemma:
       hemma-nav-fade: |
         linear-gradient(
           to top,
-          rgba(80,80,80,0.90) 0%,
-          rgba(80,80,80,0.75) 22%,
-          rgba(80,80,80,0.45) 42%,
-          rgba(80,80,80,0.22) 68%,
-          rgba(80,80,80,0.00) 95%
+          rgba(40,40,40,0.90) 0%,
+          rgba(40,40,40,0.75) 22%,
+          rgba(40,40,40,0.45) 42%,
+          rgba(40,40,40,0.22) 72%,
+          rgba(40,40,40,0.00) 98%
         )
 
       hero-img-filter: saturate(1.02) brightness(0.98)
@@ -112,19 +112,19 @@ Hemma:
     0 14px 22px rgba(0,0,0,0.04)
 
   ha-shadow-dark: >
-    inset 0 0 0 1px rgba(120,120,120,0.20),
-    inset 0 10px 14px -16px rgba(255,255,255,0.37),
-    inset 0 -10px 18px -16px rgba(255,255,255,0.20),
-    inset 1.5px 1.5px 1px -1.5px rgba(255,255,255,0.26),
-    inset -1.5px -1.5px 1px -1.5px rgba(255,255,255,0.06),
+    inset 0 0 0 1px rgba(120,120,120,0.14),
+    inset 0 10px 18px -16px rgba(255,255,255,0.12),
+    inset 0 -10px 18px -16px rgba(255,255,255,0.12),
+    inset 1.5px 1.5px 1px -1.5px rgba(255,255,255,0.14),
+    inset -1.5px -1.5px 1px -1.5px rgba(255,255,255,0.14),
     0 18px 20px rgba(0,0,0,0.04)
 
   ha-shadow-dark-active: >
-    inset 0 0 0 1px rgba(255,255,255,0.09),
-    inset 0 10px 14px -16px rgba(255,255,255,0.22),
-    inset 0 -10px 18px -16px rgba(150,150,150,0.14),
-    inset 1.3px 1.3px 2px -1px rgba(255,255,255,0.1),
-    inset -1px -2px 3px -1px rgba(255,255,255,0.08),
+    inset 0 0 0 1px rgba(220,220,220,0.09),
+    inset 0 10px 16px -16px rgba(255,255,255,0.16),
+    inset 0 -10px 18px -16px rgba(255,255,255,0.13),
+    inset 1.5px 1.5px 1px -1.5px rgba(255,255,255,0.16),
+    inset -1.5px -1.5px 1px -1.5px rgba(255,255,255,0.13),
     0 18px 20px rgba(0,0,0,0.04)
 
   primary-font-family: "Hanken Grotesk"
@@ -202,9 +202,9 @@ Hemma:
   badge-subline-lh: 1.18
   badge-subline-lh-mobile: 1.15
   badge-shadow: >
-    inset 0 10px 14px -14px rgba(0,0,0,0.18),
-    inset 0 -10px 14px -14px rgba(0,0,0,0.18),
-    inset 0 0 10px 3px rgba(0,0,0,0.06),
+    inset 0 10px 14px -14px rgba(0,0,0,0.15),
+    inset 0 -10px 14px -14px rgba(0,0,0,0.15),
+    inset 0 0 10px 3px rgba(0,0,0,0.05),
     0 12px 24px rgba(0,0,0,0.05)
 
   # Badge Formatting - Desktop
@@ -229,9 +229,9 @@ Hemma:
   badge-row-gap-mobile: 2px
   badge-col-gap-mobile: 5px
   badge-padding-mobile: 0 13px 0 8px
-  badge-min-height-mobile: 46px
+  badge-min-height-mobile: 43px
   badge-icon-size-mobile: 34px
-  badge-font-size-mobile: 14px
+  badge-font-size-mobile: 13px
   badge-btn-size-mobile: 18px
 
   # Temperature Formatting
@@ -251,6 +251,7 @@ Hemma:
   header-top-desktop: clamp(280px, 24vh, 300px)
   header-top-tablet: clamp(160px, 20vh, 260px)
   header-top-mobile: clamp(30px, 16vh, 70px)
+  header-top-mobile-nudge: 30px
 
   # Header Height
   hemma-header-cap-desktop: clamp(260px, 30vh, 380px)
@@ -275,7 +276,7 @@ Hemma:
   # Hero Title Sizing
   hero-title-size-desktop: clamp(52px, 4.6vw + 8px, 96px)
   hero-title-size-tablet: clamp(68px, 5.5vw + 8px, 90px)
-  hero-title-size-mobile: clamp(45px, 9vw + 2px, 68px)
+  hero-title-size-mobile: clamp(40px, 7vw + 2px, 65px)
   hero-title-line-height-desktop: 1.18
   hero-title-line-height-tablet: 1.18
   hero-title-line-height-mobile: 1.20
@@ -481,12 +482,12 @@ Hemma:
       }
 
       /* Mobile Portrait */
-      @media (max-width: 767px), (max-height: 500px) {
+      @media (max-width: 767px) and (orientation: portrait) {
         :host, ha-app-layout {
           --page-gutter: var(--page-gutter-mobile);
           --hemma-rail-left: var(--page-gutter-mobile);
           --content-rail: var(--hemma-rail-left);
-          --hero-top: var(--header-top-mobile);
+          --hero-top: calc(var(--header-top-mobile) - var(--header-top-mobile-nudge, 0px));
           --hero-gutter: var(--page-gutter-mobile);
           --hero-header-gap-current: var(--hero-header-gap-mobile, 5px);
           --hero-temp-font-size: var(--hero-temp-font-size-mobile, 14px);
@@ -512,6 +513,11 @@ Hemma:
           --hemma-entity-state-font-current: var(--hemma-entity-state-font-mobile, 14px);
           --hemma-entity-icon-size-current: var(--hemma-entity-icon-size-mobile, 26px);
         }
+
+        app-header ha-menu-button,
+        app-toolbar ha-menu-button{
+          display: none !important;
+        }
       }
 
       /* Mobile Landscape */
@@ -521,7 +527,6 @@ Hemma:
           --hemma-landscape-badge-stop-pad: 12px;
           --badge-media-max-width-current: calc(var(--hemma-landscape-left-rail) - var(--hemma-landscape-badge-stop-pad));
           --hemma-header-stack-h-current: var(--hemma-header-cap-landscape, clamp(170px, 44vh, 240px));
-          --hemma-tiles-top-landscape: calc(var(--hero-top, calc(env(safe-area-inset-top, 0px) + 96px)) + var(--hemma-tiles-top-landscape-nudge, 0px));
           --hemma-tiles-top-landscape: calc(var(--hero-top, calc(env(safe-area-inset-top, 0px) + 96px)) + var(--hemma-tiles-top-landscape-nudge, 0px));
           --hero-room-name-size-current: clamp(32px, 5.6vw + 6px, 46px);
           --hero-room-name-line-height-current: 1.12;

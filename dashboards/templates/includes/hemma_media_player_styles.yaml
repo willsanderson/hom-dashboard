@@ -5,7 +5,7 @@
     margin: 0 !important;
     padding: 0 !important;
 
-    --hemma-mp-h: calc(var(--badge-min-height-current, var(--badge-min-height, 50px)));
+    --hemma-mp-h: calc(var(--badge-min-height-current, var(--badge-min-height, 50px)) + 3px);
     --hemma-mp-title: var(--badge-font-size-current, var(--badge-font-size, 15px));
     --hemma-mp-artist: calc(var(--badge-font-size-current, var(--badge-font-size, 15px)) - 2px);
     --hemma-mp-img: var(--badge-icon-size-current, var(--badge-icon-size, 36px));
@@ -32,7 +32,7 @@
   /* Mobile */
   @media (max-width: 767px), (max-height: 500px){
     :host{
-      --hemma-mp-h: calc(var(--badge-min-height-current, var(--badge-min-height-mobile, 48px)));
+      --hemma-mp-h: calc(var(--badge-min-height-current, var(--badge-min-height-mobile, 48px)) + 3px);
       --hemma-mp-title: var(--badge-font-size-current, var(--badge-font-size-mobile, 14px));
       --hemma-mp-artist: calc(var(--badge-font-size-current, var(--badge-font-size-mobile, 14px)) - 2px);
       --hemma-mp-img: var(--badge-icon-size-current, var(--badge-icon-size-mobile, 34px));
@@ -81,7 +81,11 @@
     gap: 6px !important;
   }
 
-  .media-player:not(:has(img.media-player-image, ha-img.media-player-image[src], .media-player-image[style*="background-image"])) {
+  .media-player .media-player-icon-fallback{
+    display: none !important;
+  }
+
+  .media-player:has(.media-player-icon-fallback){
     padding-left: 14px !important;
   }
 

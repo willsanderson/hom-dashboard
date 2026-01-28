@@ -100,7 +100,7 @@ hemma_entity:
   styles:
     card:
       - background: var(--ha-card-background)
-      - backdrop-filter: blur(14px)
+      - backdrop-filter: blur(20px)
       - border-radius: var(--ha-card-border-radius, 30px)
       - position: relative
       - height: var(--hemma-entity-height-current, var(--hemma-entity-height-desktop, 180px))

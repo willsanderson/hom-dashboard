@@ -14,6 +14,7 @@ inset: >
        var(--hemma-entity-bottom-current, var(--hemma-entity-bottom-desktop, 20px))
        var(--hemma-entity-left-inset-current, var(--hemma-entity-left-inset-desktop, var(--hemma-rail-left, var(--page-gutter, 8vw))))
 padding: 20px var(--hemma-entity-shadow-pad-right-current, var(--hemma-entity-shadow-pad-right-desktop, 0px)) 40px 0
+align-content: end
 box-sizing: border-box
 overflow-x: auto
 overflow-y: var(--hemma-entity-overflow-y-current, var(--hemma-entity-overflow-y-desktop, hidden))
@@ -21,7 +22,6 @@ overflow-y: var(--hemma-entity-overflow-y-current, var(--hemma-entity-overflow-y
 scroll-snap-type: x proximity
 overflow-anchor: none
 direction: ltr
-align-content: end
 scrollbar-width: none
 -ms-overflow-style: none
 

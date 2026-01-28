@@ -6,6 +6,7 @@ button_card_templates: !include_dir_merge_named /config/dashboards/templates/but
 kiosk_mode:
   hide_header: true
   hide_sidebar: false
+  hide_dialog_light_settings_actions: true
   mobile_settings:
     hide_header: true
     hide_sidebar: false
@@ -157,16 +158,18 @@ views:
               icon: speaker
 
           - type: custom:button-card
+            template: hemma_media
+            entity: media_player.playstation_5
+            name: PS5
+            variables:
+              icon: sony
+
+          - type: custom:button-card
             template: hemma_fan
             entity: fan.dyson
             name: Fan
             variables:
               icon: fan
-
-          - type: custom:button-card
-            template: hemma_media
-            entity: media_player.playstation_5
-            name: PS5
 
   # ------------------------------------------------------
   # KITCHEN

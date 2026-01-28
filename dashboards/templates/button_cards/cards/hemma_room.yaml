@@ -16,10 +16,14 @@ hemma_room:
     - '[[[ return variables.media_player_2 ]]]'
     - '[[[ return variables.media_player_3 ]]]'
     - '[[[ return variables.media_player_4 ]]]'
+    - '[[[ return variables.image ]]]'
+    - '[[[ return variables.image_night ]]]'
+    - '[[[ return variables.image_position ]]]'
     - input_boolean.hemma_mobile_navigation
 
   variables:
     image:
+    image_night:
     image_position:
 
     show_quality: false
@@ -72,8 +76,12 @@ hemma_room:
       - --hero-img-scale: 1.08
       - --hero-img: >
           [[[
-            const img = variables.image || 'default';
-            const url = `/local/hemma/rooms/${img}.jpg`;
+            const base = variables.image || 'default';
+            const isDark = !!(hass?.themes?.darkMode);
+            const picked = isDark
+              ? (variables.image_night || `${base}-night`)
+              : base;
+            const url = `/local/hemma/rooms/${picked}.jpg`;
             return `url("${url}")`;
           ]]]
       - --hero-img-pos: >
@@ -353,6 +361,15 @@ hemma_room:
         - pointer-events: auto
         - cursor: pointer
 
+      preload:
+        - display: none
+        - width: 0
+        - height: 0
+        - opacity: 0
+        - overflow: hidden
+        - position: fixed
+        - pointer-events: none
+
   custom_fields:
     menu:
       card:
@@ -361,6 +378,20 @@ hemma_room:
 
     navigation:
       card: !include /config/dashboards/templates/includes/hemma_navigation.yaml
+
+    preload: |
+      [[[
+        const base = variables.image || 'default';
+        const night = variables.image_night || `${base}-night`;
+
+        const dayUrl = `/local/hemma/rooms/${base}.jpg`;
+        const nightUrl = `/local/hemma/rooms/${night}.jpg`;
+
+        return `
+          <img src="${dayUrl}" alt="" />
+          <img src="${nightUrl}" alt="" />
+        `;
+      ]]]
 
     temperature: |
       [[[
@@ -601,6 +632,7 @@ hemma_room:
                 action: more-info
                 entity: >
                   [[[
+
                     const enabled = (v) => {
                       if (v === undefined || v === null) return false;
                       if (typeof v === 'boolean') return v;

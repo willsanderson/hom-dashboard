@@ -11,7 +11,6 @@ hemma_badge_base:
       - min-height: var(--badge-min-height-current, var(--badge-min-height, 44px))
       - display: >
           [[[
-            // If a badge passes variables.enabled, honor it.
             if (variables.enabled === undefined) return 'inline-grid';
             return variables.enabled ? 'inline-grid' : 'none';
           ]]]

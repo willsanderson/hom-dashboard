@@ -129,3 +129,13 @@ hemma_menu_icon:
         left: calc(var(--hero-gutter, 10px) - 16px) !important;
       }
     }
+
+    @media (max-width: 767px) and (orientation: portrait){
+      :host{
+        display: none !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        width: 0 !important;
+        height: 0 !important;
+      }
+    }

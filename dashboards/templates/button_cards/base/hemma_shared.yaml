@@ -10,9 +10,13 @@ hemma_shared:
       pointer-events: none;
       background-image:
         url("/local/hemma/rooms/home.jpg"),
+        url("/local/hemma/rooms/home-night.jpg"),
         url("/local/hemma/rooms/livingroom.jpg"),
+        url("/local/hemma/rooms/livingroom-night.jpg"),
         url("/local/hemma/rooms/kitchen.jpg"),
-        url("/local/hemma/rooms/bedroom.jpg");
+        url("/local/hemma/rooms/kitchen-night.jpg"),
+        url("/local/hemma/rooms/bedroom.jpg"),
+        url("/local/hemma/rooms/bedroom-night.jpg");
       background-repeat: no-repeat;
       background-size: cover;
     }
@@ -30,18 +34,15 @@ hemma_shared:
       --hero-temp-letter-spacing: 0.04em;
       --hero-temp-reserve: calc(var(--hero-temp-font-size) * 1.2);
       --hero-header-gap-current: var(--hero-header-gap-desktop, 6px);
-
       --hero-img-blur-current: var(--hero-img-blur, 4px);
       --hero-img-scale-current: var(--hero-img-scale, 1.08);
-
       --hero-img-filter: blur(var(--hero-img-blur-current))
         saturate(var(--hero-img-saturate, 1.02))
         brightness(var(--hero-img-brightness, .985));
-
       --hero-img-filter-from: blur(var(--hero-img-blur-current))
         saturate(var(--hero-img-saturate-from, 1.0))
         brightness(var(--hero-img-brightness-from, .97));
-
+      --hero-title-to-badges-gap-mobile: 8px;
       --hemma-hover-filter: none !important;
       -webkit-tap-highlight-color: transparent !important;
       --mdc-ripple-press-opacity: 0 !important;
@@ -89,11 +90,9 @@ hemma_shared:
       background-size: cover;
       background-repeat: no-repeat;
       opacity:1;
-
       filter: var(--hero-img-filter);
       transform: scale(var(--hero-img-scale-current, 1.08)) !important;
       transform-origin: center;
-
       transition: opacity .35s ease, filter .35s ease, transform .35s ease;
       will-change: opacity, filter, transform;
       animation: heroSwap .35s ease;
@@ -142,8 +141,9 @@ hemma_shared:
     /* Mobile */
     @media (max-width: 767px), (max-height: 500px){
       :host{
-        --hero-top: var(--header-top-mobile, clamp(80px, 12vh, 120px));
+        --hero-top: calc(var(--header-top-mobile, clamp(80px, 12vh, 120px)) - var(--header-top-mobile-nudge, 0px));
         --hero-temp-font-size: var(--hero-temp-font-size-mobile, 13px);
+        --hero-temp-reserve: 0px;
         --hero-header-gap-current: var(--hero-header-gap-mobile, 5px);
         --tiles-pad-bottom: calc(130px + env(safe-area-inset-bottom));
         --hero-gutter: var(--content-rail,
@@ -194,6 +194,23 @@ hemma_shared:
         margin:0 !important;
         overflow:visible !important;
         display:grid !important;
+      }
+    }
+
+    /* Mobile portrait tweaks */
+    @media (max-width: 767px) and (orientation: portrait){
+      :host{
+        --hero-temp-reserve: 0px;
+      }
+
+      .hero-temp-line{
+        display: none !important;
+      }
+
+      #name,
+      .name,
+      .button-card-name{
+        margin-bottom: var(--hero-title-to-badges-gap-mobile, 8px) !important;
       }
     }
 
