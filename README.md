@@ -47,8 +47,8 @@ Under the hood it’s still YAML files you can read, copy, and modify. This repo
 
 
 ## Mobile View (Light/Dark)
-<img src="https://github.com/user-attachments/assets/3a92731e-b67a-40e7-a0a2-80024f31f271" width="400">
-<img src="https://github.com/user-attachments/assets/751b66cd-1880-45c7-8d7a-b39a0c90ae73" width="400">
+<img src="https://github.com/user-attachments/assets/67b49e53-4136-4d71-836c-2b8a1ef5c830" width="400">
+<img src="https://github.com/user-attachments/assets/8bcfa79f-0064-4465-8160-07b8863cae4d" width="400">
 
 ## Tablet View
 ![tablet-livingroom-light](https://github.com/user-attachments/assets/019693ef-3969-4104-ac5e-ded769ab3ccb)
