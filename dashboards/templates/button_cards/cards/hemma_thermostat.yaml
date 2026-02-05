@@ -143,6 +143,7 @@ hemma_thermostat:
       card:
         type: custom:button-card
         template: [hemma_entity]
+        entity: '[[[ return entity.entity_id ]]]'
         show_entity_picture: false
         show_icon: false
         name: Target Temp
@@ -224,7 +225,9 @@ hemma_thermostat:
                       entity_id: '[[[ return entity.entity_id ]]]'
                       temperature: |
                         [[[
-                          return parseFloat(states['input_number.hemma_thermostat_target_temperature'].state);
+                          const st = states['input_number.hemma_thermostat_target_temperature'];
+                          const n = parseFloat(st?.state);
+                          return Number.isFinite(n) ? n : null;
                         ]]]
                   styles:
                     card:
@@ -269,13 +272,13 @@ hemma_thermostat:
     name:
       - opacity: |
           [[[
-            return states[variables.thermostat_toggle_helper].state === "on" ? "0" : "1";
+            return (states[variables.thermostat_toggle_helper]?.state === "on") === "on" ? "0" : "1";
           ]]]
       - transition: opacity 0.25s
     state:
       - opacity: |
           [[[
-            return states[variables.thermostat_toggle_helper].state === "on" ? "0" : "0.85";
+            return (states[variables.thermostat_toggle_helper]?.state === "on") === "on" ? "0" : "0.85";
           ]]]
       - transition: opacity 0.25s
 
@@ -355,7 +358,7 @@ hemma_thermostat:
         - pointer-events: auto
         - display: |
             [[[
-              return states[variables.thermostat_toggle_helper].state === "on"
+              return (states[variables.thermostat_toggle_helper]?.state === "on") === "on"
                 ? "none"
                 : "block";
             ]]]
@@ -367,7 +370,7 @@ hemma_thermostat:
         - pointer-events: auto
         - display: |
             [[[
-              return states[variables.thermostat_toggle_helper].state === "on"
+              return (states[variables.thermostat_toggle_helper]?.state === "on") === "on"
                 ? "block"
                 : "none";
             ]]]
