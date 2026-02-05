@@ -272,13 +272,15 @@ hemma_thermostat:
     name:
       - opacity: |
           [[[
-            return (states[variables.thermostat_toggle_helper]?.state === "on") === "on" ? "0" : "1";
+            const on = states[variables.thermostat_toggle_helper]?.state === "on";
+            return on ? "0" : "1";
           ]]]
       - transition: opacity 0.25s
     state:
       - opacity: |
           [[[
-            return (states[variables.thermostat_toggle_helper]?.state === "on") === "on" ? "0" : "0.85";
+            const on = states[variables.thermostat_toggle_helper]?.state === "on";
+            return on ? "0" : "0.85";
           ]]]
       - transition: opacity 0.25s
 
@@ -358,11 +360,10 @@ hemma_thermostat:
         - pointer-events: auto
         - display: |
             [[[
-              return (states[variables.thermostat_toggle_helper]?.state === "on") === "on"
-                ? "none"
-                : "block";
+              const on = states[variables.thermostat_toggle_helper]?.state === "on";
+              return on ? "none" : "block";
             ]]]
-            
+
       target_temperature:
         - position: absolute
         - inset: 0
@@ -370,7 +371,6 @@ hemma_thermostat:
         - pointer-events: auto
         - display: |
             [[[
-              return (states[variables.thermostat_toggle_helper]?.state === "on") === "on"
-                ? "block"
-                : "none";
+              const on = states[variables.thermostat_toggle_helper]?.state === "on";
+              return on ? "block" : "none";
             ]]]
