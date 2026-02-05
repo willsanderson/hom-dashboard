@@ -1,3 +1,6 @@
+## IMPORTANT UPDATE
+Currently card-mod 4.2 is not compatible with Hemma, as it does not currently use the media query variables in the theme, causing the mobile/tablet view to use desktop variables. Please continue to use card-mod 4.1 until a fix is released.
+
 ## :house_with_garden: Hemma
 
 A modern, minimal, mobile-friendly dashboard for Home Assistant inspired by the [Homio](https://github.com/iamtherufus/Homio) dashboard by iamtherufus. Hemma features frosted glass entity cards, light and dark mode, sensor and media badges, and streamlined navigation controls for desktop, tablet, and mobile devices.
