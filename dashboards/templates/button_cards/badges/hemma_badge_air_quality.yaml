@@ -1,4 +1,5 @@
-# Air Quality
+# Air Quality Badge
+# Shows air quality sensor with color-coded status
 hemma_badge_air_quality:
   template: [hemma_badge_base]
 
@@ -9,7 +10,13 @@ hemma_badge_air_quality:
 
   extra_styles: >
     [[[
-      const enabled = !(variables?.enabled === false || variables?.enabled === 'false');
+      // Robust enabled check (see hemma_badge_base.yaml for pattern docs)
+      const v = variables?.enabled;
+      const enabled = (v === undefined || v === null) ? true :
+        (typeof v === 'boolean') ? v :
+        (typeof v === 'number') ? v !== 0 :
+        !['false','0','no','off','disabled'].includes(String(v).trim().toLowerCase());
+
       const hasEnt  = !!entity?.entity_id;
       const stRaw   = String(entity?.state ?? '').trim();
       const st      = stRaw.toLowerCase();
@@ -22,7 +29,13 @@ hemma_badge_air_quality:
     card:
       - display: >
           [[[
-            const enabled = !(variables?.enabled === false || variables?.enabled === 'false');
+            // Robust enabled check (see hemma_badge_base.yaml for pattern docs)
+            const v = variables?.enabled;
+            const enabled = (v === undefined || v === null) ? true :
+              (typeof v === 'boolean') ? v :
+              (typeof v === 'number') ? v !== 0 :
+              !['false','0','no','off','disabled'].includes(String(v).trim().toLowerCase());
+
             const hasEnt  = !!entity?.entity_id;
             const stRaw   = String(entity?.state ?? '').trim();
             const st      = stRaw.toLowerCase();

@@ -1,25 +1,92 @@
 # Shared Styles
+# ============================================================================
+# This template provides shared styles for the Hemma room hero cards.
+#
+# CONFIGURABLE VARIABLES:
+#   preload_rooms: Array of room names to preload images for (light + dark)
+#                  Default: ['home', 'livingroom', 'kitchen', 'bedroom']
+#
+#   preload_night_suffix: Suffix for dark mode images (default: '-night')
+#   preload_path: Base path for room images (default: '/local/hemma/rooms')
+#   preload_extension: Image file extension (default: '.jpg')
+# ============================================================================
 hemma_shared:
+  variables:
+    # Room images to preload (for smooth transitions between rooms)
+    # Add your room names here - both light and dark variants will be preloaded
+    preload_rooms:
+      - home
+      - livingroom
+      - kitchen
+      - bedroom
+    preload_night_suffix: "-night"
+    preload_path: "/local/hemma/rooms"
+    preload_extension: ".jpg"
+
+  styles:
+    grid:
+      # Grid layout - temperature row only on desktop/tablet/mobile-landscape
+      - grid-template-columns: 1fr max-content
+      - grid-template-areas: >
+          [[[
+            const mm = (q) => (window.matchMedia ? window.matchMedia(q).matches : false);
+            const isPhonePortrait =
+              (mm('(pointer: coarse)') || mm('(hover: none)')) &&
+              mm('(max-width: 767px)') &&
+              mm('(orientation: portrait)');
+
+            return isPhonePortrait
+              ? `"n            weather"
+                 "badges       badges"
+                 "badges_media badges_media"`
+              : `"temperature weather"
+                 "n           weather"
+                 "badges      badges"
+                 "badges_media badges_media"`;
+          ]]]
+      - grid-template-rows: >
+          [[[
+            const mm = (q) => (window.matchMedia ? window.matchMedia(q).matches : false);
+            const isPhonePortrait =
+              (mm('(pointer: coarse)') || mm('(hover: none)')) &&
+              mm('(max-width: 767px)') &&
+              mm('(orientation: portrait)');
+
+            return isPhonePortrait
+              ? "min-content min-content min-content"
+              : "minmax(var(--hero-temp-reserve, 22px), min-content) min-content min-content min-content";
+          ]]]
+      - row-gap: var(--hero-header-gap-current, 6px)
+      - align-content: start
+
   extra_styles: |
-    :host::before{
+    [[[
+      // Build preload image list from variables
+      const rooms = variables.preload_rooms || [];
+      const suffix = variables.preload_night_suffix || '-night';
+      const basePath = variables.preload_path || '/local/hemma/rooms';
+      const ext = variables.preload_extension || '.jpg';
+
+      let preloadCss = '';
+      if (rooms.length > 0) {
+        const urls = rooms.flatMap(room => [
+          `url("${basePath}/${room}${ext}")`,
+          `url("${basePath}/${room}${suffix}${ext}")`
+        ]);
+        preloadCss = `:host::before{
       content: "";
       position: fixed;
       width: 0;
       height: 0;
       opacity: 0;
       pointer-events: none;
-      background-image:
-        url("/local/hemma/rooms/home.jpg"),
-        url("/local/hemma/rooms/home-night.jpg"),
-        url("/local/hemma/rooms/livingroom.jpg"),
-        url("/local/hemma/rooms/livingroom-night.jpg"),
-        url("/local/hemma/rooms/kitchen.jpg"),
-        url("/local/hemma/rooms/kitchen-night.jpg"),
-        url("/local/hemma/rooms/bedroom.jpg"),
-        url("/local/hemma/rooms/bedroom-night.jpg");
+      background-image: ${urls.join(', ')};
       background-repeat: no-repeat;
       background-size: cover;
-    }
+    }`;
+      }
+
+      return `${preloadCss}
 
     :host{
       position: relative;
@@ -50,7 +117,7 @@ hemma_shared:
 
     :host ha-card{
       position: relative;
-      pointer-events: none !important;
+      pointer-events: auto !important;
       cursor: default !important;
       filter: none !important;
       opacity: 1 !important;
@@ -145,7 +212,7 @@ hemma_shared:
         --hero-temp-font-size: var(--hero-temp-font-size-mobile, 13px);
         --hero-temp-reserve: 0px;
         --hero-header-gap-current: var(--hero-header-gap-mobile, 5px);
-        --tiles-pad-bottom: calc(130px + env(safe-area-inset-bottom));
+        --tiles-pad-bottom: 164px;
         --hero-gutter: var(--content-rail,
                       var(--hemma-rail-left,
                       var(--page-gutter-mobile, 10px)));
@@ -157,25 +224,23 @@ hemma_shared:
         height: 100svh !important;
         min-height: 100svh !important;
         max-height: 100svh !important;
+
         overflow: hidden !important;
-        -webkit-overflow-scrolling: auto !important;
-        touch-action: none !important;
         padding: 0 !important;
+        touch-action: none !important;
       }
 
       :host .button-card-main{
         position: fixed !important;
         inset: 0 !important;
-        width: 100% !important;
-        box-sizing: border-box !important;
         overflow: hidden !important;
-        margin: 0 !important;
         padding:
           var(--hero-top)
           var(--hero-gutter)
           var(--tiles-pad-bottom)
           var(--hero-gutter) !important;
       }
+    }
 
       :host .container{
         position: relative !important;
@@ -229,3 +294,63 @@ hemma_shared:
           calc(18px + env(safe-area-inset-left, 0px)) !important;
       }
     }
+
+    /* Weather Formatting */
+    .hemma-weather-glance{
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 5px;
+      max-width: min(60vw, 520px);
+      overflow: visible;
+    }
+
+    .hemma-weather-glance .hw-text{
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: center;
+      min-width: 0;
+      max-width: 100%;
+      overflow: visible;
+    }
+
+    .hemma-weather-glance .hw-title{
+      font-size: var(--hero-weather-title-size, 12px);
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      opacity: 0.95;
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+
+    .hemma-weather-glance .hw-sub{
+      font-size: var(--hero-weather-sub-size, 12px);
+      font-weight: 500;
+      opacity: 0.76;
+      line-height: 1.1;
+      white-space: normal;
+      overflow: visible;
+      text-overflow: unset;
+      max-width: 100%;
+    }
+
+    .hemma-weather-glance .hw-ico{
+      flex: 0 0 auto;
+      width: var(--hero-weather-icon-size, 30px);
+      height: var(--hero-weather-icon-size, 30px);
+      opacity: 0.92;
+    }
+
+    @media (max-width: 767px){
+      :host{
+        --hero-weather-title-size: 12px;
+        --hero-weather-sub-size: 12px;
+        --hero-weather-icon-size: 30px;
+      }
+
+      .hemma-weather-glance{
+        max-width: min(72vw, 520px);
+      }
+    }`;
+    ]]]

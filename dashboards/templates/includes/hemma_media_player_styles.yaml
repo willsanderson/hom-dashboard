@@ -45,19 +45,48 @@
 
   :is(
     ha-card.navbar-card.desktop,
+    ha-card.navbar-card.docked,
+    ha-card.navbar-card.desktop.bottom.docked,
     .navbar-card.desktop,
-    .navbar.desktop
+    .navbar.desktop,
+    .navbar.desktop.bottom,
+    .navbar.desktop.bottom.docked,
+    .navbar.docked
   ){
     background: transparent !important;
     border: 0 !important;
     box-shadow: none !important;
     padding: 0 !important;
+    padding-bottom: 0 !important;
     margin: 0 !important;
+    margin-bottom: 0 !important;
     overflow: visible !important;
     position: relative !important;
     inset: auto !important;
     width: fit-content !important;
     height: auto !important;
+    min-height: 0 !important;
+    gap: 0 !important;
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    top: unset !important;
+    bottom: unset !important;
+    left: unset !important;
+    right: unset !important;
+    transform: none !important;
+  }
+
+  ha-card.navbar-card.desktop,
+  ha-card.navbar-card.bottom,
+  ha-card.navbar-card.desktop.bottom,
+  ha-card.navbar-card.desktop.bottom.docked {
+    display: none !important;
+  }
+
+  ha-card.media-player,
+  ha-card.media-player.bottom-center {
+    display: flex !important;
   }
 
   .media-player{
@@ -67,7 +96,7 @@
     display: flex !important;
     align-items: center !important;
     width: fit-content !important;
-    max-width: min(var(--badge-media-max-width-current, 640px), calc(100vw - 24px)) !important;
+    max-width: min(var(--badge-media-max-width-current, 640px), calc(100vw - 2 * var(--page-gutter, 8vw))) !important;
     min-height: var(--hemma-mp-h) !important;
     margin: 0 !important;
     padding: 0 8px 0 3px !important;
@@ -81,12 +110,18 @@
     gap: 6px !important;
   }
 
-  .media-player .media-player-icon-fallback{
-    display: none !important;
+  @media (max-width: 767px) and (orientation: portrait){
+    .media-player{
+      /* Account for: card padding (11+11), container margin (2), visual adjustment (6) = 30px */
+      max-width: calc(100vw - 30px) !important;
+    }
   }
 
-  .media-player:has(.media-player-icon-fallback){
-    padding-left: 14px !important;
+  @media (max-height: 500px) and (orientation: landscape){
+    .media-player{
+      /* Account for: card padding (18+18), container margin (2), visual adjustment (6) = 44px */
+      max-width: calc(100vw - 44px) !important;
+    }
   }
 
   img.media-player-image{
@@ -98,6 +133,8 @@
     border-radius: 9999px !important;
     object-fit: cover !important;
     flex: 0 0 auto !important;
+    position: relative !important;
+    z-index: 1 !important;
   }
 
   ha-img.media-player-image:not([src]),
@@ -136,14 +173,6 @@
     z-index: 2 !important;
   }
 
-  .media-player-icon{
-    width: var(--hemma-mp-icon) !important;
-    height: var(--hemma-mp-icon) !important;
-    min-width: var(--hemma-mp-icon) !important;
-    min-height: var(--hemma-mp-icon) !important;
-    border-radius: 9999px !important;
-  }
-
   .media-player-title{
     font-size: var(--hemma-mp-title) !important;
     font-weight: 700 !important;
@@ -151,17 +180,25 @@
     padding: 0 7px 0 0 !important;
     color: rgba(255,255,255,0.96) !important;
     text-shadow: 0 0 3px rgba(0,0,0,0.25) !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 100% !important;
   }
 
   .media-player-artist{
     font-size: var(--hemma-mp-artist) !important;
     font-weight: 500 !important;
-    line-height: 1.05 !important;
+    line-height: 1.2 !important;
     padding: 0 7px 0 0 !important;
     margin-top: 2px !important;
     opacity: 0.82 !important;
     color: rgba(255,255,255,0.90) !important;
     text-shadow: 0 0 3px rgba(0,0,0,0.20) !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 100% !important;
   }
 
   .media-player-controls{
@@ -207,4 +244,13 @@
 
   .media-player-button-play-pause{ margin: 0 !important; }
   .media-player-button-next{ margin: 0 !important; }
-  .media-player-info{ flex: 0 1 auto !important; }
+
+  .media-player-info{
+    flex: 0 1 auto !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+  }

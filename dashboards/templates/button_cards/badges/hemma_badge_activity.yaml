@@ -1,4 +1,5 @@
 # Activity Badge
+# Shows media activity
 hemma_badge_activity:
   template: [hemma_badge_base]
   show_state: false
@@ -9,7 +10,6 @@ hemma_badge_activity:
 
   styles:
     card:
-      - padding: 0 14px 0 8px !important
       - background: rgba(0,0,0,0.18) !important
       - -webkit-backdrop-filter: blur(14px) saturate(1.2) !important
       - backdrop-filter: blur(14px) saturate(1.2) !important
@@ -80,6 +80,9 @@ hemma_badge_activity:
 
     icon:
       - display: none
+
+    entity_picture:
+      - display: block
 
   name: >
     [[[
@@ -177,14 +180,29 @@ hemma_badge_activity:
 
     #name, #name *{ overflow: visible !important; }
 
-    #container,
-    #container > #aspect-ratio{
-      position: relative !important;
-      z-index: 3 !important;
+    #container{
+      height: auto !important;
+      min-height: 0 !important;
+      align-items: center !important;
+      align-content: center !important;
     }
 
-    #img-cell{
-      position: relative !important;
-      z-index: 4 !important;
-      isolation: isolate !important;
+    #container > #aspect-ratio{
+      margin-left: -4px !important;
+      margin-right: 8px !important;
+      display: block !important;
+      line-height: 0 !important;
+      place-self: center !important;
+      transform: translateY(-0.5px) !important;
     }
+
+    #container > #aspect-ratio,
+    #img-cell,
+    #name{
+      position: relative !important;
+      z-index: 6 !important;
+      opacity: 1 !important;
+    }
+
+    :host ha-card::after{ z-index: 0 !important; }
+    :host ha-card::before{ z-index: 1 !important; }

@@ -1,0 +1,226 @@
+# Weather Widget (Mobile portrait hero row)
+# ============================================================================
+# CONFIGURABLE VARIABLES:
+#   temp_unit: 'F' or 'C' (default: 'F')
+#
+# TEMPERATURE THRESHOLDS (keep in sync with hemma_temperature.yaml):
+#   Fahrenheit (default)     Celsius (temp_unit: 'C')
+#   Very Cold:   <= 65°F     Very Cold:   <= 18°C
+#   Cool:        <= 70°F     Cool:        <= 21°C
+#   Comfortable: <= 76°F     Comfortable: <= 24°C
+#   Warm:        <= 81°F     Warm:        <= 27°C
+#   Hot:         <= 85°F     Hot:         <= 29°C
+#   Very Hot:    > 85°F      Very Hot:    > 29°C
+# ============================================================================
+hemma_weather:
+  variables:
+    show_icon: true
+    weather_mode: ''
+    weather_temp_sensor: ''
+    temp_sensor: ''
+    temp_unit: 'F'
+
+  show_icon: true
+  show_name: true
+  show_label: true
+  show_state: false
+
+  tap_action:
+    action: more-info
+
+  triggers_update:
+    - '[[[ return entity?.entity_id ]]]'
+    - '[[[ return variables?.weather_temp_sensor ]]]'
+    - '[[[ return variables?.temp_sensor ]]]'
+
+  styles:
+    card:
+      - background: none
+      - box-shadow: none
+      - border: 0
+      - padding: 0
+      - margin: 0
+      - width: max-content
+      - overflow: visible
+      - "--mdc-ripple-press-opacity": 0
+      - "-webkit-tap-highlight-color": transparent
+
+    grid:
+      # Matches the hemma_room.yaml weather widget layout
+      - grid-template-areas: '"n i" "l i"'
+      - grid-template-columns: max-content max-content
+      - grid-template-rows: min-content
+      - column-gap: 4px
+      - row-gap: 2px
+      - justify-content: end
+      - justify-items: end
+      - align-items: center
+      - overflow: visible
+      - min-width: 0
+      - margin-right: 2px
+
+    name:
+      - justify-self: end
+      - text-align: right
+      - font-size: var(--hero-weather-title-size, 12px)
+      - font-weight: 700
+      - letter-spacing: -0.2px
+      - line-height: 1
+      - white-space: nowrap
+      - overflow: visible
+      - text-overflow: unset
+      - max-width: none
+      - opacity: 0.95
+
+    label:
+      - justify-self: end
+      - text-align: right
+      - font-size: var(--hero-weather-sub-size, 12px)
+      - font-weight: 500
+      - line-height: 1.1
+      - opacity: 0.76
+      - white-space: nowrap
+      - overflow: visible
+      - text-overflow: unset
+      - max-width: none
+
+    icon:
+      - width: var(--hero-weather-icon-size, 30px)
+      - height: var(--hero-weather-icon-size, 30px)
+      - opacity: 0.92
+
+  # --- Content (ported from your hemmma_room.yaml weather widget logic) ---
+
+  name: >
+    [[[
+      const mode = String(variables.weather_mode || '').toLowerCase();
+      const isRoom = (mode === 'room');
+
+      let tempVal = null;
+
+      // For room mode, use temp_sensor
+      if (isRoom && variables.temp_sensor) {
+        const s = states[variables.temp_sensor];
+        if (s && !['unknown','unavailable',''].includes(String(s.state))) {
+          const n = Number(s.state);
+          if (!Number.isNaN(n)) tempVal = Math.round(n);
+        }
+        return (tempVal === null) ? '' : `${tempVal}°`;
+      }
+
+      // For outdoor mode: prefer dedicated temp sensor
+      const tempEid = variables.weather_temp_sensor;
+      const w = entity;
+
+      if (tempEid) {
+        const tState = states[tempEid];
+        if (tState && !['unknown','unavailable',''].includes(String(tState.state))) {
+          const n = Number(tState.state);
+          if (!Number.isNaN(n)) tempVal = Math.round(n);
+        }
+      }
+
+      // Fallback to weather entity attribute temperature
+      if (tempVal === null) {
+        const n = Number(w?.attributes?.temperature);
+        if (!Number.isNaN(n)) tempVal = Math.round(n);
+      }
+
+      // Optional fallback to an indoor sensor if you pass it (keeps template reusable)
+      if (tempVal === null && variables.temp_sensor) {
+        const s = states[variables.temp_sensor];
+        const n = Number(s?.state);
+        if (!Number.isNaN(n)) tempVal = Math.round(n);
+      }
+
+      return (tempVal === null) ? '' : `${tempVal}°`;
+    ]]]
+
+  label: >
+    [[[
+      const mode = String(variables.weather_mode || '').toLowerCase();
+      const isRoom = (mode === 'room');
+      const unit = String(variables.temp_unit || 'F').toUpperCase();
+
+      // Thresholds based on unit (F or C)
+      const thresholds = (unit === 'C')
+        ? { veryCold: 18, cool: 21, comfortable: 24, warm: 27, hot: 29 }
+        : { veryCold: 65, cool: 70, comfortable: 76, warm: 81, hot: 85 };
+
+      const getComfortLabel = (v) => {
+        if (v <= thresholds.veryCold) return 'Very Cold';
+        if (v <= thresholds.cool) return 'Cool';
+        if (v <= thresholds.comfortable) return 'Comfortable';
+        if (v <= thresholds.warm) return 'Warm';
+        if (v <= thresholds.hot) return 'Hot';
+        return 'Very Hot';
+      };
+
+      // For room mode, show comfort level based on temperature
+      if (isRoom && variables.temp_sensor) {
+        const s = states[variables.temp_sensor];
+        if (!s || ['unknown','unavailable',''].includes(String(s.state))) return '';
+
+        const v = Number(s.state);
+        if (Number.isNaN(v)) return '';
+
+        return getComfortLabel(v);
+      }
+
+      // For outdoor mode, show weather condition
+      const w = entity;
+      const condRaw = String(w?.state || '').toLowerCase();
+      if (!condRaw || ['unknown','unavailable'].includes(condRaw)) return '';
+
+      // Use HA localization if available, else prettify
+      if (hass?.localize) {
+        const t = hass.localize(`state.weather.${condRaw}`);
+        if (t && !t.includes(`state.weather.${condRaw}`)) return t;
+      }
+
+      return condRaw
+        .replace(/_/g,' ')
+        .replace(/-/g,' ')
+        .replace(/\b\w/g, c => c.toUpperCase());
+    ]]]
+
+  icon: >
+    [[[
+      const show = (variables?.show_icon !== false);
+      if (!show) return 'mdi:blank';
+
+      const mode = String(variables.weather_mode || '').toLowerCase();
+      const isRoom = (mode === 'room');
+
+      // For room mode, show thermometer icon
+      if (isRoom) {
+        return 'mdi:home-thermometer-outline';
+      }
+
+      // For outdoor mode, show weather icon
+      const w = entity;
+      const condRaw = String(w?.state || '').toLowerCase();
+
+      const iconMap = {
+        'sunny': 'mdi:weather-sunny',
+        'clear-night': 'mdi:weather-night',
+        'partlycloudy': 'mdi:weather-partly-cloudy',
+        'cloudy': 'mdi:weather-cloudy',
+        'overcast': 'mdi:weather-cloudy',
+        'rainy': 'mdi:weather-rainy',
+        'pouring': 'mdi:weather-pouring',
+        'snowy': 'mdi:weather-snowy',
+        'snow': 'mdi:weather-snowy',
+        'snowy-rainy': 'mdi:weather-snowy-rainy',
+        'hail': 'mdi:weather-hail',
+        'lightning': 'mdi:weather-lightning',
+        'lightning-rainy': 'mdi:weather-lightning-rainy',
+        'fog': 'mdi:weather-fog',
+        'windy': 'mdi:weather-windy',
+        'windy-variant': 'mdi:weather-windy-variant',
+        'exceptional': 'mdi:alert-circle-outline'
+      };
+
+      // If your weather integration provides its own icon attribute, allow it as fallback
+      return iconMap[condRaw] || w?.attributes?.icon || 'mdi:weather-partly-cloudy';
+    ]]]

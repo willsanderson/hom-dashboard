@@ -7,11 +7,8 @@ Hemma:
       ha-card-background: rgba(200,200,200,0.08)
       ha-card-background-active: rgba(255,255,255,0.3)
       ha-dialog-background: rgba(255,255,255,0.1)
-      ha-new-dialog-background: rgba(50,50,50,1)
       thermostat-card-off: rgba(0,0,0,.08)
       thermostat-card-on: rgba(255,255,255,0.1)
-      app-theme-color: rgb(0, 0, 0)
-      ha-card-box-shadow: none
       button-card-box-shadow: var(--ha-shadow-light)
       button-card-box-shadow-active: var(--ha-shadow-light-active)
 
@@ -36,8 +33,6 @@ Hemma:
           rgba(100,100,100,0.16) 68%,
           rgba(100,100,100,0.00) 95%
         )
-      hero-img-filter: saturate(1.02) brightness(.985)
-      hero-tint: rgba(55,55,55,0.50)
 
       primary-text-color: "#ffffff"
       text-primary-color: rgba(255,255,255,.95)
@@ -54,11 +49,8 @@ Hemma:
       ha-card-background-active: rgba(100,100,100,0.25)
       ha-card-background: rgba(0,0,0,0.35)
       ha-dialog-background: rgba(0,0,0,0.35)
-      ha-new-dialog-background: rgba(30,30,30,1)
       thermostat-card-off: rgba(150,150,150,0.12)
       thermostat-card-on: rgba(255,255,255,0.12)
-      app-theme-color: rgb(0, 0, 0)
-      ha-card-box-shadow: none
       button-card-box-shadow: var(--ha-shadow-dark)
       button-card-box-shadow-active: var(--ha-shadow-dark-active)
 
@@ -74,7 +66,6 @@ Hemma:
         inset 0 0 0 .8px rgba(0,0,0,0.03),
         0 12px 24px rgba(0,0,0,0.04)
       hemma-nav-active-fill: rgba(255,255,255,0.2)
-      hemma-nav-blur: blur(10px) saturate(180%)
       hemma-nav-fade: |
         linear-gradient(
           to top,
@@ -84,9 +75,6 @@ Hemma:
           rgba(40,40,40,0.22) 72%,
           rgba(40,40,40,0.00) 98%
         )
-
-      hero-img-filter: saturate(1.02) brightness(0.98)
-      hero-tint: rgba(55,55,55,0.50)
 
       primary-text-color: "#ffffff"
       text-primary-color: rgba(255,255,255,.98)
@@ -98,6 +86,20 @@ Hemma:
       vignette-edge: 0.68
       vignette-bottom: 0.34
       dark-vignette: 1
+
+  # ============================================================================
+  # SHARED VALUES (same in light and dark modes)
+  # ============================================================================
+
+  app-theme-color: rgb(0, 0, 0)
+  ha-card-box-shadow: none
+  hero-tint: rgba(55,55,55,0.50)
+  hero-img-filter: saturate(1.02) brightness(.985)
+  hemma-nav-height: 62px
+
+  # ============================================================================
+  # BUTTON CARD SHADOWS
+  # ============================================================================
 
   ha-shadow-light: >
     inset 0 0 0 1px rgba(255,255,255,0.06),
@@ -127,6 +129,10 @@ Hemma:
     inset -1.5px -1.5px 1px -1.5px rgba(255,255,255,0.13),
     0 18px 20px rgba(0,0,0,0.04)
 
+  # ============================================================================
+  # TYPOGRAPHY
+  # ============================================================================
+
   primary-font-family: "Hanken Grotesk"
   ha-font-family-body: var(--primary-font-family)
   ha-card-header-font-family: var(--primary-font-family)
@@ -139,6 +145,10 @@ Hemma:
   sidebar-selected-icon-color: var(--primary-text-color)
   sidebar-selected-text-color: var(--sidebar-selected-icon-color)
 
+  # ============================================================================
+  # COLORS & ACCENTS
+  # ============================================================================
+  
   state-inactive-color: '#bdbdbd'
   primary-color: '#61b4ff'
   accent-color: '#61b4ff'
@@ -146,14 +156,16 @@ Hemma:
   state-icon-color: var(--primary-color)
   ha-color-on-primary-normal: var(--primary-color)
 
+  # ============================================================================
+  # ENTITY CARD LAYOUT (responsive sizing per breakpoint)
+  # ============================================================================
+
   # Entity Layout - Desktop
   hemma-entity-height-desktop: 190px
   hemma-entity-inner-pad-desktop: 24px
   hemma-entity-name-font-desktop: 18px
   hemma-entity-state-font-desktop: 15px
   hemma-entity-icon-size-desktop: 34px
-  hemma-scene-height-desktop: 110px
-  hemma-scene-width-desktop: 270px
   hemma-entity-rows-desktop: repeat(1, auto)
   hemma-entity-col-width-desktop: 280px
   hemma-entity-justify-desktop: start
@@ -170,21 +182,35 @@ Hemma:
   hemma-entity-state-font-tablet: 15px
   hemma-entity-icon-size-tablet: 28px
   hemma-time-nudge-tablet: 36px
-  hemma-scene-height-tablet: 90px
-  hemma-scene-width-tablet: 230px
-  hemma-entity-overflow-y-tablet: var(--hemma-entity-overflow-y-desktop)
+  hemma-entity-overflow-y-tablet: hidden
 
-  # Entity Layout - Mobile
+  # Entity Layout - Mobile Portrait
   hemma-entity-col-width-mobile: 180px
   hemma-entity-height-mobile: 120px
   hemma-entity-inner-pad-mobile: 16px
   hemma-entity-name-font-mobile: 14px
   hemma-entity-state-font-mobile: 14px
-  hemma-entity-col-width-landscape: 200px
   hemma-time-nudge-mobile: 8px
   hemma-entity-icon-size-mobile: 26px
-  hemma-scene-height-mobile: 72px
-  hemma-scene-width-mobile: 180px
+
+  # Entity Layout - Mobile Landscape
+  hemma-entity-col-width-landscape: 200px
+  hemma-entity-height-landscape: 110px
+  hemma-entity-inner-pad-landscape: 16px
+  hemma-entity-name-font-landscape: 13px
+  hemma-entity-state-font-landscape: 12px
+  hemma-entity-icon-size-landscape: 24px
+  hemma-tiles-top-landscape-nudge: 0px
+  hemma-hero-top-landscape-nudge: 16px
+
+  # Entity Stack Top Position Adjustments
+  # Increase to push button card stack lower on screen
+  hemma-entity-top-nudge-portrait: 245px
+  hemma-entity-top-nudge-landscape: -10px
+
+  # Weather Widget Mobile Portrait Nudge
+  # Increase to push weather widget lower to align with room name
+  hemma-weather-nudge-mobile: 12px
 
   # Entity Variables
   hemma-entity-active: rgba(255,255,255,1)
@@ -194,6 +220,10 @@ Hemma:
   hemma-entity-picture-inactive-filter: brightness(.75) saturate(.9)
   hemma-entity-picture-active-filter: none
   hemma-entity-text-shadow: 0 0 3px rgba(0, 0, 0, 0.15)
+
+  # ============================================================================
+  # BADGE FORMATTING (responsive sizing per breakpoint)
+  # ============================================================================
 
   # Badge Formatting - Global
   badge-background: rgba(0,0,0,0.35)
@@ -208,8 +238,9 @@ Hemma:
     0 12px 24px rgba(0,0,0,0.05)
 
   # Badge Formatting - Desktop
+  badge-gap: 10px
   badge-row-gap: 2px
-  badge-col-gap: 5px
+  badge-col-gap: 4px
   badge-padding: 4px 15px 4px 9px
   badge-min-height: 50px
   badge-icon-size: 36px
@@ -217,22 +248,45 @@ Hemma:
   badge-btn-size: 22px
 
   # Badge Formatting - Tablet
+  badge-gap-tablet: 10px
   badge-row-gap-tablet: 2px
-  badge-col-gap-tablet: 5px
-  badge-padding-tablet: 3px 13px 3px 8px
+  badge-col-gap-tablet: 4px
+  badge-padding-tablet: 3px 14px 3px 8px
   badge-min-height-tablet: 50px
   badge-icon-size-tablet: 36px
   badge-font-size-tablet: 14px
   badge-btn-size-tablet: 20px
 
   # Badge Formatting - Mobile
+  badge-gap-mobile: 10px
   badge-row-gap-mobile: 2px
-  badge-col-gap-mobile: 5px
-  badge-padding-mobile: 0 13px 0 8px
+  badge-col-gap-mobile: 4px
+  badge-padding-mobile: 1px 14px 1px 6px
   badge-min-height-mobile: 43px
-  badge-icon-size-mobile: 34px
+  badge-icon-size-mobile: 32px
   badge-font-size-mobile: 13px
   badge-btn-size-mobile: 18px
+
+  # Badge Formatting - Mobile Landscape
+  badge-gap-landscape: 10px
+  badge-row-gap-landscape: 3px
+  badge-col-gap-landscape: 3px
+  badge-padding-landscape: 1px 12px 1px 6px
+  badge-min-height-landscape: 36px
+  badge-icon-size-landscape: 26px
+  badge-font-size-landscape: 12px
+  badge-btn-size-landscape: 16px
+  badge-subline-lh-landscape: 1.12
+
+  # ============================================================================
+  # HERO SECTION (room title, temperature, layout)
+  # ============================================================================
+
+  # Hero Title - Mobile Landscape
+  hero-title-size-landscape: clamp(28px, 4.6vw + 4px, 40px)
+  hero-title-line-height-landscape: 1.10
+  hero-title-letter-spacing-landscape: -1px
+  hero-title-margin-left-landscape: 2px
 
   # Temperature Formatting
   hero-header-gap-desktop: 6px
@@ -251,7 +305,7 @@ Hemma:
   header-top-desktop: clamp(280px, 24vh, 300px)
   header-top-tablet: clamp(160px, 20vh, 260px)
   header-top-mobile: clamp(30px, 16vh, 70px)
-  header-top-mobile-nudge: 30px
+  header-top-mobile-nudge: -10px
 
   # Header Height
   hemma-header-cap-desktop: clamp(260px, 30vh, 380px)
@@ -261,9 +315,7 @@ Hemma:
 
   # Header Adjusments
   hemma-header-temp-nudge: 3px
-  hemma-header-badge-nudge: -2px
-  hemma-hero-top-landscape-nudge: 16px
-  hemma-tiles-top-landscape-nudge: 38px
+  hemma-header-badge-nudge: -4px
 
   # Navigation Sizing
   hemma-nav-margin-desktop: 8vw
@@ -276,16 +328,16 @@ Hemma:
   # Hero Title Sizing
   hero-title-size-desktop: clamp(52px, 4.6vw + 8px, 96px)
   hero-title-size-tablet: clamp(68px, 5.5vw + 8px, 90px)
-  hero-title-size-mobile: clamp(40px, 7vw + 2px, 65px)
+  hero-title-size-mobile: clamp(38px, 4vw + 2px, 64px)
   hero-title-line-height-desktop: 1.18
   hero-title-line-height-tablet: 1.18
-  hero-title-line-height-mobile: 1.20
+  hero-title-line-height-mobile: 1.1
   hero-title-letter-spacing-desktop: -2px
   hero-title-letter-spacing-tablet: -1.5px
   hero-title-letter-spacing-mobile: -1.2px
   hero-title-margin-left-desktop: -2px
   hero-title-margin-left-tablet: 2px
-  hero-title-margin-left-mobile: 2px
+  hero-title-margin-left-mobile: 5px
 
   # Hero Formatting
   hero-img-blur: 4px
@@ -300,11 +352,17 @@ Hemma:
   badge-media-max-width-tablet: 520px
   badge-media-max-width-mobile: 100%
 
+  # ============================================================================
+  # DIALOGS, CARDS & UI COMPONENTS
+  # ============================================================================
+
   # Dialog
   ha-dialog-surface-backdrop-filter: blur(10px) saturate(1.2)
-  ha-dialog-surface-background: var(--ha-dialog-background) # Use this if using HA 2025.12.5 or earlier
-  # ha-dialog-surface-background: var(--ha-new-dialog-background) # Use this if updated to HA 2026.1
+  ha-dialog-surface-background: var(--ha-dialog-background)
+  ha-dialog-scrim-backdrop-filter: none
+  ha-card-backdrop-filter: none
   ha-dialog-border-radius: 28px
+  dialog-box-shadow: var(--ha-card-box-shadow)
 
   # Cards
   card-background-color: var(--secondary-background-color)
@@ -316,11 +374,6 @@ Hemma:
   ha-card-border-width: 0
   stack-card-gap: 0px
   horizontal-stack-card-gap: 10px
-
-  # Labels
-  label-badge-background-color: '#23232E'
-  label-badge-text-color: '#F1F1F1'
-  label-badge-red: rgba(255,159,9,0.7)
 
   # Input
   input-fill-color: rgba(130,130,130,0.3)
@@ -340,7 +393,10 @@ Hemma:
   # Browser Mod Extras
   clear-background-color: var(--ha-card-background)
 
-  # Card Mod
+  # ============================================================================
+  # CARD-MOD GLOBAL STYLES (responsive media queries, layout overrides)
+  # ============================================================================
+
   card-mod-theme: "Hemma"
 
   card-mod-root-yaml: |
@@ -349,6 +405,32 @@ Hemma:
       #view, hui-view {
         overflow-x: hidden !important;
         max-width: 100vw !important;
+      }
+
+      /* Mobile Portrait - lock ALL scroll at root level */
+      @media (max-width: 767px) and (orientation: portrait) {
+        html, body {
+          overflow: hidden !important;
+          height: 100% !important;
+          width: 100% !important;
+          position: fixed !important;
+          overscroll-behavior: none !important;
+        }
+
+        home-assistant,
+        home-assistant-main,
+        ha-panel-lovelace,
+        hui-root,
+        ha-app-layout,
+        #view,
+        hui-view,
+        hui-view-container {
+          overflow: hidden !important;
+          height: 100svh !important;
+          max-height: 100svh !important;
+          overscroll-behavior: none !important;
+          touch-action: none !important;
+        }
       }
 
       :host, ha-app-layout {
@@ -398,7 +480,9 @@ Hemma:
       }
 
       /* Desktop */
-      :host, ha-app-layout {
+      html,
+      :host,
+      ha-app-layout {
         --page-gutter: var(--page-gutter-desktop);
         --hemma-rail-left: var(--page-gutter-desktop);
         --content-rail: var(--hemma-rail-left);
@@ -407,7 +491,6 @@ Hemma:
         --hero-header-gap-current: var(--hero-header-gap-desktop, 6px);
         --hero-temp-font-size: var(--hero-temp-font-size-desktop, 18px);
         --hemma-header-stack-h-current: var(--hemma-header-cap-desktop, clamp(260px, 30vh, 380px));
-        --hemma-scene-col-width-current: var(--hemma-scene-width-desktop, 280px);
         --hemma-nav-margin-current: var(--hemma-nav-margin-desktop, 8vw);
         --hemma-nav-gap-current: var(--hemma-nav-gap-desktop, 50px);
         --hemma-nav-top-current: var(--hemma-nav-top-desktop, 60px);
@@ -416,6 +499,7 @@ Hemma:
         --hero-room-name-letter-spacing-current: var(--hero-title-letter-spacing-desktop, -2px);
         --hero-room-name-margin-left-current: var(--hero-title-margin-left-desktop, -2px);
         --badge-media-max-width-current: var(--badge-media-max-width-desktop, 640px);
+        --badge-gap-current: var(--badge-gap, 10px);
         --badge-row-gap-current: var(--badge-row-gap, 6px);
         --badge-col-gap-current: var(--badge-col-gap, 10px);
         --badge-padding-current: var(--badge-padding, 4px 15px 4px 9px);
@@ -437,16 +521,13 @@ Hemma:
         --hemma-entity-name-font-current: var(--hemma-entity-name-font-desktop, 18px);
         --hemma-entity-state-font-current: var(--hemma-entity-state-font-desktop, 15px);
         --hemma-entity-icon-size-current: var(--hemma-entity-icon-size-desktop, 34px);
-        --hemma-nav-height: 54px;
-        --hemma-nav-height-landscape: 42px;
-        --hemma-nav-offset-bottom: calc(env(safe-area-inset-bottom, 0px) + 20px);
-        --hemma-nav-offset-top: calc(env(safe-area-inset-top, 0px) + 12px);
-        --hemma-nav-clearance: 8px;
       }
 
       /* Tablet */
       @media (min-width: 768px) and (max-width: 1249px) and (min-height: 501px) and (hover: none) and (pointer: coarse) {
-        :host, ha-app-layout {
+        html,
+        :host,
+        ha-app-layout {
           --page-gutter: var(--page-gutter-tablet);
           --hemma-rail-left: var(--page-gutter-tablet);
           --content-rail: var(--hemma-rail-left);
@@ -455,7 +536,6 @@ Hemma:
           --hero-header-gap-current: var(--hero-header-gap-tablet, 6px);
           --hero-temp-font-size: var(--hero-temp-font-size-tablet, 16px);
           --hemma-header-stack-h-current: var(--hemma-header-cap-tablet, clamp(230px, 28vh, 340px));
-          --hemma-scene-col-width-current: var(--hemma-scene-width-tablet, 230px);
           --hemma-nav-margin-current: var(--hemma-nav-margin-tablet, 4vw);
           --hemma-nav-gap-current: var(--hemma-nav-gap-tablet, 34px);
           --hemma-nav-top-current: var(--hemma-nav-top-tablet, 46px);
@@ -464,6 +544,7 @@ Hemma:
           --hero-room-name-letter-spacing-current: var(--hero-title-letter-spacing-tablet, -1.5px);
           --hero-room-name-margin-left-current: var(--hero-title-margin-left-tablet, -1px);
           --badge-media-max-width-current: var(--badge-media-max-width-tablet, 520px);
+          --badge-gap-current: var(--badge-gap-tablet, var(--badge-gap, 10px));
           --badge-row-gap-current: var(--badge-row-gap-tablet, var(--badge-row-gap, 6px));
           --badge-col-gap-current: var(--badge-col-gap-tablet, var(--badge-col-gap, 10px));
           --badge-padding-current: var(--badge-padding-tablet, var(--badge-padding, 4px 15px 4px 9px));
@@ -483,7 +564,9 @@ Hemma:
 
       /* Mobile Portrait */
       @media (max-width: 767px) and (orientation: portrait) {
-        :host, ha-app-layout {
+        html,
+        :host,
+        ha-app-layout {
           --page-gutter: var(--page-gutter-mobile);
           --hemma-rail-left: var(--page-gutter-mobile);
           --content-rail: var(--hemma-rail-left);
@@ -492,17 +575,17 @@ Hemma:
           --hero-header-gap-current: var(--hero-header-gap-mobile, 5px);
           --hero-temp-font-size: var(--hero-temp-font-size-mobile, 14px);
           --hemma-header-stack-h-current: var(--hemma-header-cap-mobile, clamp(240px, 34vh, 360px));
-          --hemma-scene-col-width-current: var(--hemma-scene-width-mobile, 180px);
           --hero-room-name-size-current: var(--hero-title-size-mobile, clamp(38px, 9vw + 2px, 64px));
           --hero-room-name-line-height-current: var(--hero-title-line-height-mobile, 1.20);
           --hero-room-name-letter-spacing-current: var(--hero-title-letter-spacing-mobile, -1.2px);
           --hero-room-name-margin-left-current: var(--hero-title-margin-left-mobile, 2px);
           --badge-media-max-width-current: var(--badge-media-max-width-mobile, 100%);
+          --badge-gap-current: var(--badge-gap-mobile, var(--badge-gap, 10px));
           --badge-row-gap-current: var(--badge-row-gap-mobile, var(--badge-row-gap, 6px));
           --badge-col-gap-current: var(--badge-col-gap-mobile, var(--badge-col-gap, 10px));
           --badge-padding-current: var(--badge-padding-mobile, var(--badge-padding, 4px 15px 4px 9px));
           --badge-min-height-current: var(--badge-min-height-mobile, var(--badge-min-height, 52px));
-          --badge-icon-size-current: var(--badge-icon-size-mobile, var(--badge-icon-size, 34px));
+          --badge-icon-size-current: var(--badge-icon-size-mobile, var(--badge-icon-size, 32px));
           --badge-font-size-current: var(--badge-font-size-mobile, var(--badge-font-size, 16px));
           --badge-btn-size-current: var(--badge-btn-size-mobile, var(--badge-btn-size, 22px));
           --badge-subline-lh-current: var(--badge-subline-lh-mobile, var(--badge-subline-lh, 1.18));
@@ -522,15 +605,38 @@ Hemma:
 
       /* Mobile Landscape */
       @media (hover: none) and (pointer: coarse) and (orientation: landscape) and (max-height: 600px) {
-        :host, ha-app-layout {
+        html,
+        :host,
+        ha-app-layout {
+          --page-gutter: var(--page-gutter-mobile);
+          --hemma-rail-left: var(--page-gutter-mobile);
+          --content-rail: var(--hemma-rail-left);
+          --hero-gutter: 18px;
+          --hero-top: calc(env(safe-area-inset-top, 0px) + 96px + var(--hemma-hero-top-landscape-nudge, 0px));
+          --hemma-tiles-top-landscape: calc(var(--hero-top) + var(--hemma-tiles-top-landscape-nudge, 0px));
+          --hemma-entity-col-width-current: var(--hemma-entity-col-width-landscape, 200px);
+          --hemma-entity-height-current: var(--hemma-entity-height-landscape, 110px);
+          --hemma-entity-inner-pad-current: var(--hemma-entity-inner-pad-landscape, 14px);
+          --hemma-entity-name-font-current: var(--hemma-entity-name-font-landscape, 13px);
+          --hemma-entity-state-font-current: var(--hemma-entity-state-font-landscape, 12px);
+          --hemma-entity-icon-size-current: var(--hemma-entity-icon-size-landscape, 24px);
           --hemma-landscape-left-rail: clamp(240px, 34vw, 320px);
           --hemma-landscape-badge-stop-pad: 12px;
           --badge-media-max-width-current: calc(var(--hemma-landscape-left-rail) - var(--hemma-landscape-badge-stop-pad));
           --hemma-header-stack-h-current: var(--hemma-header-cap-landscape, clamp(170px, 44vh, 240px));
-          --hemma-tiles-top-landscape: calc(var(--hero-top, calc(env(safe-area-inset-top, 0px) + 96px)) + var(--hemma-tiles-top-landscape-nudge, 0px));
-          --hero-room-name-size-current: clamp(32px, 5.6vw + 6px, 46px);
-          --hero-room-name-line-height-current: 1.12;
-          --hero-room-name-letter-spacing-current: -1px;
+          --hero-room-name-size-current: var(--hero-title-size-landscape, clamp(32px, 5.6vw + 6px, 46px));
+          --hero-room-name-line-height-current: var(--hero-title-line-height-landscape, 1.12);
+          --hero-room-name-letter-spacing-current: var(--hero-title-letter-spacing-landscape, -1px);
+          --hero-room-name-margin-left-current: var(--hero-title-margin-left-landscape, var(--hero-room-name-margin-left-current, 0px));
+          --badge-gap-current: var(--badge-gap-landscape, var(--badge-gap-mobile, var(--badge-gap, 10px)));
+          --badge-row-gap-current: var(--badge-row-gap-landscape, var(--badge-row-gap-mobile, var(--badge-row-gap, 4px)));
+          --badge-col-gap-current: var(--badge-col-gap-landscape, var(--badge-col-gap-mobile, var(--badge-col-gap, 4px)));
+          --badge-padding-current: var(--badge-padding-landscape, var(--badge-padding-mobile, var(--badge-padding, 1px 14px 1px 6px)));
+          --badge-min-height-current: var(--badge-min-height-landscape, var(--badge-min-height-mobile, var(--badge-min-height, 43px)));
+          --badge-icon-size-current: var(--badge-icon-size-landscape, var(--badge-icon-size-mobile, var(--badge-icon-size, 32px)));
+          --badge-font-size-current: var(--badge-font-size-landscape, var(--badge-font-size-mobile, var(--badge-font-size, 13px)));
+          --badge-btn-size-current: var(--badge-btn-size-landscape, var(--badge-btn-size-mobile, var(--badge-btn-size, 18px)));
+          --badge-subline-lh-current: var(--badge-subline-lh-landscape, var(--badge-subline-lh-mobile, var(--badge-subline-lh, 1.18)));
         }
       }
 
@@ -584,8 +690,65 @@ Hemma:
       }
 
       :host {
-        overflow-x: hidden !important;
+        overflow: hidden !important;
+        height: 100svh !important;
+        max-height: 100svh !important;
+        -webkit-overflow-scrolling: auto !important;
+        overscroll-behavior: none !important;
+      }
+
+      :host .hemma-entities{
+        height: 100svh !important;
+        max-height: 100svh !important;
+
         overflow-y: auto !important;
+        overflow-x: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
+
+        overscroll-behavior: contain !important;
+        touch-action: pan-y !important;
+        overflow-anchor: none !important;
+        scroll-snap-type: y proximity !important;
+        padding-bottom: var(--tiles-pad-bottom) !important;
+      }
+
+      /* Mobile Portrait */
+      @media (max-width: 767px) and (orientation: portrait) {
+        hui-view-container,
+        hui-view-container#view,
+        #view {
+          height: 100svh !important;
+          max-height: 100svh !important;
+          overflow: hidden !important;
+          overscroll-behavior: none !important;
+          touch-action: none !important;
+          padding-top: 0 !important;
+          --kiosk-header-height: 0px !important;
+        }
+
+        hui-view,
+        hui-view > #columns,
+        grid-layout,
+        layout-card {
+          height: auto !important;
+          min-height: 0 !important;
+          max-height: none !important;
+          overflow: visible !important;
+          overscroll-behavior: none !important;
+          padding-top: 0 !important;
+        }
+
+        :host {
+          overflow: hidden !important;
+          overscroll-behavior: none !important;
+          touch-action: none !important;
+          padding-top: 0 !important;
+        }
+
+        :host .hemma-entities {
+          position: relative !important;
+          touch-action: pan-y !important;
+        }
       }
 
       @media (min-width: 768px) and (max-width: 1249px) and (min-height: 501px) and (hover: none) and (pointer: coarse) {
@@ -628,14 +791,6 @@ Hemma:
 
       @media (max-height: 500px) and (orientation: landscape){
         :host::after{ display: none !important; }
-      }
-
-      @media (max-height: 500px) and (orientation: landscape) {
-        :host, ha-app-layout {
-          --hero-room-name-size-current: clamp(30px, 5.2vw + 2px, 44px);
-          --hero-room-name-line-height-current: 1.12;
-          --hero-room-name-letter-spacing-current: -1px;
-        }
       }
 
   card-mod-card: |
@@ -730,7 +885,6 @@ Hemma:
       justify-self: start !important;
       align-self: start !important;
       place-self: start !important;
-      margin-left: 0 !important;
       margin-right: auto !important;
       text-align: left !important;
     }

@@ -1,4 +1,24 @@
 # Mobile Navbar
+# ============================================================================
+# CUSTOMIZATION REQUIRED: This file contains FOUR separate navbar configurations
+# for different screen sizes. You must update routes in ALL sections.
+#
+# By default, routes point to /dashboard-hemma/[view-name]. If your dashboard
+# has a different URL, search for "routes:" in this file and update ALL of them.
+#
+# SECTIONS TO UPDATE:
+#   1. Phone Portrait (line ~286) - Has Home + Rooms dropdown + Scenes
+#   2. Phone Landscape (line ~642) - Has Home + Rooms dropdown + Scenes
+#   3. Tablet Portrait (line ~996) - Has Home + Rooms dropdown + Scenes
+#   4. Tablet Landscape (line ~1367) - Has individual room links + Scenes
+#
+# ROUTES TO CUSTOMIZE IN EACH SECTION:
+#   - Home: /dashboard-hemma/home
+#   - Living Room: /dashboard-hemma/living-room
+#   - Kitchen: /dashboard-hemma/kitchen
+#   - Bedroom: /dashboard-hemma/bedroom
+#
+# ============================================================================
 
 type: vertical-stack
 cards:

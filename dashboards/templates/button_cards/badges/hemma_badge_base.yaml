@@ -1,4 +1,4 @@
-# Base
+# Base Badge Template
 hemma_badge_base:
   styles:
     card:
@@ -11,11 +11,17 @@ hemma_badge_base:
       - min-height: var(--badge-min-height-current, var(--badge-min-height, 44px))
       - display: >
           [[[
-            if (variables.enabled === undefined) return 'inline-grid';
-            return variables.enabled ? 'inline-grid' : 'none';
+            // Robust enabled check - handles boolean, number, and string inputs
+            const v = variables?.enabled;
+            if (v === undefined || v === null) return 'inline-grid';
+            if (typeof v === 'boolean') return v ? 'inline-grid' : 'none';
+            if (typeof v === 'number') return v !== 0 ? 'inline-grid' : 'none';
+            const s = String(v).trim().toLowerCase();
+            if (['false','0','no','off','disabled'].includes(s)) return 'none';
+            return 'inline-grid';
           ]]]
       - align-items: center
-      - gap: 0
+      - gap: var(--badge-col-gap-current, var(--badge-col-gap, 10px))
       - width: fit-content
       - margin-inline-start: 0
       - margin-inline-end: 0
@@ -31,7 +37,7 @@ hemma_badge_base:
     grid:
       - grid-template-areas: '"i l"'
       - grid-template-columns: min-content minmax(0, 1fr)
-      - column-gap: var(--badge-col-gap-current, var(--badge-col-gap, 6px))
+      - column-gap: var(--badge-col-gap-current, var(--badge-col-gap, 10px))
       - row-gap: 0
       - align-items: center
 
@@ -52,7 +58,6 @@ hemma_badge_base:
       - height: var(--badge-icon-size-current, var(--badge-icon-size, 28px))
       - color: var(--primary-text-color)
       - z-index: 4
-      - margin-inline-start: var(--badge-icon-nudge, 0px)
 
     img_cell:
       - width: var(--badge-icon-size-current, var(--badge-icon-size, 30px)) !important
@@ -68,7 +73,6 @@ hemma_badge_base:
       - border-radius: 50%
       - z-index: 4
       - object-fit: cover
-      - margin-inline-start: var(--badge-icon-nudge, 0px)
 
     label:
       - font-size: var(--badge-font-size-current, var(--badge-font-size, 13px))
@@ -81,6 +85,46 @@ hemma_badge_base:
       --media-sub-opacity: .82;
       --badge-after-z:  2;
       --badge-before-z: 3;
+    }
+
+    @media (max-width: 767px) and (orientation: portrait) {
+      ha-card {
+        min-height: 43px !important;
+        padding: 1px 14px 1px 6px !important;
+      }
+      #img-cell, .img-cell {
+        width: 32px !important;
+        height: 32px !important;
+      }
+      #name {
+        font-size: 13px !important;
+      }
+      .mp-title {
+        font-size: 13px !important;
+      }
+      .mp-sub {
+        font-size: 12px !important;
+      }
+    }
+
+    @media (max-height: 600px) and (orientation: landscape) {
+      ha-card {
+        min-height: 36px !important;
+        padding: 1px 12px 1px 6px !important;
+      }
+      #img-cell, .img-cell {
+        width: 26px !important;
+        height: 26px !important;
+      }
+      #name {
+        font-size: 12px !important;
+      }
+      .mp-title {
+        font-size: 12px !important;
+      }
+      .mp-sub {
+        font-size: 11px !important;
+      }
     }
 
     ha-card::after{  z-index: var(--badge-after-z, 2) !important; }
@@ -126,7 +170,7 @@ hemma_badge_base:
     .mp-title{
       font-size: var(--badge-font-size-current, 13px);
       font-weight: 700;
-      line-height: 1.14;
+      line-height: 1.1;
       color: var(--badge-title-color, var(--secondary-text-color));
       white-space:nowrap;
       overflow:hidden;

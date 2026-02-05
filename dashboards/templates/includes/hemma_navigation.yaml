@@ -1,4 +1,18 @@
 # Desktop Navbar
+# ============================================================================
+# CUSTOMIZATION REQUIRED: Update the routes section at the bottom of this file
+# to match your dashboard URL and view paths.
+#
+# ROUTES TO CUSTOMIZE (search for "# Navigation Buttons" or "routes:"):
+#   - Home: /dashboard-hemma/home
+#   - Living Room: /dashboard-hemma/living-room
+#   - Kitchen: /dashboard-hemma/kitchen
+#   - Bedroom: /dashboard-hemma/bedroom
+#   - Scenes: Dynamic popup (no URL change needed)
+#
+# Add or remove rooms by modifying the routes array at the bottom.
+# ============================================================================
+
 type: conditional
 conditions:
   - condition: screen
@@ -47,11 +61,21 @@ card:
       }
 
   cards:
-    # Logo (left)
+
+    # Placeholder
     - type: custom:button-card
-      template: hemma_logo
+      show_name: false
+      show_icon: false
+      show_state: false
       styles:
         card:
+          - background: none
+          - box-shadow: none
+          - border: 0
+          - width: 1px
+          - height: 1px
+          - opacity: 0
+          - pointer-events: none
           - margin-left: 2px
 
     # Navbar (center)
@@ -191,13 +215,14 @@ card:
           color: var(--navbar-active-color) !important;
         }
 
-        .navbar.desktop .route:nth-child(4) .label{
+        /* Scenes moved from 4th -> 5th because Home is now first */
+        .navbar.desktop .route:nth-child(5) .label{
           gap: 6px !important;
           padding-right: 0 !important;
           overflow: visible !important;
         }
 
-        .navbar.desktop .route:nth-child(4) .label::after{
+        .navbar.desktop .route:nth-child(5) .label::after{
           content: "\2304" !important;
           display: inline-flex !important;
           align-items: center !important;
@@ -477,6 +502,10 @@ card:
 
       # Navigation Buttons (Edit these)
       routes:
+        - url: /dashboard-hemma/home
+          label: Home
+          icon: mdi:home-variant
+
         - url: /dashboard-hemma/living-room
           label: Living Room
           icon: mdi:sofa
@@ -529,8 +558,34 @@ card:
             ]]]
 
     # Time (right)
-    - type: custom:button-card
-      template: hemma_time
-      styles:
-        card:
-          - padding-top: 3px
+    - type: custom:layout-card
+      layout_type: custom:grid-layout
+      layout:
+        grid-template-columns: max-content
+        grid-template-rows: min-content
+        justify-content: end
+        justify-items: end
+        align-items: start
+
+      card_mod:
+        style: |
+          :host{
+            justify-self: end !important;
+            width: max-content !important;
+          }
+          ha-card{
+            background: transparent !important;
+            box-shadow: none !important;
+            border: 0 !important;
+            width: max-content !important;
+          }
+
+      cards:
+        - type: custom:button-card
+          template: hemma_time
+          styles:
+            card:
+              - padding-top: 3px
+              - width: 100%
+              - justify-self: end
+              - text-align: right

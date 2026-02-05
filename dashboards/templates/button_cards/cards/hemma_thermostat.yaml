@@ -6,7 +6,7 @@ hemma_thermostat:
   name: Thermostat
 
   variables:
-    thermostat_toggle_helper: input_boolean.hemma_cooling_control
+    thermostat_toggle_helper: input_boolean.hemma_thermostat_overlay
     temp_sensor:
 
   state_display: |

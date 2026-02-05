@@ -1,0 +1,141 @@
+# Temperature Display (Desktop/Tablet hero row)
+# ============================================================================
+# CONFIGURABLE VARIABLES:
+#   temp_unit: 'F' or 'C' (default: 'F')
+#
+# TEMPERATURE THRESHOLDS (keep in sync with hemma_weather.yaml):
+#   Fahrenheit (default)     Celsius (temp_unit: 'C')
+#   Very Cold:   <= 65°F     Very Cold:   <= 18°C
+#   Cool:        <= 70°F     Cool:        <= 21°C
+#   Comfortable: <= 76°F     Comfortable: <= 24°C
+#   Warm:        <= 81°F     Warm:        <= 27°C
+#   Hot:         <= 85°F     Hot:         <= 29°C
+#   Very Hot:    > 85°F      Very Hot:    > 29°C
+# ============================================================================
+hemma_temperature:
+  variables:
+    weather_mode: ''
+    show_weather: false
+    weather_entity: ''
+    weather_temp_sensor: ''
+    show_temp: false
+    temp_sensor: ''
+    temp_unit: 'F'
+
+  show_icon: false
+  show_state: false
+  show_label: false
+  show_name: true
+
+  entity: >
+    [[[
+      const mode = String(variables.weather_mode || '').toLowerCase();
+      const useOutdoorRow = (mode === 'outdoor') && !!variables.show_weather;
+      return useOutdoorRow
+        ? (variables.weather_entity || '')
+        : (variables.temp_sensor || '');
+    ]]]
+
+  tap_action:
+    action: more-info
+    entity: >
+      [[[
+        const mode = String(variables.weather_mode || '').toLowerCase();
+        const useOutdoorRow = (mode === 'outdoor') && !!variables.show_weather;
+        return useOutdoorRow
+          ? (variables.weather_entity || '')
+          : (variables.temp_sensor || '');
+      ]]]
+
+  styles:
+    card:
+      - background: transparent !important
+      - background-color: transparent !important
+      - box-shadow: none !important
+      - border: 0 !important
+      - outline: none !important
+      - --ha-card-background: transparent
+      - --ha-card-background-active: transparent
+      - --mdc-ripple-press-opacity: 0
+      - --mdc-ripple-hover-opacity: 0
+      - --mdc-ripple-focus-opacity: 0
+      - --mdc-ripple-color: transparent
+      - --paper-ripple-opacity: 0
+      - --paper-ripple-color: transparent
+      - -webkit-tap-highlight-color: transparent
+
+    name:
+      - margin: 0
+      - padding: 0
+      - color: var(--primary-text-color)
+      - opacity: 0.9
+      - font-size: var(--hero-temp-font-size, var(--hero-temp-font-size-desktop, 16px))
+      - font-weight: 600
+      - letter-spacing: 0.6px
+      - line-height: 1
+
+  name: >
+    [[[
+      const mode = String(variables.weather_mode || '').toLowerCase();
+      const useOutdoorRow = (mode === 'outdoor') && !!variables.show_weather;
+      const unit = String(variables.temp_unit || 'F').toUpperCase();
+
+      // Thresholds based on unit (F or C)
+      const thresholds = (unit === 'C')
+        ? { veryCold: 18, cool: 21, comfortable: 24, warm: 27, hot: 29 }
+        : { veryCold: 65, cool: 70, comfortable: 76, warm: 81, hot: 85 };
+
+      const getComfortLabel = (v) => {
+        if (v <= thresholds.veryCold) return 'Very Cold';
+        if (v <= thresholds.cool) return 'Cool';
+        if (v <= thresholds.comfortable) return 'Comfortable';
+        if (v <= thresholds.warm) return 'Warm';
+        if (v <= thresholds.hot) return 'Hot';
+        return 'Very Hot';
+      };
+
+      if (useOutdoorRow) {
+        const weatherEid = variables.weather_entity;
+        const tempEid = variables.weather_temp_sensor;
+        if (!weatherEid) return '&nbsp;';
+
+        let tempVal = null;
+        if (tempEid) {
+          const tState = states[tempEid];
+          if (tState && !['unknown','unavailable',''].includes(String(tState.state))) {
+            const n = Number(tState.state);
+            if (!Number.isNaN(n)) tempVal = Math.round(n);
+          }
+        }
+        if (tempVal === null) {
+          const w = states[weatherEid];
+          const n = Number(w?.attributes?.temperature);
+          if (!Number.isNaN(n)) tempVal = Math.round(n);
+        }
+
+        const condKey = String(states[weatherEid]?.state || '').toLowerCase().trim();
+        if (tempVal === null || !condKey || ['unknown','unavailable'].includes(condKey)) return '&nbsp;';
+
+        let pretty = '';
+        if (hass?.localize) {
+          const loc = hass.localize(`state.weather.${condKey}`);
+          if (loc && !loc.includes(`state.weather.${condKey}`)) pretty = loc;
+        }
+        if (!pretty) {
+          pretty = condKey.replace(/_/g,' ').replace(/-/g,' ').replace(/\b\w/g, c => c.toUpperCase());
+        }
+
+        return `${tempVal}° - ${String(pretty).toUpperCase()}`;
+      }
+
+      const has = variables.show_temp && variables.temp_sensor && states[variables.temp_sensor];
+      if (!has) return '&nbsp;';
+
+      const v = Number(states[variables.temp_sensor].state);
+      if (Number.isNaN(v)) return '&nbsp;';
+
+      const t = Math.round(v);
+      const label = getComfortLabel(v);
+
+      return `${t}° - ${label.toUpperCase()}`;
+    ]]]

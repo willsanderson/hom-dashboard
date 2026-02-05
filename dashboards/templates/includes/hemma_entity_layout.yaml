@@ -31,7 +31,7 @@ mediaquery:
     position: absolute
     z-index: 4
     inset: >
-      calc(var(--entity-top-mobile, 260px) + 180px)
+      calc(var(--entity-top-mobile, 260px) + var(--hemma-entity-top-nudge-portrait, 180px))
       var(--hemma-rail-left, var(--page-gutter-mobile, 14px))
       auto
       var(--hemma-rail-left, var(--page-gutter-mobile, 14px))
@@ -60,7 +60,7 @@ mediaquery:
     position: absolute
     z-index: 4
     inset: >
-      var(--hemma-tiles-top-landscape, calc(env(safe-area-inset-top, 0px) + 180px))
+      calc(var(--hemma-tiles-top-landscape, calc(env(safe-area-inset-top, 0px) + 180px)) + var(--hemma-entity-top-nudge-landscape, 0px))
       var(--hemma-tiles-right-pad-landscape, 0px)
       auto
       auto
