@@ -303,7 +303,7 @@ Hemma:
 
   # Header Top
   header-top-desktop: clamp(280px, 24vh, 300px)
-  header-top-tablet: clamp(160px, 20vh, 260px)
+  header-top-tablet: clamp(220px, 24vh, 320px)
   header-top-mobile: clamp(30px, 16vh, 70px)
   header-top-mobile-nudge: -10px
 

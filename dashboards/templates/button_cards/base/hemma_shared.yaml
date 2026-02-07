@@ -54,7 +54,7 @@ hemma_shared:
 
             return isPhonePortrait
               ? "min-content min-content min-content"
-              : "minmax(var(--hero-temp-reserve, 22px), min-content) min-content min-content min-content";
+              : "var(--hero-temp-reserve, 22px) min-content min-content min-content";
           ]]]
       - row-gap: var(--hero-header-gap-current, 6px)
       - align-content: start
