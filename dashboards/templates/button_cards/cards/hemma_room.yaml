@@ -191,7 +191,6 @@ hemma_room:
       - height: 100svh
       - padding-top: >
           [[[
-            // keep your existing portrait nudge
             const mm = (q) => (window.matchMedia ? window.matchMedia(q).matches : false);
             const isPhonePortrait =
               (mm('(pointer: coarse)') || mm('(hover: none)')) &&
@@ -280,8 +279,11 @@ hemma_room:
                 (mm('(pointer: coarse)') || mm('(hover: none)')) &&
                 mm('(max-width: 767px)') &&
                 mm('(orientation: portrait)');
-              return isPhonePortrait ? 'none' : 'block';
+              return isPhonePortrait ? 'none' : 'flex';
             ]]]
+        - align-items: center
+        - height: var(--hero-temp-reserve, 22px)
+        - overflow: hidden
         - pointer-events: auto
         - cursor: pointer
         - position: relative
@@ -343,27 +345,28 @@ hemma_room:
                 (mm('(pointer: coarse)') || mm('(hover: none)')) &&
                 mm('(max-width: 767px)') &&
                 mm('(orientation: portrait)');
-
               const mode = String(variables.weather_mode || '').toLowerCase();
               const isOutdoor = (mode === 'outdoor');
               const isRoom = (mode === 'room');
-
-              // For outdoor: need weather_entity or weather_temp_sensor
-              // For room: need temp_sensor
               const hasOutdoorData = isOutdoor && !!(variables.weather_entity || variables.weather_temp_sensor);
               const hasRoomData = isRoom && !!variables.temp_sensor;
-
               const ok = !!variables.show_weather && (hasOutdoorData || hasRoomData);
               return (isPhonePortrait && ok) ? 'block' : 'none';
             ]]]
-        - position: relative
+        - position: absolute
+        - top: >
+            calc(var(--hero-top) - 20px +
+            (var(--hero-room-name-size-current, 48px) * var(--hero-room-name-line-height-current, 1.2)) - 15px)
+        - left: var(--hero-gutter, var(--page-gutter-mobile, 11px))
+        - right: var(--hero-gutter, var(--page-gutter-mobile, 11px))
         - z-index: 10
         - text-align: right
-        - align-self: end
+        - align-self: start
         - justify-self: end
-        - margin-right: 2px
-        - margin-top: var(--hemma-weather-nudge-mobile, 12px)
-        - margin-bottom: calc(var(--hero-title-to-badges-gap-mobile, 8px) + 6px)
+        - margin: 0
+        - width: auto
+        - max-width: none
+        - overflow: visible
         - pointer-events: auto
 
       badges:
@@ -516,7 +519,6 @@ hemma_room:
       [[[
         const base = variables.image || 'default';
         const night = variables.image_night || `${base}-night`;
-
         const dayUrl = `/local/hemma/rooms/${base}.jpg`;
         const nightUrl = `/local/hemma/rooms/${night}.jpg`;
 
@@ -644,7 +646,6 @@ hemma_room:
                   const s = states[amp];
                   if (!s || ['unavailable', 'unknown', 'off', 'standby'].includes(s.state)) return true;
 
-                  // Check for meaningful content - don't show badge if no title/artist
                   const a = s.attributes || {};
                   const title = String(a.media_title || '').trim();
                   const artist = String(a.media_artist || a.artist || a.media_album_artist || '').trim();
@@ -654,8 +655,6 @@ hemma_room:
                     return !hasContent;
                   }
 
-                  // For paused state, hide after timeout (default 5 minutes)
-                  // This handles YouTube/apps that stay "paused" indefinitely
                   if (s.state === 'paused') {
                     if (!hasContent) return true;
                     const pauseTimeoutMin = variables.pause_timeout_minutes ?? 5;
@@ -666,7 +665,6 @@ hemma_room:
                     return minutesPaused > pauseTimeoutMin;
                   }
 
-                  // For idle/on states, hide unless we have content
                   if (['idle', 'on'].includes(s.state)) {
                     return !hasContent;
                   }
