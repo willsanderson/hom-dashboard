@@ -31,7 +31,7 @@ mediaquery:
     position: absolute
     z-index: 4
     inset: >
-      calc(100vh - (var(--hemma-nav-height, 62px) + 22px + max(20px, env(safe-area-inset-bottom, 0px))) - 232px)
+      calc(100vh - (var(--hemma-nav-height, 62px) + 22px + 34px) - 234px)
       var(--hemma-rail-left, var(--page-gutter-mobile, 14px))
       auto
       var(--hemma-rail-left, var(--page-gutter-mobile, 14px))
