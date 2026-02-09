@@ -1,4 +1,4 @@
-### :house_with_garden: Hemma
+# :house_with_garden: Hemma
 
 A modern, minimal, mobile-friendly dashboard for Home Assistant — inspired by the [Homio](https://github.com/iamtherufus/Homio) dashboard by @iamtherufus, but rebuilt and extended with new layouts, cards, and guided setup process.
 
