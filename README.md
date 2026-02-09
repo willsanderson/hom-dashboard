@@ -163,7 +163,7 @@ This is the main file you edit to map Hemma to your devices/entities.
 
 ---
 
-### Configuring your rooms
+## :pencil: Configuring your rooms
 
 You’ll configure most of Hemma by editing:
 
@@ -249,7 +249,7 @@ Template: `hemma_lock`
 
 ---
 
-### :pencil: Additional Customization
+### :pencil2: Additional Customization
 
 This repo is intended as a starting point:
 
