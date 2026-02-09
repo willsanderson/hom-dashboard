@@ -73,14 +73,14 @@ Example layout:
 /config
 ├── dashboards/
 │   ├── hemma/
-│   │   ├── hemma.yaml                    # Main Hemma dashboard (created from example file)
-│   │   └── hemma.yaml.example            # Example dashboard with placeholders
+│   │   ├── hemma.yaml                  # Main Hemma dashboard (created from example)
+│   │   └── hemma.yaml.example          # Example dashboard with placeholders
 │   └── templates/
-│       ├── button_cards/                 # Button-card templates
+│       ├── button_cards/               # Button-card templates
 │       │   ├── badges/
 │       │   ├── base/
 │       │   └── cards/
-│       └── includes/                     # Layout + navigation includes
+│       └── includes/                   # Layout + navigation includes
 │           ├── hemma_screen_layout.yaml
 │           ├── hemma_entity_layout.yaml
 │           ├── hemma_navbar_mobile.yaml
@@ -88,16 +88,16 @@ Example layout:
 │           └── hemma_media_player_styles.yaml
 ├── themes/
 │   └── hemma/
-│       └── hemma.yaml                    # Hemma theme
+│       └── hemma.yaml                  # Hemma theme
 ├── packages/
-│   └── hemma_helpers.yaml                # Helpers required by the dashboard
+│   └── hemma_helpers.yaml              # Helpers required by the dashboard
 └── www/
     ├── hemma/
-    │   ├── icons/                        # UI icons
-    │   ├── rooms/                        # Room/background images
-    │   └── weather/                      # Weather icons
+    │   ├── icons/                      # UI icons
+    │   ├── rooms/                      # Room/background images
+    │   └── weather/                    # Weather icons
     └── layout-card-modified/
-        └── layout-card-modified.js       # Modified Layout Card build
+        └── layout-card-modified.js     # Modified Layout Card build
 ```
 
 ## :rocket: Installation
